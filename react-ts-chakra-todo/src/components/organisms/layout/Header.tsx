@@ -1,9 +1,24 @@
 import {memo, VFC} from "react";
-import {Box, Flex, Heading, IconButton, Link} from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Heading,
+  IconButton,
+  Link,
+  DrawerOverlay,
+  DrawerContent,
+  useDisclosure,
+  DrawerBody,
+  Button
+} from "@chakra-ui/react";
+import {Drawer} from "@chakra-ui/modal"
 import {HamburgerIcon} from "@chakra-ui/icons";
 
 export const Header: VFC = memo(() => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
+    <>
     <Flex
       as="nav"
       bg="teal.500"
@@ -42,7 +57,25 @@ export const Header: VFC = memo(() => {
         size="sm"
         variant="unstyled"
         display={{ base: "block", md: "none" }}
+        onClick={onOpen}
       />
+      {/*TODO: サイドバー表示から実装 67. 13:40〜*/}
     </Flex>
+    <Drawer
+      placement="left"
+      size="xs"
+      isOpen={isOpen}
+      onClose={onClose}>
+      <DrawerOverlay>
+        <DrawerContent>
+          <DrawerBody p={0} bg="gray.100">
+            <Button w="100%">TOP</Button>
+            <Button w="100%">ユーザー一覧</Button>
+            <Button w="100%">設定</Button>
+          </DrawerBody>
+        </DrawerContent>
+      </DrawerOverlay>
+    </Drawer>
+    </>
   );
 });
