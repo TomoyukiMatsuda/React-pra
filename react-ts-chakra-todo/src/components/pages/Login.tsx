@@ -4,7 +4,6 @@ import { PrimaryButton } from "../atoms/button/PrimaryButton";
 import { useAuth } from "../../hooks/useAuth";
 
 export const Login: VFC = memo(() => {
-  // TODO: 72 ログイン機能の実装 9:00 あたり
   const { login, loading } = useAuth();
   const [userId, setUserId] = useState("");
 
@@ -26,7 +25,13 @@ export const Login: VFC = memo(() => {
             value={userId}
             onChange={onChangeUserId}
           />
-          <PrimaryButton onClick={onClickLogin}>ログイン</PrimaryButton>
+          <PrimaryButton
+            disabled={userId === ""}
+            loading={loading}
+            onClick={onClickLogin}
+          >
+            ログイン
+          </PrimaryButton>
         </Stack>
       </Box>
     </Flex>
