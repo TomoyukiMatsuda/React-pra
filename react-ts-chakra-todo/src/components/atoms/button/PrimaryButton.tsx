@@ -8,7 +8,6 @@ type Props = {
   onClick: () => void;
 };
 
-//TODO: 73. メッセージ表示機能の実装 から
 export const PrimaryButton: VFC<Props> = memo((props) => {
   const { children, onClick, disabled = false, loading = false } = props;
   return (
