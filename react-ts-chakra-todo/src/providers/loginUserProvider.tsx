@@ -7,9 +7,12 @@ import {
   useState,
 } from "react";
 
+// & {} で User に型を追加したtypeを定義してる
+type LoginUser = User & { isAdmin: boolean };
+
 export interface LoginUserContextType {
-  loginUser: User | null;
-  setLoginUser: Dispatch<SetStateAction<User | null>>;
+  loginUser: LoginUser | null;
+  setLoginUser: Dispatch<SetStateAction<LoginUser | null>>;
 }
 
 // contextを生成 {}からのオブジェクトで生成asでキャスト
@@ -20,7 +23,7 @@ export const LoginUserContext = createContext<LoginUserContextType>(
 // ログインユーザー情報を保持するcontext
 export const LoginUserProvider = (props: { children: ReactNode }) => {
   const { children } = props;
-  const [loginUser, setLoginUser] = useState<User | null>(null);
+  const [loginUser, setLoginUser] = useState<LoginUser | null>(null);
 
   return (
     // 生成したcotnextから provider で利用する component(children) を囲む

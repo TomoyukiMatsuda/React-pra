@@ -10,7 +10,6 @@ import { UserCard } from "../organisms/user/UserCard";
 import { useAllUsers } from "../../hooks/useAllUsers";
 import { UserDetailModal } from "../organisms/user/UserDetailModal";
 import { useSelectUser } from "../../hooks/useSelectUser";
-import { useLoginUser } from "../../hooks/providers/useLoginUserProvider";
 
 export const UserManagement: VFC = memo(() => {
   const { getUsers, users, loading } = useAllUsers();
@@ -38,7 +37,6 @@ export const UserManagement: VFC = memo(() => {
       ) : (
         <Wrap p={{ base: 4, md: 10 }} justify="center">
           {users.map((user) => (
-            // TODO: アイテムが中央寄せにならないのはなぜ？ → 「mx="auto"」を付与しているのに
             <WrapItem key={user.id}>
               <UserCard
                 id={user.id}

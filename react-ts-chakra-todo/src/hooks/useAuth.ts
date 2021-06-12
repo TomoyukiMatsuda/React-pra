@@ -20,7 +20,10 @@ export const useAuth = () => {
         .get<User>(`https://jsonplaceholder.typicode.com/users/${id}`)
         .then((res) => {
           if (res.data) {
-            setLoginUser(res.data);
+            const isAdmin = res.data.id === 10;
+            console.log({ ...res.data, isAdmin });
+            // スプレッド構文で　値（User)を展開して、isAdminを追加してLoginUser型で定義してセットしてる
+            setLoginUser({ ...res.data, isAdmin });
             showMessage({ title: "ログインしました", status: "success" });
             history.push("/home");
           } else {
