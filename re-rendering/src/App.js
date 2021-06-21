@@ -6,7 +6,7 @@ import {ChildArea} from "./ChildArea";
 function App() {
   const [text, setText] = useState('');
   const [open, setOpen] = useState(false);
-  console.log('レンダリング');
+  console.log('App親コンポーネントがレンダリング');
   const onChangeText = (e) => setText(e.target.value);
   const onClickOpen = () => setOpen(!open);
 
