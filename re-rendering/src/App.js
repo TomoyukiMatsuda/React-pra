@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import {useState} from "react";
+import {useCallback, useState} from "react";
 import {ChildArea} from "./ChildArea";
 
 function App() {
@@ -9,6 +9,10 @@ function App() {
   console.log('App親コンポーネントがレンダリング');
   const onChangeText = (e) => setText(e.target.value);
   const onClickOpen = () => setOpen(!open);
+  // useCallbackを利用しないと、このコンポーネントがレンダリング
+  // されるたびにonClickClose は再生成される。この関数をpropsとして渡しているため、再生成のタイミングでpropsが
+  // 変更されたことを子コンポーネントが検知して子コンポーネントも再レンダリングされる。
+  const onClickClose = useCallback(() => setOpen(false), [setOpen]);
 
   return (
     <div className="App">
@@ -17,7 +21,7 @@ function App() {
       <br/>
       <br/>
       <button onClick={onClickOpen}>表示</button>
-      <ChildArea open={open} />
+      <ChildArea open={open} onClickClose={onClickClose} />
     </div>
   );
 }
