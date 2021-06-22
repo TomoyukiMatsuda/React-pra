@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import {useCallback, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {ChildArea} from "./ChildArea";
 
 function App() {
@@ -13,6 +13,10 @@ function App() {
   // されるたびにonClickClose は再生成される。この関数をpropsとして渡しているため、再生成のタイミングでpropsが
   // 変更されたことを子コンポーネントが検知して子コンポーネントも再レンダリングされる。
   const onClickClose = useCallback(() => setOpen(false), [setOpen]);
+
+  // useMemo: 変数に対してメモ化する
+  const temp = useMemo(() => 1 + 3, []);
+
 
   return (
     <div className="App">
