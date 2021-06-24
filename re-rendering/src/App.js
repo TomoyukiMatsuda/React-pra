@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import {useCallback, useMemo, useState} from "react";
+import {useCallback, useMemo, useState, useEffect} from "react";
 import {ChildArea} from "./ChildArea";
 
 function App() {
@@ -17,6 +16,16 @@ function App() {
   // useMemo: 変数に対してメモ化する
   const temp = useMemo(() => 1 + 3, []);
 
+  // useEffect: 第２引数の値に変更があったときだけ、第１引数の処理が実行される
+  // 第２引数が[]のように空配列であれば最初だけ実行される。
+  useEffect(() => {
+      console.log("useEffect！！！！")
+  },[]);
+
+  // TODO: 松田的勝手な解釈
+  // useEffect：処理の実行に対する関心
+  // useCallback：関数生成に対する関心
+  // useMemo：変数生成のための処理に対する関心
 
   return (
     <div className="App">
