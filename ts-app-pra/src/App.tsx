@@ -20,7 +20,12 @@ const user1: User = {
   password: "xxxxyyyy"
 }
 
-console.log(user1);     
+// Union Types
+let value: boolean | number;
+value = 10;
+value = false;
+let arrUni: (number | string)[];
+arrUni = [0, 1, 2, "こんにちは", 2, "こんにちは", "こんばんわ"];
 
 function App() {
   return (
