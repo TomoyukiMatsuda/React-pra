@@ -26,6 +26,30 @@ value = 10;
 value = false;
 let arrUni: (number | string)[];
 arrUni = [0, 1, 2, "こんにちは", 2, "こんにちは", "こんばんわ"];
+let company: "Facebook" | "Google" | "Amazon" | "Apple";
+company = "Apple";
+
+// typeof 型を取得してその型に限定する
+let msg = "松田";
+let msg2: typeof msg = "ストリング";
+
+// keyof キーを取得して
+type Keys = {
+  primary: string;
+  secondary: string;
+}
+let key: keyof Keys;
+key = "primary";
+key = "secondary";
+
+// typeof + keyof
+const SPORTS = {
+  soccer: "サッカー",
+  baseBall: "野球",
+}
+let tkSports: keyof typeof SPORTS; // key名のstring型しか受け付けなくなる
+tkSports = "soccer"
+tkSports = "baseBall"
 
 function App() {
   return (
