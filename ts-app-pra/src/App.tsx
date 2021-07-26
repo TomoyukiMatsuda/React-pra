@@ -51,6 +51,25 @@ let tkSports: keyof typeof SPORTS; // key名のstring型しか受け付けなく
 tkSports = "soccer"
 tkSports = "baseBall"
 
+// enum
+enum Drink {
+  Cola,
+  Water,
+  Milk,
+}
+interface MorningDrink {
+  id: number;
+  DrinkType: Drink;
+}
+const drink1: MorningDrink = {
+  id: 1,
+  DrinkType: Drink.Milk,
+}
+const drink2: MorningDrink = {
+  id: 2,
+  DrinkType: Drink.Water,
+}
+
 function App() {
   return (
     <div className="App">
