@@ -1,24 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+// Intersection Types
+type Profile = {
+  age: number;
+  city: string;
+}
+
+type Login = {
+  username: string;
+  password: string;
+}
+
+type User = Profile & Login;
+const user1: User = {
+  age: 30,
+  city: "Nagano",
+  username: "Matsuda",
+  password: "xxxxyyyy"
+}
+
+console.log(user1);     
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <header className="App-header"></header>
     </div>
   );
 }
