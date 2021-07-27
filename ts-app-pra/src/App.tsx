@@ -70,6 +70,24 @@ const drink2: MorningDrink = {
   DrinkType: Drink.Water,
 }
 
+// 型の互換性
+const comp1 = "test";
+let comp2: string = comp1; // 抽象度の高い型に代入することは可能
+
+let comp3: string = "test";
+// let comp4: "test" = comp3; 抽象度の低い型に代入することはできない
+
+// 引数の型が同じ関数であれは代入できる
+let func1 = (x: number) => {};
+let func2 = (x: number) => {};
+func1 = func2;
+// 引数の型が異なる関数は代入できない
+let func3 = (x: string) => {};
+let func2 = (x: number) => {};
+// func1 = func2; 不可
+
+
+
 function App() {
   return (
     <div className="App">
