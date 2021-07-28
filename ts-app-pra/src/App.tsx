@@ -83,10 +83,36 @@ let func2 = (x: number) => {};
 func1 = func2;
 // 引数の型が異なる関数は代入できない
 let func3 = (x: string) => {};
-let func2 = (x: number) => {};
+let func4 = (x: number) => {};
 // func1 = func2; 不可
 
-
+// Generics
+interface Gen<T> {
+  item: T;
+  item2: boolean;
+}
+const get0: Gen<string> = {
+  item: "ストリング",
+  item2: false,
+}
+// デフォルトの型を指定
+interface Gen1<T = number> {
+  item: T;
+}
+const gen3: Gen1 = { item: 111 }
+// 型に制約をつける
+interface Gen2<T extends string | number | boolean> {
+  item: T;
+}
+const gen4: Gen2<number> = { item: 111 }
+// 関数に対するGenerics
+interface Props {
+  price: number;
+}
+function funcG(props: Props) {
+  return { value: props.price }
+}
+const gen10 = funcG({ price: 100 });
 
 function App() {
   return (
