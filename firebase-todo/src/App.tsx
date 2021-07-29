@@ -1,24 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
+import { db } from "./firebase";
 
-function App() {
+const App: React.FC = () => {
+  // firebaseから取得してくるDBのtasksを初期化、stateとして持っておく
+  const [tasks, setTasks] = useState([{ id: "", title: "" }]);
+  // 最初にレンダリングするタイミングでデータを取得してきてtasksにセットする
+  useEffect(() => {
+    const unSubscribe =
+      db
+      .collection("tasks")
+      .onSnapshot((snapshot) => {
+        setTasks(
+          snapshot.docs.map((doc) => ({ id: doc.id, title: doc.data().title }))
+        );
+    });
+    // アンマウントするときにリスナー的な機能を解除する
+    return () => unSubscribe();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {tasks.map((task) => (
+        <h3>タイトル：{task.title}</h3>
+      ))}
     </div>
   );
 }
