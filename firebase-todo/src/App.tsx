@@ -1,8 +1,9 @@
-import {FormControl, TextField} from "@material-ui/core";
-import React, {MouseEventHandler, useEffect, useState} from 'react';
+import { FormControl, List, TextField } from "@material-ui/core";
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import { db } from "./firebase";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
+import TaskItem from "./TaskItem";
 
 const App: React.FC = () => {
   // firebaseから取得してくるDBのtasksを初期化、stateとして持っておく
@@ -46,9 +47,11 @@ const App: React.FC = () => {
       <button disabled={!input} onClick={newTask} >
         <AddToPhotosIcon />
       </button>
-      {tasks.map((task) => (
-        <h3>タイトル：{task.title}</h3>
-      ))}
+      <List>
+        {tasks.map((task) => (
+          <TaskItem key={task.id} id={task.id} title={task.title} />
+        ))}
+      </List>
     </div>
   );
 }
