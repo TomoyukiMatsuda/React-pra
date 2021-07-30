@@ -8,12 +8,15 @@ const Login: React.FC = (props: any) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  // マウントされる最初のタイミングで実行、ユーザー認証されるかを確認する
   useEffect(() => {
-    auth.onAuthStateChanged((user) => {
+    // user に認証情報が入ってくる
+    const unSubscribe = auth.onAuthStateChanged((user) => {
       // auth では userオブジェクト というものを受け取ることができる
       // user が 空であればログイン失敗、値があればログイン成功
       user && props.history.push("/"); // user に値があれば、ルートに遷移させる
     })
+    return () => unSubscribe();
   }, [props.history]);
 
   return (

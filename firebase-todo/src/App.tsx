@@ -1,7 +1,7 @@
 import { FormControl, List, TextField } from "@material-ui/core";
 import React, { useEffect, useState } from 'react';
 import styles from './App.module.css';
-import { db } from "./firebase";
+import { db, auth } from "./firebase";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import TaskItem from "./TaskItem";
 import { makeStyles } from "@material-ui/styles";
@@ -17,11 +17,20 @@ const useStyles = makeStyles({
   },
 });
 
-const App: React.FC = () => {
+const App: React.FC = (props: any) => {
   // firebaseから取得してくるDBのtasksを初期化、stateとして持っておく
   const [tasks, setTasks] = useState([{ id: "", title: "" }]);
   const [input, setInput] = useState("");
   const classes = useStyles();
+
+  // ユーザー認証を確認する
+  useEffect(() => {
+    const unSubscribe = auth.onAuthStateChanged((user) => {
+      // ユーザがいなければログインに遷移
+      !user && props.history.push("/login");
+    });
+    return () => unSubscribe();
+  }, [props.history])
 
   // 最初にレンダリングするタイミングでデータを取得してきてtasksにセットする
   useEffect(() => {
