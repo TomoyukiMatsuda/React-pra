@@ -5,6 +5,7 @@ import { db, auth } from "./firebase";
 import AddToPhotosIcon from "@material-ui/icons/AddToPhotos";
 import TaskItem from "./TaskItem";
 import { makeStyles } from "@material-ui/styles";
+import {ExitToApp} from "@material-ui/icons";
 
 const useStyles = makeStyles({
   field: {
@@ -54,6 +55,20 @@ const App: React.FC = (props: any) => {
   return (
     <div className={styles.app__root}>
       <h1>Todo App React/Firebase</h1>
+      <button
+        className={styles.app__logout}
+        onClick={
+          async () => {
+            try {
+              await auth.signOut();
+              props.history.push("/login");
+            } catch (e) {
+              alert(e.message);
+            }
+          }
+        }>
+        <ExitToApp />
+      </button>
       <br />
       <FormControl>
         <TextField

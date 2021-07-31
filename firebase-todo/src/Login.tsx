@@ -44,6 +44,7 @@ const Login: React.FC = (props: any) => {
           }}
           name="password"
           label="パスワード"
+          type="password"
           value={password}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             setPassword(e.target.value);
