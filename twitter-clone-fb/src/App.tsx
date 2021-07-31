@@ -1,78 +1,36 @@
-import React, {useEffect, useState} from 'react';
-import { Counter } from './features/counter/Counter';
-import './App.css';
-import CleanUp from "./CleanUp";
+import React, { useEffect } from "react";
+import styles from "./App.module.css";
+import { auth } from "./firebase";
+import { useDispatch, useSelector } from "react-redux";
+import { login, logout, selectUser } from "./features/userSlice";
 
 function App() {
-  const [counter, setCounter] = useState(0);
-  const [input, setInput] = useState("");
-  const [isDisplay, setIsDisplay] = useState(true);
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("useEffect実行");
-    document.title = `Current Value ${counter}`;
-  }, [counter]);
-  const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => setInput(e.target.value);
+    // onAuthStateChanged: firebaseのユーザーの状態が切り替わった時などに実行される、実行すると
+    // subscribeが実行されて ユーザーの状態監視が開始される
+    const unSubscribe = auth.onAuthStateChanged((authUser) => {
+      // authUserに認証情報が格納されていればユーザーがログイン状態
+      if (authUser) {
+        dispatch(
+          login({
+            uid: authUser.uid,
+            photoUrl: authUser.photoURL,
+            displayName: authUser.displayName,
+          })
+        );
+      } else {
+        // ユーザーが存在しなければ、ログアウト状態、logout() を実行してユーザーを初期化
+        dispatch(logout());
+      }
+    });
+    // ユーザーの状態監視を解除（unSubscribe する）cleanUp関数
+    return () => unSubscribe();
+  });
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <h3>{counter}</h3>
-        <button onClick={() => setCounter((preCounter) => preCounter + 1)}>
-          インクリメント
-        </button>
-        <h3>{input}</h3>
-        <input type="text" value={input} onChange={onChangeHandler} />
-        {isDisplay && <CleanUp />}
-        <button onClick={() => setIsDisplay(!isDisplay)}>
-          表示・非表示
-        </button>
-
-        <Counter />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <span>
-          <span>Learn </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux
-          </a>
-          <span>, </span>
-          <a
-            className="App-link"
-            href="https://redux-toolkit.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Redux Toolkit
-          </a>
-          ,<span> and </span>
-          <a
-            className="App-link"
-            href="https://react-redux.js.org/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            React Redux
-          </a>
-        </span>
-      </header>
-    </div>
-  );
+  return <div className="App"></div>;
 }
 
 export default App;
