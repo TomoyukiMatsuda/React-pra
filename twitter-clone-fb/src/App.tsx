@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Counter } from './features/counter/Counter';
 import './App.css';
+import CleanUp from "./CleanUp";
 
 function App() {
   const [counter, setCounter] = useState(0);
@@ -17,11 +18,16 @@ function App() {
     <div className="App">
       <header className="App-header">
         <h3>{counter}</h3>
-        <button onClick={() => setCounter((preCount) => preCount + 1)}>
+        <button onClick={() => setCounter((preCounter) => preCounter + 1)}>
           インクリメント
         </button>
         <h3>{input}</h3>
         <input type="text" value={input} onChange={onChangeHandler} />
+        {isDisplay && <CleanUp />}
+        <button onClick={() => setIsDisplay(!isDisplay)}>
+          表示・非表示
+        </button>
+
         <Counter />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.

@@ -10,7 +10,14 @@ const CleanUp: React.FC = () => {
     console.log("CleanUp の useEffect が走ってる");
     // mousedown: マウスをクリックしたときに実行される処理をリッスンする
     window.addEventListener("mousedown", incrementNum);
-  })
+
+    // アンマウントされたときに通る処理
+    return () => {
+      console.log("Cleanup 実行 アンマウント処理！");
+      // イベントリスナ登録された処理を解除、削除する
+      window.removeEventListener("mousedown", incrementNum);
+    }
+  }, []);
 
   return <div>{currentNum}</div>
 }
