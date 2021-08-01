@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 import styles from "./Auth.module.css";
+import { updateUserProfile } from "../features/userSlice";
 
 import {
   Avatar,
@@ -20,7 +21,8 @@ import CameraIcon from "@material-ui/icons/Camera";
 import EmailIcon from "@material-ui/icons/Email";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import { auth, provider } from "../firebase";
+import { auth, provider, storage } from "../firebase";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,9 +59,21 @@ const useStyles = makeStyles((theme) => ({
 
 const Auth: React.FC = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
+  const [avatarImage, setAvatarImage] = useState<File | null>(null);
   const [isLogin, setIsLogin] = useState(true);
+
+  const onChangeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    // ファイルが存在すれば
+    if (e.target.files![0]) {
+      setAvatarImage(e.target.files![0]);
+      // 初期化
+      e.target.value = "";
+    }
+  };
 
   // emailとpasswordでログイン
   const signInEmail = async () => {
@@ -68,7 +82,38 @@ const Auth: React.FC = () => {
 
   // emailとpasswordで新規登録
   const signUpEmail = async () => {
-    await auth.createUserWithEmailAndPassword(email, password);
+    // authUserに認証情報が格納されている
+    const authUser = await auth.createUserWithEmailAndPassword(email, password);
+    let url = "";
+
+    if (avatarImage) {
+      // ユニークなfileNameを生成して、Firebaseの仕様に合わせている
+      const S =
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+      const N = 16;
+      const randomChar = Array.from(crypto.getRandomValues(new Uint32Array(N)))
+        .map((n) => S[n % S.length])
+        .join("");
+      const fileName = randomChar + "_" + avatarImage.name;
+
+      console.log(fileName, randomChar);
+
+      await storage.ref(`avatars/${fileName}`).put(avatarImage);
+      url = await storage.ref("avatars").child(fileName).getDownloadURL();
+    }
+
+    // Firebaseのユーザー情報を更新
+    await authUser.user?.updateProfile({
+      displayName: username,
+      photoURL: url,
+    });
+    // Reduxのユーザー情報を更新して、状態を保持
+    dispatch(
+      updateUserProfile({
+        displayName: username,
+        photoUrl: url,
+      })
+    );
   };
 
   // Googleログイン
@@ -150,7 +195,7 @@ const Auth: React.FC = () => {
               <Grid item xs>
                 <span className={styles.login_reset}>Forgot password?</span>
               </Grid>
-              <Grid item xs>
+              <Grid item>
                 <span
                   className={styles.login_toggleMode}
                   onClick={() => setIsLogin(!isLogin)}
