@@ -1,17 +1,25 @@
-import React, { FormEvent, useState } from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import styles from "./TweetInput.module.css";
 import { auth, db, storage } from "../firebase";
-import { Avatar } from "@material-ui/core";
+import { Avatar, Button, IconButton } from "@material-ui/core";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import firebase from "firebase/app";
-import { Simulate } from "react-dom/test-utils";
-import error = Simulate.error;
+import { AddAPhoto } from "@material-ui/icons";
 
 const TweetInput: React.FC = () => {
   const user = useSelector(selectUser);
   const [tweetImage, setTweetImage] = useState<File | null>(null);
   const [tweetMessage, setTweetMessage] = useState("");
+
+  const onChangeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    // ファイルが存在すれば
+    if (e.target.files![0]) {
+      setTweetImage(e.target.files![0]);
+      // 初期化
+      e.target.value = "";
+    }
+  };
 
   // ツイート投稿関数を定義
   const sendTweet = (e: FormEvent<HTMLFormElement>) => {
@@ -62,16 +70,53 @@ const TweetInput: React.FC = () => {
         username: user.displayName,
       });
     }
+    setTweetImage(null);
+    setTweetMessage("");
   };
 
   return (
-    <div>
-      <Avatar
-        className={styles.tweet_avatar}
-        src={user.photoUrl}
-        onClick={async () => await auth.signOut()}
-      />
-    </div>
+    <>
+      <form onSubmit={sendTweet}>
+        <div className={styles.tweet_form}>
+          <Avatar
+            className={styles.tweet_avatar}
+            src={user.photoUrl}
+            onClick={async () => await auth.signOut()}
+          />
+          <input
+            className={styles.tweet_input}
+            placeholder="Tweet Content"
+            type="text"
+            autoFocus
+            value={tweetMessage}
+            onChange={(e) => setTweetMessage(e.target.value)}
+          />
+          <IconButton>
+            <label>
+              <AddAPhoto
+                className={
+                  tweetImage ? styles.tweet_addIconLoaded : styles.tweet_addIcon
+                }
+              />
+              <input
+                className={styles.tweet_hiddenIcon}
+                type="file"
+                onChange={onChangeImageHandler}
+              />
+            </label>
+          </IconButton>
+        </div>
+        <Button
+          type="submit"
+          disabled={!tweetMessage}
+          className={
+            tweetMessage ? styles.tweet_sendBtn : styles.tweet_sendDisableBtn
+          }
+        >
+          Tweet
+        </Button>
+      </form>
+    </>
   );
 };
 
