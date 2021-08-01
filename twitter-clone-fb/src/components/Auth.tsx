@@ -24,6 +24,18 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { auth, provider, storage } from "../firebase";
 import { useDispatch } from "react-redux";
 
+// 画面中央にモーダルを表示するための関数
+function getModalStyle() {
+  const top = 50;
+  const left = 50;
+
+  return {
+    top: `${top}%`,
+    left: `${left}%`,
+    transform: `translate(-${top}%, -${left}%`,
+  };
+}
+
 const useStyles = makeStyles((theme) => ({
   root: {
     height: "100vh",
@@ -55,6 +67,15 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  modal: {
+    outline: "none",
+    position: "absolute",
+    width: 400,
+    borderRadius: 10,
+    backgroundColor: "white",
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(10),
+  },
 }));
 
 const Auth: React.FC = () => {
@@ -65,6 +86,21 @@ const Auth: React.FC = () => {
   const [username, setUsername] = useState("");
   const [avatarImage, setAvatarImage] = useState<File | null>(null);
   const [isLogin, setIsLogin] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+
+  const sendResetEmail = async () => {
+    // パスワード再設定する
+    await auth
+      .sendPasswordResetEmail(resetEmail)
+      .then(() => {
+        setOpenModal(false);
+        setResetEmail("");
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
 
   const onChangeImageHandler = (e: ChangeEvent<HTMLInputElement>) => {
     // ファイルが存在すれば
@@ -236,7 +272,12 @@ const Auth: React.FC = () => {
             </Button>
             <Grid container>
               <Grid item xs>
-                <span className={styles.login_reset}>Forgot password?</span>
+                <span
+                  className={styles.login_reset}
+                  onClick={() => setOpenModal(true)}
+                >
+                  Forgot password?
+                </span>
               </Grid>
               <Grid item>
                 <span
@@ -257,6 +298,26 @@ const Auth: React.FC = () => {
               Sign in with google
             </Button>
           </form>
+
+          <Modal open={openModal} onClose={() => setOpenModal(false)}>
+            <div style={getModalStyle()} className={classes.modal}>
+              <div className={styles.login_modal}>
+                <TextField
+                  InputLabelProps={{ shrink: true }}
+                  type="email"
+                  label="Reset Email"
+                  name="email"
+                  value={resetEmail}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                    setResetEmail(e.target.value);
+                  }}
+                />
+                <IconButton onClick={sendResetEmail}>
+                  <SendIcon />
+                </IconButton>
+              </div>
+            </div>
+          </Modal>
         </div>
       </Grid>
     </Grid>
