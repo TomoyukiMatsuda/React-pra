@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { db } from "../firebase";
 import firebase from "firebase/app";
-import { Avatar } from "@material-ui/core";
+import { Avatar, makeStyles } from "@material-ui/core";
 import styles from "./Post.module.css";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
@@ -24,8 +24,17 @@ interface Comment {
   username: string;
 }
 
+const useStyles = makeStyles((theme) => ({
+  small: {
+    width: theme.spacing(3),
+    height: theme.spacing(3),
+    marginRight: theme.spacing(1),
+  },
+}));
+
 // Props で投稿データを受け取って表示
 const Post: React.FC<Props> = (props) => {
+  const classes = useStyles();
   const user = useSelector(selectUser);
   const [comment, setComment] = useState("");
   const [comments, setComments] = useState<Comment[]>([
@@ -95,7 +104,7 @@ const Post: React.FC<Props> = (props) => {
       )}
       {comments.map((comment) => (
         <div key={comment.id} className={styles.post_comment}>
-          <Avatar src={comment.avatar} />
+          <Avatar src={comment.avatar} className={classes.small} />
 
           <span className={styles.post_commentUser}>@{comment.username}</span>
           <span className={styles.post_commentText}>{comment.text}</span>
