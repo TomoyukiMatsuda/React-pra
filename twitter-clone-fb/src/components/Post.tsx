@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { db } from "../firebase";
 import firebase from "firebase/app";
 import { Avatar } from "@material-ui/core";
@@ -16,10 +16,28 @@ interface Props {
   username: string;
 }
 
+interface Comment {
+  id: string;
+  avatar: string;
+  text: string;
+  timestamp: any;
+  username: string;
+}
+
 // Props で投稿データを受け取って表示
 const Post: React.FC<Props> = (props) => {
   const user = useSelector(selectUser);
   const [comment, setComment] = useState("");
+  const [comments, setComments] = useState<Comment[]>([
+    {
+      id: "",
+      avatar: "",
+      text: "",
+      timestamp: null,
+      username: "",
+    },
+  ]);
+
   // ツイートに対するコメント追加
   const newComment = (event: React.FormEvent<HTMLFormElement>) => {
     // フォームのsubmitイベントを無効化させる処理
@@ -34,6 +52,28 @@ const Post: React.FC<Props> = (props) => {
     // コメント（フォーム）を初期化
     setComment("");
   };
+
+  // post（ツイート）に紐づくコメントの取得処理
+  useEffect(() => {
+    const unSubscription = db
+      .collection("posts")
+      .doc(props.postId)
+      .collection("comments")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        setComments(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            avatar: doc.data().avatar,
+            text: doc.data().text,
+            timestamp: doc.data().timestamp,
+            username: doc.data().username,
+          }))
+        );
+      });
+    return () => unSubscription();
+  }, [props.postId]);
+
   return (
     <div>
       <div>
@@ -53,6 +93,17 @@ const Post: React.FC<Props> = (props) => {
           <img src={props.image} alt="tweet" />
         </div>
       )}
+      {comments.map((comment) => (
+        <div key={comment.id} className={styles.post_comment}>
+          <Avatar src={comment.avatar} />
+
+          <span className={styles.post_commentUser}>@{comment.username}</span>
+          <span className={styles.post_commentText}>{comment.text}</span>
+          <span className={styles.post_headerTime}>
+            {new Date(comment.timestamp?.toDate()).toLocaleString()}
+          </span>
+        </div>
+      ))}
       <form onSubmit={newComment}>
         <div className={styles.post_form}>
           <input
