@@ -6,6 +6,7 @@ import styles from "./Post.module.css";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import SendIcon from "@material-ui/icons/Send";
+import { MessageOutlined } from "@material-ui/icons";
 
 interface Props {
   postId: string;
@@ -37,6 +38,7 @@ const Post: React.FC<Props> = (props) => {
   const classes = useStyles();
   const user = useSelector(selectUser);
   const [comment, setComment] = useState("");
+  const [isShowComments, setIsShowComments] = useState(false);
   const [comments, setComments] = useState<Comment[]>([
     {
       id: "",
@@ -102,17 +104,33 @@ const Post: React.FC<Props> = (props) => {
           <img src={props.image} alt="tweet" />
         </div>
       )}
-      {comments.map((comment) => (
-        <div key={comment.id} className={styles.post_comment}>
-          <Avatar src={comment.avatar} className={classes.small} />
+      {comments.length > 0 && (
+        <>
+          <MessageOutlined
+            className={styles.post_commentIcon}
+            onClick={() => setIsShowComments(!isShowComments)}
+          />
+          {isShowComments && (
+            <>
+              {comments.map((comment) => (
+                <div key={comment.id} className={styles.post_comment}>
+                  <Avatar src={comment.avatar} className={classes.small} />
 
-          <span className={styles.post_commentUser}>@{comment.username}</span>
-          <span className={styles.post_commentText}>{comment.text}</span>
-          <span className={styles.post_headerTime}>
-            {new Date(comment.timestamp?.toDate()).toLocaleString()}
-          </span>
-        </div>
-      ))}
+                  <span className={styles.post_commentUser}>
+                    @{comment.username}
+                  </span>
+                  <span className={styles.post_commentText}>
+                    {comment.text}
+                  </span>
+                  <span className={styles.post_headerTime}>
+                    {new Date(comment.timestamp?.toDate()).toLocaleString()}
+                  </span>
+                </div>
+              ))}
+            </>
+          )}
+        </>
+      )}
       <form onSubmit={newComment}>
         <div className={styles.post_form}>
           <input
