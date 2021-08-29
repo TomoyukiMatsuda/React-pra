@@ -22,7 +22,10 @@ export const useListQiitaArticles = () => {
   ) => {
     // フォームのデフォルトの動作（リロード）を防ぐ
     e.preventDefault();
+    // ローディング開始
     setIsLoading(true);
+    // エラーメッセージがあったとしても空にしてリセットする
+    setErrorMessage("");
 
     // await を付与することでこの処理が終わらない限り次の処理に進まないようになる
     // （async await がないと ローディング処理がうまく行かない）
@@ -46,11 +49,12 @@ export const useListQiitaArticles = () => {
         );
       })
       .catch((error) => {
-        setErrorMessage(error.response.data.message);
+        setErrorMessage(error.message);
       });
 
     // ローディング終了
     setIsLoading(false);
+
     // 成功しても、失敗してもフォーム入力を空にする
     setSearchText("");
   };
