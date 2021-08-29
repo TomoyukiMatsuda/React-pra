@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
 
 // todo 別ファイルに型定義
@@ -74,43 +74,47 @@ interface Article {
 
 const Home: React.VFC = () => {
   // todo エラーハンドリング ローディングハンドリング
-  const [data, setData] = useState<Array<Article>>([]);
+  const [articles, setArticles] = useState<Array<Article>>([]);
   const [searchText, setSearchText] = useState<string>();
   const buttonColor = searchText
     ? "bg-blue-500 hover:bg-blue-400"
     : "bg-gray-300";
 
-  useEffect(() => {
-    apiClient
-      .get<Array<QiitaResponse>>("/api/v2/items", {
-        // todo query設定したい
-        params: {
-          query: "react",
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        setData(
-          response.data.map<Article>((d) => {
-            return {
-              id: d.id,
-              title: d.title,
-              lgtm: d.likes_count,
-              userName: d.user.name,
-            };
-          })
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  const fetchArticles = useCallback(
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+
+      console.log("フェッチ", searchText);
+      apiClient
+        .get<Array<QiitaResponse>>("/api/v2/items", {
+          params: {
+            query: searchText,
+          },
+        })
+        .then((response) => {
+          console.log(response);
+          setArticles(
+            response.data.map<Article>((d) => {
+              return {
+                id: d.id,
+                title: d.title,
+                lgtm: d.likes_count,
+                userName: d.user.name,
+              };
+            })
+          );
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    [searchText, setArticles]
+  );
 
   return (
     <div className="max-w-5xl my-0 mx-auto">
       <div>
-        {/*onSubmit={フェッチ関数}*/}
-        <form className="px-8 pt-6">
+        <form className="px-8 pt-6" onSubmit={fetchArticles}>
           <label className="block text-gray-700 text-sm font-bold mb-2">
             Qiita 記事検索キーワードを入力
           </label>
@@ -130,10 +134,10 @@ const Home: React.VFC = () => {
         </form>
       </div>
 
-      {data?.map((article) => {
+      {articles?.map((article) => {
         return (
-          <div key={article.id}>
-            <p className="">タイトル：{article.title}</p>
+          <div key={article.id} className="mt-5">
+            <p>タイトル：{article.title}</p>
             <p>LGTM：{article.lgtm}</p>
             <p>ユーザー名：{article.userName}</p>
             <br />
