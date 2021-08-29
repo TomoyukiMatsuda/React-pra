@@ -72,20 +72,34 @@ interface Article {
   userName: string;
 }
 
+interface ErrorResponse {
+  response: {
+    data: {
+      message: string;
+      type: string;
+    };
+  };
+}
+
 const Home: React.VFC = () => {
-  // todo エラーハンドリング ローディングハンドリング
   const [articles, setArticles] = useState<Array<Article>>([]);
+  const [errorMessage, setErrorMessage] = useState<string>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
   const [searchText, setSearchText] = useState<string>();
   const buttonColor = searchText
-    ? "bg-blue-500 hover:bg-blue-400"
+    ? "bg-blue-700 hover:bg-blue-500"
     : "bg-gray-300";
 
   const fetchArticles = useCallback(
-    (e: FormEvent<HTMLFormElement>) => {
-      //
+    async (e: FormEvent<HTMLFormElement>) => {
+      // フォームのデフォルトの動作（リロード）を防ぐ
       e.preventDefault();
+      setIsLoading(true);
 
-      apiClient
+      // await を付与することでこの処理が終わらない限り次の処理に進まないようになる
+      // （async await がないと ローディング処理がうまく行かない）
+      await apiClient
         .get<Array<QiitaResponse>>("/api/v2/items", {
           params: {
             query: searchText,
@@ -93,6 +107,7 @@ const Home: React.VFC = () => {
         })
         .then((response) => {
           console.log(response);
+          setIsEmpty(response.data.length === 0);
           setArticles(
             response.data.map<Article>((d) => {
               return {
@@ -105,14 +120,27 @@ const Home: React.VFC = () => {
           );
         })
         .catch((error) => {
-          console.log(error);
+          setErrorMessage(error.response.data.message);
         });
 
+      // ローディング終了
+      setIsLoading(false);
       // 成功しても、失敗してもフォーム入力を空にする
       setSearchText("");
     },
     [searchText, setArticles]
   );
+
+  // todo articlesリスト の中だけでやる
+  if (errorMessage) {
+    return <p>エラー</p>;
+  }
+  if (isLoading) {
+    return <p>ローディング.......</p>;
+  }
+  if (isEmpty) {
+    return <p>検索結果ないよ〜</p>;
+  }
 
   return (
     <div className="max-w-5xl my-0 mx-auto">
@@ -142,9 +170,11 @@ const Home: React.VFC = () => {
             className="my-5 px-8 bg-blue-100 rounded-lg shadow"
             key={article.id}
           >
-            <p className="text-center font-bold">{article.title}</p>
-            <p>LGTM 👍：{article.lgtm}</p>
-            <p>ユーザー：{article.userName}</p>
+            <p className="text-center font-bold  text-blue-800 mb-2">
+              {article.title}
+            </p>
+            <p className="text-blue-700">LGTM 👍：{article.lgtm}</p>
+            <p className="text-blue-700">ユーザー：{article.userName}</p>
           </div>
         );
       })}
