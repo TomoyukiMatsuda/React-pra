@@ -60,7 +60,7 @@ const apiClient = axios.create({
     "Content-Type": "application/json",
   },
   params: {
-    per_page: "10",
+    per_page: "25",
   },
   // withCredentials: true, 全てのリクエストにクッキーを設定し送信するオプション設定
 });
@@ -75,12 +75,17 @@ interface Article {
 const Home: React.VFC = () => {
   // todo エラーハンドリング ローディングハンドリング
   const [data, setData] = useState<Array<Article>>([]);
+  const [searchText, setSearchText] = useState<string>();
+  const buttonColor = searchText
+    ? "bg-blue-500 hover:bg-blue-400"
+    : "bg-gray-300";
 
   useEffect(() => {
     apiClient
       .get<Array<QiitaResponse>>("/api/v2/items", {
+        // todo query設定したい
         params: {
-          per_page: "12",
+          query: "react",
         },
       })
       .then((response) => {
@@ -102,11 +107,33 @@ const Home: React.VFC = () => {
   }, []);
 
   return (
-    <div>
+    <div className="max-w-5xl my-0 mx-auto">
+      <div>
+        {/*onSubmit={フェッチ関数}*/}
+        <form className="px-8 pt-6">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            Qiita 記事検索キーワードを入力
+          </label>
+          <input
+            className="shadow appearance-none border rounded w-full py-2 px-3 mb-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="例：React"
+            value={searchText}
+            onChange={(e) => setSearchText(e.target.value)}
+          />
+          <button
+            className={`${buttonColor} text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+            type="submit"
+            disabled={!searchText}
+          >
+            検索
+          </button>
+        </form>
+      </div>
+
       {data?.map((article) => {
         return (
           <div key={article.id}>
-            <p>タイトル：{article.title}</p>
+            <p className="">タイトル：{article.title}</p>
             <p>LGTM：{article.lgtm}</p>
             <p>ユーザー名：{article.userName}</p>
             <br />
