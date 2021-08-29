@@ -1,18 +1,6 @@
 import React, { FormEvent, useCallback, useEffect, useState } from "react";
-import axios from "axios";
 import { QiitaItemsResponse } from "../types/QiitaItemsResponse";
-
-const apiClient = axios.create({
-  baseURL: "https://qiita.com",
-  responseType: "json",
-  headers: {
-    "Content-Type": "application/json",
-  },
-  params: {
-    per_page: "25",
-  },
-  // withCredentials: true, 全てのリクエストにクッキーを設定し送信するオプション設定
-});
+import { apiClient } from "../lib/apiClient";
 
 interface Article {
   id: string;
