@@ -82,9 +82,9 @@ const Home: React.VFC = () => {
 
   const fetchArticles = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
+      //
       e.preventDefault();
 
-      console.log("フェッチ", searchText);
       apiClient
         .get<Array<QiitaResponse>>("/api/v2/items", {
           params: {
@@ -107,6 +107,9 @@ const Home: React.VFC = () => {
         .catch((error) => {
           console.log(error);
         });
+
+      // 成功しても、失敗してもフォーム入力を空にする
+      setSearchText("");
     },
     [searchText, setArticles]
   );
@@ -133,14 +136,15 @@ const Home: React.VFC = () => {
           </button>
         </form>
       </div>
-
       {articles?.map((article) => {
         return (
-          <div key={article.id} className="mt-5">
-            <p>タイトル：{article.title}</p>
-            <p>LGTM：{article.lgtm}</p>
-            <p>ユーザー名：{article.userName}</p>
-            <br />
+          <div
+            className="my-5 px-8 bg-blue-100 rounded-lg shadow"
+            key={article.id}
+          >
+            <p className="text-center font-bold">{article.title}</p>
+            <p>LGTM 👍：{article.lgtm}</p>
+            <p>ユーザー：{article.userName}</p>
           </div>
         );
       })}
