@@ -1,8 +1,9 @@
 import React from "react";
-import { Article } from "../../hooks/useListQiitaArticles";
+import { QiitaArticle } from "../../types/QiitaArticle";
 
 interface Props {
-  articles: Array<Article>;
+  articles: Array<QiitaArticle>;
+  searchWord: string;
   errorMessage: string;
   isLoading: boolean;
   isEmpty: boolean;
@@ -30,7 +31,7 @@ export const ArticleList: React.VFC<Props> = (props) => {
       {/*デフォルトで「検索ワードに該当なーし！！」が表示されるのを防ぐために isEmpty をフラグの一つとしている*/}
       {props.isEmpty && props.articles?.length === 0 ? (
         <p className="mb-2 mx-12 p-8 bg-green-100 rounded-lg">
-          検索ワードに該当なーし！！
+          検索ワード『{props.searchWord}』に該当なーし！！
         </p>
       ) : (
         props.articles?.map((article) => {

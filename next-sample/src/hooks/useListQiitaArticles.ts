@@ -1,16 +1,11 @@
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { apiClient } from "../lib/apiClient";
 import { QiitaItemsResponse } from "../types/QiitaItemsResponse";
-
-export interface Article {
-  id: string;
-  title: string;
-  lgtm: number;
-  userName: string;
-}
+import { QiitaArticle } from "../types/QiitaArticle";
 
 export const useListQiitaArticles = () => {
-  const [articles, setArticles] = useState<Array<Article>>([]);
+  const [articles, setArticles] = useState<Array<QiitaArticle>>([]);
+  const [searchWord, setSearchWord] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -36,9 +31,12 @@ export const useListQiitaArticles = () => {
         },
       })
       .then((response) => {
+        // データが空（0件）であれば true をセット
         setIsEmpty(response.data.length === 0);
+
+        // レスポンスから利用したい要素を QiitaArticle 型でセット
         setArticles(
-          response.data.map<Article>((d) => {
+          response.data.map<QiitaArticle>((d) => {
             return {
               id: d.id,
               title: d.title,
@@ -47,8 +45,12 @@ export const useListQiitaArticles = () => {
             };
           })
         );
+
+        // 検索キーワードをレスポンスから取得してセット
+        setSearchWord(response.config.params.query);
       })
       .catch((error) => {
+        // エラーメッセージをセット
         setErrorMessage(error.message);
       });
 
@@ -61,6 +63,7 @@ export const useListQiitaArticles = () => {
 
   return {
     articles,
+    searchWord,
     errorMessage,
     isLoading,
     isEmpty,

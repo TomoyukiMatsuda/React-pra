@@ -1,3 +1,4 @@
+// Qiita Api レスポンスの型定義
 export interface QiitaItemsResponse {
   rendered_body: string;
   body: string;
