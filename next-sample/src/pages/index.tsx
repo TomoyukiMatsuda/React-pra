@@ -1,57 +1,6 @@
 import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import axios from "axios";
-
-// todo 別ファイルに型定義
-interface QiitaResponse {
-  rendered_body: string;
-  body: string;
-  coediting: boolean;
-  comments_count: number;
-  created_at: string;
-  group: {
-    created_at: string;
-    description: string;
-    name: string;
-    private: boolean;
-    updated_at: string;
-    url_name: string;
-  };
-  id: string;
-  likes_count: number;
-  private: boolean;
-  reactions_count: number;
-  tags: [
-    {
-      name: string;
-      versions: [string];
-    }
-  ];
-  title: string;
-  updated_at: string;
-  url: string;
-  user: {
-    description: string;
-    facebook_id: string;
-    followees_count: number;
-    followers_count: number;
-    github_login_name: string;
-    id: string;
-    items_count: number;
-    linkedin_id: string;
-    location: string;
-    name: string;
-    organization: string;
-    permanent_id: number;
-    profile_image_url: string;
-    team_only: boolean;
-    twitter_screen_name: string;
-    website_url: string;
-  };
-  page_views_count: number;
-  team_membership: {
-    name: string;
-  };
-}
+import { QiitaItemsResponse } from "../types/QiitaItemsResponse";
 
 const apiClient = axios.create({
   baseURL: "https://qiita.com",
@@ -70,15 +19,6 @@ interface Article {
   title: string;
   lgtm: number;
   userName: string;
-}
-
-interface ErrorResponse {
-  response: {
-    data: {
-      message: string;
-      type: string;
-    };
-  };
 }
 
 const Home: React.VFC = () => {
@@ -100,13 +40,12 @@ const Home: React.VFC = () => {
       // await を付与することでこの処理が終わらない限り次の処理に進まないようになる
       // （async await がないと ローディング処理がうまく行かない）
       await apiClient
-        .get<Array<QiitaResponse>>("/api/v2/items", {
+        .get<Array<QiitaItemsResponse>>("/api/v2/items", {
           params: {
             query: searchText,
           },
         })
         .then((response) => {
-          console.log(response);
           setIsEmpty(response.data.length === 0);
           setArticles(
             response.data.map<Article>((d) => {
