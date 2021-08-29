@@ -16,9 +16,11 @@
   "devDependencies": {
     "@types/react": "17.0.19",
     "autoprefixer": "^10.3.3",
-    "eslint": "7.32.0",
+    "eslint": "^7.32.0",
     "eslint-config-next": "11.1.0",
+    "eslint-config-prettier": "^8.3.0",
     "postcss": "^8.3.6",
+    "prettier": "2.3.2",
     "tailwindcss": "^2.2.8",
     "typescript": "4.4.2"
   }
