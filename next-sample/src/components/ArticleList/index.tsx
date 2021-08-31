@@ -12,21 +12,17 @@ interface Props {
 export const ArticleList: React.VFC<Props> = (props) => {
   if (props.isLoading) {
     return (
-      <p className="mb-2 mx-12 p-8 bg-yellow-100 rounded-lg">
-        ローディング.......
-      </p>
+      <p className="mb-2 p-8 bg-yellow-100 rounded-lg">ローディング.......</p>
     );
   }
   if (props.errorMessage) {
     return (
-      <p className="mb-2 mx-12 p-8 bg-red-100 rounded-lg">
-        {props.errorMessage}
-      </p>
+      <p className="mb-2 p-8 bg-red-100 rounded-lg">{props.errorMessage}</p>
     );
   }
   if (props.searchWord && props.articles?.length === 0) {
     return (
-      <p className="mb-2 mx-12 p-8 bg-green-100 rounded-lg">
+      <p className="mb-2 p-8 bg-green-100 rounded-lg">
         検索ワード
         <span className="font-bold border-b-2 border-black">
           {props.searchWord}

@@ -8,7 +8,7 @@ const Home: React.VFC = () => {
     useListQiitaArticles();
 
   return (
-    <div className="max-w-5xl my-0 mx-auto">
+    <div className="max-w-5xl my-0 mx-auto px-12">
       <SearchForm fetchArticles={fetchArticles} />
       <ArticleList
         articles={articles}
