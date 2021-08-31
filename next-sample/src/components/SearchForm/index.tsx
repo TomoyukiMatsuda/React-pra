@@ -20,8 +20,8 @@ export const SearchForm: React.VFC<Props> = (props) => {
         className="p-12"
         onSubmit={(e) => props.fetchArticles(e, searchText, setSearchText)}
       >
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          Qiita 記事検索キーワードを入力
+        <label className="block text-gray-700 text-lg font-bold mb-2">
+          Qiita 記事 検索キーワードを入力
         </label>
         <input
           className="shadow appearance-none border rounded w-full py-2 px-3 mb-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
