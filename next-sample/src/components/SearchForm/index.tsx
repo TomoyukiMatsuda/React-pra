@@ -16,7 +16,7 @@ export const SearchForm: React.VFC<Props> = (props) => {
 
   return (
     <form
-      className="py-12"
+      className="mt-12 mb-6"
       onSubmit={(e) => props.fetchArticles(e, searchText, setSearchText)}
     >
       <label className="block text-gray-700 text-lg font-bold mb-2">

@@ -34,7 +34,14 @@ export const ArticleList: React.VFC<Props> = (props) => {
 
   return (
     <>
-      {/*todo 検索ワードを表示*/}
+      {props.searchWord && (
+        <p className="mb-4 text-xl">
+          検索キーワード
+          <span className="ml-2 font-bold text-blue-700 border-b-2 border-blue-700">
+            {props.searchWord}
+          </span>
+        </p>
+      )}
       {props.articles?.map((article) => {
         return <ArticleItem key={article.id} article={article} />;
       })}
