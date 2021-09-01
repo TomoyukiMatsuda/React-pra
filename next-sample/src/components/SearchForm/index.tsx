@@ -3,21 +3,21 @@ import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
 interface Props {
   fetchArticles: (
     e: FormEvent<HTMLFormElement>,
-    searchText: string,
-    setSearchText: Dispatch<SetStateAction<string>>
+    formText: string,
+    setFormText: Dispatch<SetStateAction<string>>
   ) => void;
 }
 
 export const SearchForm: React.VFC<Props> = (props) => {
-  const [searchText, setSearchText] = useState<string>("");
-  const buttonColor = searchText
-    ? "bg-blue-700 hover:bg-blue-500"
-    : "bg-gray-300";
-
+  const [formText, setFormText] = useState<string>("");
+  // ボタンの色を可変にしている。
+  const buttonColor = formText
+    ? "bg-blue-700 hover:bg-blue-500" // フォーム入力有：ブルー
+    : "bg-gray-300"; // フォーム入力無：グレー
   return (
     <form
       className="mt-12 mb-6"
-      onSubmit={(e) => props.fetchArticles(e, searchText, setSearchText)}
+      onSubmit={(e) => props.fetchArticles(e, formText, setFormText)}
     >
       <label className="block text-gray-700 text-lg font-bold mb-2">
         Qiita 記事 検索キーワードを入力
@@ -25,13 +25,13 @@ export const SearchForm: React.VFC<Props> = (props) => {
       <input
         className="shadow appearance-none border rounded w-full py-2 px-3 mb-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         placeholder="例：React"
-        value={searchText}
-        onChange={(e) => setSearchText(e.target.value)}
+        value={formText}
+        onChange={(e) => setFormText(e.target.value)}
       />
       <button
         className={`${buttonColor} text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
         type="submit"
-        disabled={!searchText}
+        disabled={!formText}
       >
         検索
       </button>
