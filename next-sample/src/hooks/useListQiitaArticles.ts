@@ -1,10 +1,9 @@
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { apiClient } from "../lib/apiClient";
-import { QiitaItemsResponse } from "../types/QiitaItemsResponse";
-import { QiitaArticle } from "../types/QiitaArticle";
+import { QiitaItem, QiitaItemResponse } from "../types/QiitaItem";
 
 export const useListQiitaArticles = () => {
-  const [articles, setArticles] = useState<Array<QiitaArticle>>([]);
+  const [articles, setArticles] = useState<Array<QiitaItem>>([]);
   const [searchWord, setSearchWord] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +20,7 @@ export const useListQiitaArticles = () => {
     // await を付与することでこの処理が終わらない限り次の処理に進まないようになる
     // （async await がないと ローディング処理がうまく行かない）
     await apiClient
-      .get<Array<QiitaItemsResponse>>("/api/v2/items", {
+      .get<Array<QiitaItemResponse>>("/api/v2/items", {
         params: {
           query: searchText,
         },
@@ -29,12 +28,12 @@ export const useListQiitaArticles = () => {
       .then((response) => {
         // レスポンスから利用したい要素を QiitaArticle 型でセット
         setArticles(
-          response.data.map<QiitaArticle>((d) => {
+          response.data.map<QiitaItem>((d) => {
             return {
               id: d.id,
               title: d.title,
-              lgtm: d.likes_count,
-              userName: d.user.name,
+              likes_count: d.likes_count,
+              user: d.user,
             };
           })
         );

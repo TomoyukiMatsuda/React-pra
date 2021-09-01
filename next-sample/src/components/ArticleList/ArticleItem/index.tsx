@@ -1,8 +1,8 @@
 import React from "react";
-import { QiitaArticle } from "../../../types/QiitaArticle";
+import { QiitaItem } from "../../../types/QiitaItem";
 
 interface Props {
-  article: QiitaArticle;
+  article: QiitaItem;
 }
 
 export const ArticleItem: React.VFC<Props> = ({ article }) => {
@@ -11,8 +11,8 @@ export const ArticleItem: React.VFC<Props> = ({ article }) => {
       <p className="text-center font-bold  text-blue-800 mb-4 border-b-2 border-blue-800">
         {article.title}
       </p>
-      <p className="text-blue-700">LGTM 👍：{article.lgtm}</p>
-      <p className="text-blue-700">ユーザー：{article.userName}</p>
+      <p className="text-blue-700">LGTM 👍：{article.likes_count}</p>
+      <p className="text-blue-700">ユーザー：{article.user.name}</p>
     </div>
   );
 };

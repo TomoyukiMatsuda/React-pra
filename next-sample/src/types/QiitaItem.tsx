@@ -1,5 +1,11 @@
+// アプリ内で利用するためのQiita記事型定義
+export type QiitaItem = Pick<
+  QiitaItemResponse,
+  "id" | "title" | "likes_count" | "user"
+>;
+
 // Qiita Api レスポンスの型定義
-export interface QiitaItemsResponse {
+export interface QiitaItemResponse {
   rendered_body: string;
   body: string;
   coediting: boolean;

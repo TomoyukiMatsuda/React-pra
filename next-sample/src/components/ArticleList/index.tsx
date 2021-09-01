@@ -1,9 +1,9 @@
 import React from "react";
-import { QiitaArticle } from "../../types/QiitaArticle";
+import { QiitaItem } from "../../types/QiitaItem";
 import { ArticleItem } from "./ArticleItem";
 
 interface Props {
-  articles: Array<QiitaArticle>;
+  articles: Array<QiitaItem>;
   searchWord: string;
   errorMessage: string;
   isLoading: boolean;
