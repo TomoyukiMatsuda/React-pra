@@ -10,23 +10,22 @@ export const useListQiitaArticles = () => {
 
   const fetchArticles = async (
     e: FormEvent<HTMLFormElement>,
-    searchText: string,
-    setSearchText: Dispatch<SetStateAction<string>>
+    formText: string,
+    setFormText: Dispatch<SetStateAction<string>>
   ) => {
     e.preventDefault(); // フォームのデフォルトの動作（リロード）を防ぐ
     setIsLoading(true); // ローディング開始
     setErrorMessage(""); // エラーメッセージを初期化
 
-    // await を付与することでこの処理が終わらない限り次の処理に進まないようになる
-    // （async await がないと ローディング処理がうまく行かない）
+    // await を付与することでこの処理が終わらない限り次の処理に進まないようになる（これがないとローディング処理などが先に呼ばれてしまう）
     await apiClient
       .get<Array<QiitaItemResponse>>("/api/v2/items", {
         params: {
-          query: searchText,
+          query: formText,
         },
       })
       .then((response) => {
-        // レスポンスから利用したい要素を QiitaArticle 型でセット
+        // レスポンスから利用したい要素を QiitaItem 型でセット
         setArticles(
           response.data.map<QiitaItem>((d) => {
             return {
@@ -46,10 +45,8 @@ export const useListQiitaArticles = () => {
         setErrorMessage(error.message);
       });
 
-    // ローディング終了
-    setIsLoading(false);
-    // 成功しても、失敗してもフォーム入力を空にする
-    setSearchText("");
+    setIsLoading(false); // ローディング終了
+    setFormText(""); // 最終的にフォーム入力を空にする
   };
 
   return {

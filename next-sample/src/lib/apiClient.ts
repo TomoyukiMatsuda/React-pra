@@ -7,7 +7,6 @@ export const apiClient = axios.create({
     "Content-Type": "application/json",
   },
   params: {
-    // デフォルトで 25件 の記事を取得するように設定
-    per_page: "25",
+    per_page: "25", // 25件 の記事を取得するように設定
   },
 });
