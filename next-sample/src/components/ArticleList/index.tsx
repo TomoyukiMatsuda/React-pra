@@ -10,16 +10,19 @@ interface Props {
 }
 
 export const ArticleList: React.VFC<Props> = (props) => {
+  // ローディング中
   if (props.isLoading) {
     return (
       <p className="mb-2 p-8 bg-yellow-100 rounded-lg">ローディング.......</p>
     );
   }
+  // エラー（API失敗）
   if (props.errorMessage) {
     return (
       <p className="mb-2 p-8 bg-red-100 rounded-lg">{props.errorMessage}</p>
     );
   }
+  // 成功したものの、検索結果0件
   if (props.searchWord && props.articles?.length === 0) {
     return (
       <p className="mb-2 p-8 bg-green-100 rounded-lg">
