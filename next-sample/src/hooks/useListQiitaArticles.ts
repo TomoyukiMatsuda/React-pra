@@ -21,7 +21,7 @@ export const useListQiitaArticles = () => {
     await apiClient
       .get<Array<QiitaItemResponse>>("/api/v2/items", {
         params: {
-          query: formText,
+          query: formText, // フォーム入力を検索ワードとしてパラメーターに付与
         },
       })
       .then((response) => {
