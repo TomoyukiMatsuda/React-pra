@@ -1,8 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { apiClient } from "../../lib/apiClient";
 
 export const ArticleDetail: React.VFC = () => {
+  // const [articleDetail, setArticleDetail] = useState()
   const router = useRouter();
 
   useEffect(() => {

@@ -26,7 +26,7 @@ export interface QiitaItemResponse {
   tags: [
     {
       name: string;
-      versions: [string];
+      versions: string[];
     }
   ];
   title: string;
