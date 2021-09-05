@@ -25,7 +25,8 @@ export const useListQiitaArticles = () => {
         },
       })
       .then((response) => {
-        // レスポンスから利用したい要素を QiitaItem 型でセット
+        // レスポンスから利用したい要素を QiitaItem 型 の配列でセット
+        console.log(response);
         setArticles(
           response.data.map<QiitaItem>((d) => {
             return {
