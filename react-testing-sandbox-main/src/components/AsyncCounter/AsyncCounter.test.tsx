@@ -7,6 +7,7 @@ describe("AsyncCounter", () => {
     cleanup()
   })
 
+  // 初期画面表示時のテスト
   test("render", () => {
     const { asFragment } = render(<AsyncCounter />)
     expect(asFragment()).toMatchSnapshot()
@@ -14,15 +15,16 @@ describe("AsyncCounter", () => {
 
   describe("click:count:カウントアップ", () => {
     test("ボタン押下 1 秒後は 1 カウントアップ", () => {
-      jest.useFakeTimers() /** 時間詐称 */
+      jest.useFakeTimers() /** 時間詐称 1. タイマーをJestが提供するフェイクのものに差し替える */
       render(<AsyncCounter />)
       const button = screen.getByText("AsyncIncrement")
       fireEvent.click(button)
+      // コンポーネントの内部でのアップデートには act 関数でラップする必要がある
       act(() => {
-        jest.runAllTimers()
+        jest.runAllTimers() // 2. フェイクタイマーの macrotask 全てを掃けさせる
       })
       screen.getByText("AsyncCount: 1")
-      jest.useRealTimers() /** 時を戻そう */
+      jest.useRealTimers() /** 時を戻そう 3. タイマーを通常に戻す */
     })
   })
 
