@@ -1,7 +1,7 @@
 // 追加タスク名を入力するフォームのコンポーネント
 import React from "react";
 import { useRecoilState } from "recoil";
-import { todoTitleFormState } from "../TodoTitleFormAtom";
+import { todoTitleFormState } from "../atoms/TodoTitleFormAtom";
 
 export const TitleForm: React.VFC = () => {
   // Atomの値を取得、更新するためにはuseRecoilState()にAtomを引数として渡す

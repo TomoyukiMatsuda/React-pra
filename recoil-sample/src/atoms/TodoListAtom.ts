@@ -6,7 +6,7 @@
 //   dangerouslyAllowMutability?: boolean;
 // }
 import { atom } from "recoil";
-import { Todo } from "./Todo";
+import { Todo } from "../types/Todo";
 
 export const todoListState = atom<Todo[]>({
   key: "todoList",

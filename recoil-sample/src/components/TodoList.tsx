@@ -1,7 +1,7 @@
 import React from "react";
-import { Todo } from "../Todo";
+import { Todo } from "../types/Todo";
 import { useRecoilValue } from "recoil";
-import { searchedTodoListSelector } from "../SearchedTodoListSelector";
+import { searchedTodoListSelector } from "../selectors/SearchedTodoListSelector";
 
 // タスク一覧を取得して表示するコンポーネント
 export const TodoList: React.VFC = () => {

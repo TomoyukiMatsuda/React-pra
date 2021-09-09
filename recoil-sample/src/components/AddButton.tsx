@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 import { useRecoilState } from "recoil";
-import { todoTitleFormState } from "../TodoTitleFormAtom";
-import { Todo } from "../Todo";
-import { todoListState } from "../TodoListAtom";
+import { todoTitleFormState } from "../atoms/TodoTitleFormAtom";
+import { Todo } from "../types/Todo";
+import { todoListState } from "../atoms/TodoListAtom";
 
 // タスク追加ボタンコンポーネント
 export const AddButton: React.VFC = () => {

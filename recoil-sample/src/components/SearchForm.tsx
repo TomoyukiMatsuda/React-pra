@@ -1,6 +1,6 @@
 import React from "react";
 import { useRecoilState } from "recoil";
-import { searchTextFormState } from "../SearchTextFormAtom";
+import { searchTextFormState } from "../atoms/SearchTextFormAtom";
 
 // 検索テキストを入力するフォームコンポーネント
 export const SearchForm: React.VFC = () => {
