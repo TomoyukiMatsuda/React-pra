@@ -15,4 +15,8 @@ export const searchedTodoListSelector = selector<Todo[]>({
       ? todoList.filter((todo) => todo.title.includes(searchText))
       : todoList;
   },
+  // setもある
+  // set: ({set}) => {
+  //
+  // }
 });
