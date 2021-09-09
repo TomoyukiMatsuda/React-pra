@@ -3,6 +3,7 @@ import Head from "next/head";
 import styles from "../../styles/Home.module.css";
 import { TodoList } from "../components/TodoList";
 import { TitleForm } from "../components/TitleForm";
+import { SearchForm } from "../components/SearchForm";
 
 const Home: NextPage = () => {
   return (
@@ -13,6 +14,7 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <TitleForm />
+      <SearchForm />
       <TodoList />
     </div>
   );
