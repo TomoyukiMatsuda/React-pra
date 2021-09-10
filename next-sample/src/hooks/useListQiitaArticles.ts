@@ -19,14 +19,14 @@ export const useListQiitaArticles = () => {
 
     // await を付与することでこの処理が終わらない限り次の処理に進まないようになる（これがないとローディング処理などが先に呼ばれてしまう）
     await apiClient
-      .get<Array<QiitaItemResponse>>("/api/v2/items", {
+      .get<Array<QiitaItemResponse>>("/items", {
         params: {
-          query: formText, // フォーム入力を検索ワードとしてパラメーターに付与
+          query: formText, // フォーム入力を検索ワードとして設定
+          per_page: 25, // 25件 の記事を取得するように設定
         },
       })
       .then((response) => {
         // レスポンスから利用したい要素を QiitaItem 型 の配列でセット
-        console.log(response);
         setArticles(
           response.data.map<QiitaItem>((d) => {
             return {

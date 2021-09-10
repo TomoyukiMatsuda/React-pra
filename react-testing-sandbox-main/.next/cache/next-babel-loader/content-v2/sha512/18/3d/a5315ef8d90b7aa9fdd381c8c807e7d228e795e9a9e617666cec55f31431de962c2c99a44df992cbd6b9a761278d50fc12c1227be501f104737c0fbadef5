@@ -1,0 +1,1 @@
+{"ast":null,"code":"export * from \"./AlertForm\";","map":{"version":3,"sources":["/Users/matsudatomoyuki/programming/js_practice/React-pra/react-testing-sandbox-main/src/components/AlertForm/index.ts"],"names":[],"mappings":"AAAA,cAAc,aAAd","sourcesContent":["export * from \"./AlertForm\"\n"]},"metadata":{},"sourceType":"module"}
