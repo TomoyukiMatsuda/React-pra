@@ -1,0 +1,1 @@
+{"ast":null,"code":"export * from \"./Header\";","map":{"version":3,"sources":["/Users/matsudatomoyuki/programming/js_practice/React-pra/react-testing-sandbox-main/src/components/Header/index.ts"],"names":[],"mappings":"AAAA,cAAc,UAAd","sourcesContent":["export * from \"./Header\"\n"]},"metadata":{},"sourceType":"module"}
