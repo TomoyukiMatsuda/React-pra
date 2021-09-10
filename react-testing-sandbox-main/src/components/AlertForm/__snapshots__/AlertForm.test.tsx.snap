@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AlertForm render 1`] = `
+<DocumentFragment>
+  <form>
+    <input
+      type="text"
+      value=""
+    />
+    <button>
+      Alert
+    </button>
+    <br />
+    <button
+      type="reset"
+    >
+      Alert Close
+    </button>
+  </form>
+</DocumentFragment>
+`;

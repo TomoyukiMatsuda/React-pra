@@ -21,7 +21,7 @@ export const useListQiitaArticles = () => {
     await apiClient
       .get<Array<QiitaItemResponse>>("/items", {
         params: {
-          query: formText, // フォーム入力を検索ワードとして付与
+          query: formText, // フォーム入力を検索ワードとして設定
           per_page: 25, // 25件 の記事を取得するように設定
         },
       })
