@@ -10,7 +10,7 @@ const Home: React.VFC = () => {
   const { articles, searchWord, errorMessage, isLoading, fetchArticles } =
     useListQiitaArticles();
   const [searchHistoryWords, setSearchHistoryWords] = useState<string[]>([]);
-  //console.log(useRecoilValue(searchHistoryArticleListSelector(searchWord)));
+  console.log(useRecoilValue(searchHistoryArticleListSelector(searchWord)));
 
   useEffect(() => {
     // 検索ワードをセット、検索履歴に追加する
