@@ -2,16 +2,19 @@ import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { apiClient } from "../lib/apiClient";
 import { QiitaItem, QiitaItemResponse } from "../types/QiitaItem";
 import { useSetRecoilState } from "recoil";
-import { searchArticleListSelector } from "../selectors/searchArticleListSelector";
+import { searchHistoryArticleListSelector } from "../selectors/searchHistoryArticleListSelector";
 
 export const useListQiitaArticles = () => {
-  // Recoil グローバルステート　todo 命名修正したい history とか
-  const setSearchArticleList = useSetRecoilState(searchArticleListSelector);
   // ローカルステート
   const [articles, setArticles] = useState<Array<QiitaItem>>([]);
   const [searchWord, setSearchWord] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
+
+  // Recoil グローバルステートセット　todo 命名修正したい history とか
+  const setSearchArticleList = useSetRecoilState(
+    searchHistoryArticleListSelector
+  );
 
   const fetchArticles = async (
     e: FormEvent<HTMLFormElement>,

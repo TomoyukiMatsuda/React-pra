@@ -1,6 +1,6 @@
 import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { searchArticleListSelector } from "../../selectors/searchArticleListSelector";
+import { searchHistoryArticleListSelector } from "../../selectors/searchHistoryArticleListSelector";
 
 interface Props {
   fetchArticles: (
@@ -11,7 +11,7 @@ interface Props {
 }
 
 export const SearchForm: React.VFC<Props> = (props) => {
-  // console.log(useRecoilValue(searchArticleListSelector));
+  console.log(useRecoilValue(searchHistoryArticleListSelector));
 
   const [formText, setFormText] = useState<string>("");
   const buttonColor = formText
