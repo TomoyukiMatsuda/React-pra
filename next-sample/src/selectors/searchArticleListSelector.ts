@@ -8,4 +8,8 @@ export const searchArticleListSelector = selector<QiitaItem[]>({
   get: ({ get }) => {
     return get(searchArticleListState);
   },
+  // Atomに直接セットすることも可能だけどselectorからセットするようにする
+  set: ({ set }, newValue) => {
+    set(searchArticleListState, newValue);
+  },
 });

@@ -1,8 +1,15 @@
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { apiClient } from "../lib/apiClient";
 import { QiitaItem, QiitaItemResponse } from "../types/QiitaItem";
+import { useRecoilState } from "recoil";
+import { searchArticleListSelector } from "../selectors/searchArticleListSelector";
 
 export const useListQiitaArticles = () => {
+  // Recoil グローバルステート　todo 命名修正したい history とか
+  const [searchArticleList, setSearchArticleList] = useRecoilState(
+    searchArticleListSelector
+  );
+  // ローカルステート
   const [articles, setArticles] = useState<Array<QiitaItem>>([]);
   const [searchWord, setSearchWord] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -26,17 +33,20 @@ export const useListQiitaArticles = () => {
         },
       })
       .then((response) => {
-        // レスポンスから利用したい要素を QiitaItem 型 の配列でセット
-        setArticles(
-          response.data.map<QiitaItem>((d) => {
-            return {
-              id: d.id,
-              title: d.title,
-              likes_count: d.likes_count,
-              user: d.user,
-            };
-          })
-        );
+        // レスポンスから利用したい要素の QiitaItem 型 の配列
+        const searchArticleResponse = response.data.map<QiitaItem>((d) => {
+          return {
+            id: d.id,
+            title: d.title,
+            likes_count: d.likes_count,
+            user: d.user,
+          };
+        });
+
+        // Recoil グローバルステートにセット
+        setSearchArticleList(searchArticleResponse);
+        // レスポンスをローカルステートにセット
+        setArticles(searchArticleResponse);
 
         // 検索キーワードをレスポンスから取得してセット
         setSearchWord(response.config.params.query);
@@ -51,6 +61,7 @@ export const useListQiitaArticles = () => {
   };
 
   return {
+    searchArticleList,
     articles,
     searchWord,
     errorMessage,
