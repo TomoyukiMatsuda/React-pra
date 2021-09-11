@@ -7,13 +7,11 @@ import { ArticleItem } from "../../../components/ArticleList/ArticleItem";
 // todo 命名難しい
 const ArticlesBySearchHistoryWord: React.VFC = () => {
   const router = useRouter();
-  const searchWord: string = (router.query.word as string) || "";
+  const searchWord = (router.query.word as string) || "";
+  // pathから取得した検索ワードに紐づくステートを取得
   const articleList = useRecoilValue(
     searchHistoryArticleListSelector(searchWord)
   );
-  console.log(searchWord);
-  console.log(articleList);
-  console.log(useRecoilValue(searchHistoryArticleListSelector(searchWord)));
 
   return (
     <div>

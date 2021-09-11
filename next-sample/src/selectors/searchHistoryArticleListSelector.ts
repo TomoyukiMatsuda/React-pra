@@ -1,4 +1,4 @@
-import { DefaultValue, selector, selectorFamily } from "recoil";
+import { DefaultValue, selectorFamily } from "recoil";
 import { QiitaItem } from "../types/QiitaItem";
 import { searchHistoryArticleListState } from "../atoms/searchHistoryArticleListAtom";
 
@@ -20,6 +20,7 @@ export const searchHistoryArticleListSelector = selectorFamily<
     ({ get, set }, newValue) => {
       // atomに検索結果を追加していくパターン
       // DefaultValue だったらセットしないで return
+      // todo: 追加処理不要そう
       if (newValue instanceof DefaultValue) return;
       set(searchHistoryArticleListState(key), [
         ...get(searchHistoryArticleListState(key)),

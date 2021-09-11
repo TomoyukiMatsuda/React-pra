@@ -1,27 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
 import { useListQiitaArticles } from "../hooks/useListQiitaArticles";
 import { ArticleList } from "../components/ArticleList";
 import { SearchForm } from "../components/SearchForm";
-import { useRecoilValue } from "recoil";
+import { useSetRecoilState, useRecoilState } from "recoil";
 import { searchHistoryArticleListSelector } from "../selectors/searchHistoryArticleListSelector";
+import { searchWordsState } from "../atoms/searchWordsAtom";
 
 const Home: React.VFC = () => {
   const { articles, searchWord, errorMessage, isLoading, fetchArticles } =
     useListQiitaArticles();
-  const [searchHistoryWords, setSearchHistoryWords] = useState<string[]>([]);
-  console.log(useRecoilValue(searchHistoryArticleListSelector(searchWord)));
+  // グローバルステートをセット
+  const [searchHistoryWords, setSearchHistoryWords] =
+    useRecoilState(searchWordsState);
+  const setSearchHistoryArticleList = useSetRecoilState(
+    searchHistoryArticleListSelector(searchWord)
+  );
 
   useEffect(() => {
-    // 検索ワードをセット、検索履歴に追加する
-    setSearchHistoryWords([...searchHistoryWords, searchWord]);
-  }, [searchWord]);
+    // グローバルステートをセット
+    setSearchHistoryArticleList(articles);
+  }, [articles, setSearchHistoryArticleList]);
+
+  useEffect(() => {
+    // グローバルステートをセット
+    setSearchHistoryWords((currVal) => [...currVal, searchWord]);
+  }, [searchWord, setSearchHistoryWords]);
 
   return (
     <div className="max-w-5xl my-0 mx-auto px-12">
       {/*todo 検索履歴コンポーネント化*/}
-      {searchHistoryWords.length &&
-        searchHistoryWords.map((searchHistoryWord, index) => {
+      {searchHistoryWords.length !== 0 &&
+        searchHistoryWords?.map((searchHistoryWord, index) => {
           return (
             <Link
               key={index}
