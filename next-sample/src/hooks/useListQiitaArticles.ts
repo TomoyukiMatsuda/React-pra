@@ -13,7 +13,7 @@ export const useListQiitaArticles = () => {
 
   // Recoil グローバルステートセット　todo 命名修正したい history とか
   const setSearchArticleList = useSetRecoilState(
-    searchHistoryArticleListSelector
+    searchHistoryArticleListSelector(searchWord)
   );
 
   const fetchArticles = async (

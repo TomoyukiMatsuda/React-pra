@@ -1,6 +1,4 @@
 import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { searchHistoryArticleListSelector } from "../../selectors/searchHistoryArticleListSelector";
 
 interface Props {
   fetchArticles: (
@@ -11,8 +9,6 @@ interface Props {
 }
 
 export const SearchForm: React.VFC<Props> = (props) => {
-  console.log(useRecoilValue(searchHistoryArticleListSelector));
-
   const [formText, setFormText] = useState<string>("");
   const buttonColor = formText
     ? "bg-blue-700 hover:bg-blue-500" // フォーム入力有：ブルー
