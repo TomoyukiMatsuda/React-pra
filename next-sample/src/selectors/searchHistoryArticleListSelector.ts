@@ -1,4 +1,4 @@
-import { selector } from "recoil";
+import { DefaultValue, selector } from "recoil";
 import { QiitaItem } from "../types/QiitaItem";
 import { searchHistoryArticleListState } from "../atoms/searchHistoryArticleListAtom";
 
@@ -9,7 +9,13 @@ export const searchHistoryArticleListSelector = selector<QiitaItem[]>({
     return get(searchHistoryArticleListState);
   },
   // Atomに直接セットすることも可能だけどselectorからセットするようにする
-  set: ({ set }, newValue) => {
-    set(searchHistoryArticleListState, newValue);
+  set: ({ get, set }, newValue) => {
+    // atomに検索結果を追加していくパターン
+    // DefaultValue だったらセットしないで return
+    if (newValue instanceof DefaultValue) return;
+    set(searchHistoryArticleListState, [
+      ...get(searchHistoryArticleListState),
+      ...newValue,
+    ]);
   },
 });
