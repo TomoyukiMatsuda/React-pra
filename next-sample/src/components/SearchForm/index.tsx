@@ -1,4 +1,6 @@
 import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { searchArticleListSelector } from "../../selectors/searchArticleListSelector";
 
 interface Props {
   fetchArticles: (
@@ -9,10 +11,13 @@ interface Props {
 }
 
 export const SearchForm: React.VFC<Props> = (props) => {
+  // console.log(useRecoilValue(searchArticleListSelector));
+
   const [formText, setFormText] = useState<string>("");
   const buttonColor = formText
     ? "bg-blue-700 hover:bg-blue-500" // フォーム入力有：ブルー
     : "bg-gray-300"; // フォーム入力無：グレー
+
   return (
     <form
       className="mt-12 mb-6"

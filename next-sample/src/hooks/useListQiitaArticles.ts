@@ -1,14 +1,12 @@
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { apiClient } from "../lib/apiClient";
 import { QiitaItem, QiitaItemResponse } from "../types/QiitaItem";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { searchArticleListSelector } from "../selectors/searchArticleListSelector";
 
 export const useListQiitaArticles = () => {
   // Recoil グローバルステート　todo 命名修正したい history とか
-  const [searchArticleList, setSearchArticleList] = useRecoilState(
-    searchArticleListSelector
-  );
+  const setSearchArticleList = useSetRecoilState(searchArticleListSelector);
   // ローカルステート
   const [articles, setArticles] = useState<Array<QiitaItem>>([]);
   const [searchWord, setSearchWord] = useState("");
@@ -61,7 +59,6 @@ export const useListQiitaArticles = () => {
   };
 
   return {
-    searchArticleList,
     articles,
     searchWord,
     errorMessage,
