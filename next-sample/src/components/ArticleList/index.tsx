@@ -1,9 +1,10 @@
 import React from "react";
 import { QiitaItem } from "../../types/QiitaItem";
 import { ArticleItem } from "./ArticleItem";
+import { SearchWordAndArticleCountLabel } from "../SearchWordAndArticleCountLabel";
 
 interface Props {
-  articles: Array<QiitaItem>;
+  articles: QiitaItem[];
   searchWord: string;
   errorMessage: string;
   isLoading: boolean;
@@ -37,14 +38,10 @@ export const ArticleList: React.VFC<Props> = (props) => {
 
   return (
     <>
-      {props.searchWord && (
-        <p className="mb-4 text-xl">
-          検索キーワード
-          <span className="ml-2 font-bold text-blue-700 border-b-2 border-blue-700">
-            {props.searchWord}
-          </span>
-        </p>
-      )}
+      <SearchWordAndArticleCountLabel
+        searchWord={props.searchWord}
+        articles={props.articles}
+      />
       {props.articles?.map((article) => {
         return <ArticleItem key={article.id} article={article} />;
       })}

@@ -18,7 +18,7 @@ export const LikesCountFilter: React.VFC = () => {
   }, []);
 
   return (
-    <form className="mt-12">
+    <form className="mt-12 mb-4">
       <label className="block text-gray-700 text-lg font-bold mb-2">
         LGTM👍 数で絞り込み（下限を指定）
       </label>
