@@ -23,6 +23,8 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
           </span>
         </p>
       )}
+      {/*todo: lgtm数の下限で絞り込む*/}
+
       {articleList?.map((article) => {
         return <ArticleItem key={article.id} article={article} />;
       })}

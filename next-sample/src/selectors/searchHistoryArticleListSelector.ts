@@ -7,13 +7,19 @@ import { searchHistoryArticleListState } from "../atoms/searchHistoryArticleList
 export const searchHistoryArticleListSelector = selectorFamily<
   QiitaItem[],
   string
+  //{ key: string; minLikesCount: number }
 >({
   key: "searchHistoryArticleListSelector",
   get:
-    (key) =>
-    ({ get }) => {
-      return get(searchHistoryArticleListState(key));
-    },
+    //( key, minLikesCount = 0 }) =>
+
+      (key) =>
+      ({ get }) => {
+        return get(searchHistoryArticleListState(key));
+        // return get(searchHistoryArticleListState(key)).filter((item) => {
+        //   return item.likes_count >= minLikesCount;
+        // });
+      },
   // Atomに直接セットすることも可能だけどselectorからセットするようにする
   set:
     (key) =>
