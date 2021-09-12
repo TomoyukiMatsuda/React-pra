@@ -17,17 +17,9 @@ export const searchHistoryArticleListSelector = selectorFamily<
         return item.likes_count >= get(minLikesCountState);
       });
     },
-  // Atomに直接セットすることも可能だけどselectorからセットするようにする
   set:
     (key) =>
-    ({ get, set }, newValue) => {
-      // atomに検索結果を追加していくパターン
-      // DefaultValue だったらセットしないで return
-      // todo: 追加処理不要そう
-      if (newValue instanceof DefaultValue) return;
-      set(searchHistoryArticleListState(key), [
-        ...get(searchHistoryArticleListState(key)),
-        ...newValue,
-      ]);
+    ({ set }, newValue) => {
+      set(searchHistoryArticleListState(key), newValue);
     },
 });
