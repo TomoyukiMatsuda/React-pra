@@ -1,5 +1,5 @@
 import React from "react";
-import { QiitaItem } from "../../../types/QiitaItem";
+import { QiitaItem } from "../../../../types/QiitaItem";
 
 interface Props {
   searchWord: string;

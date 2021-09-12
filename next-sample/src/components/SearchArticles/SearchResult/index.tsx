@@ -1,6 +1,6 @@
 import React from "react";
-import { QiitaItem } from "../../types/QiitaItem";
-import { ArticleList } from "../ArticleList";
+import { QiitaItem } from "../../../types/QiitaItem";
+import { ArticleList } from "../../common/ArticleList";
 
 interface Props {
   articles: QiitaItem[];
@@ -9,7 +9,7 @@ interface Props {
   isLoading: boolean;
 }
 
-export const SearchResultLayout: React.VFC<Props> = (props) => {
+export const SearchResult: React.VFC<Props> = (props) => {
   // ローディング中
   if (props.isLoading) {
     return (

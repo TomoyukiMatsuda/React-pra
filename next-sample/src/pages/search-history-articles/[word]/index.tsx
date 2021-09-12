@@ -3,8 +3,8 @@ import { useRouter } from "next/router";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import { searchHistoryArticleListSelector } from "../../../grobalStates/selectors/searchHistoryArticleListSelector";
 import { minLikesCountState } from "../../../grobalStates/atoms/minLikesCountAtom";
-import { LikesCountFilter } from "../../../components/LikesCountFilter";
-import { ArticleList } from "../../../components/ArticleList";
+import { LikesCountFilter } from "../../../components/FilterArticles/LikesCountFilter";
+import { ArticleList } from "../../../components/common/ArticleList";
 
 // todo 命名難しい、絞り込みページ的な、ワードとリストの件数０だったら検索ページに戻るみたいなことしたい
 const ArticlesBySearchHistoryWord: React.VFC = () => {

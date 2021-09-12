@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
-import { searchWordsSelector } from "../../grobalStates/selectors/searchWordsSelector";
+import { searchWordsSelector } from "../../../grobalStates/selectors/searchWordsSelector";
 
 // 検索履歴コンポーネント
 export const SearchHistoryWords: React.VFC = () => {

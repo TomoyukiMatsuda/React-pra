@@ -1,5 +1,5 @@
 import React from "react";
-import { QiitaItem } from "../../types/QiitaItem";
+import { QiitaItem } from "../../../types/QiitaItem";
 import { ArticleItem } from "./ArticleItem";
 import { SearchWordWithCountLabel } from "./SearchWordWithCountLabel";
 

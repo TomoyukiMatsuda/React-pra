@@ -1,10 +1,9 @@
 import React, { useEffect } from "react";
 import { useListQiitaArticles } from "../hooks/useListQiitaArticles";
-import { ArticleList } from "../components/ArticleList";
-import { SearchForm } from "../components/SearchForm";
+import { SearchForm } from "../components/SearchArticles/SearchForm";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { searchHistoryArticleListSelector } from "../grobalStates/selectors/searchHistoryArticleListSelector";
-import { SearchResultLayout } from "../components/SearchResultLayout";
+import { SearchResult } from "../components/SearchArticles/SearchResult";
 
 const Home: React.VFC = () => {
   const { articles, searchWord, errorMessage, isLoading, fetchArticles } =
@@ -21,7 +20,7 @@ const Home: React.VFC = () => {
   return (
     <div className="max-w-5xl my-0 mx-auto px-12">
       <SearchForm fetchArticles={fetchArticles} />
-      <SearchResultLayout
+      <SearchResult
         articles={articles}
         searchWord={searchWord}
         errorMessage={errorMessage}

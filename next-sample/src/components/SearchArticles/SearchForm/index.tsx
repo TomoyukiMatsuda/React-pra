@@ -1,5 +1,5 @@
 import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
-import { SearchHistoryWords } from "../SearchHistoryWords";
+import { SearchHistoryWords } from "../../common/SearchHistoryWords";
 
 interface Props {
   fetchArticles: (
