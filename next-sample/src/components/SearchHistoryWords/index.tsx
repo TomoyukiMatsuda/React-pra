@@ -1,11 +1,11 @@
 import React from "react";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
-import { searchWordsState } from "../../atoms/searchWordsAtom";
+import { searchWordsSelector } from "../../selectors/searchWordsSelector";
 
 // 検索履歴コンポーネント
 export const SearchHistoryWords: React.VFC = () => {
-  const searchHistoryWords = useRecoilValue(searchWordsState);
+  const searchHistoryWords = useRecoilValue(searchWordsSelector);
 
   return (
     <>

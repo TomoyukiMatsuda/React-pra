@@ -1,4 +1,4 @@
-import { DefaultValue, selectorFamily } from "recoil";
+import { selectorFamily } from "recoil";
 import { QiitaItem } from "../types/QiitaItem";
 import { searchHistoryArticleListState } from "../atoms/searchHistoryArticleListAtom";
 import { minLikesCountState } from "../atoms/minLikesCountAtom";
