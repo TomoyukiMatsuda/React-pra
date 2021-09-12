@@ -4,8 +4,9 @@ import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { searchHistoryArticleListSelector } from "../../../selectors/searchHistoryArticleListSelector";
 import { ArticleItem } from "../../../components/ArticleList/ArticleItem";
 import { minLikesCountState } from "../../../atoms/minLikesCountAtom";
+import { SearchHistoryWords } from "../../../components/SearchHistoryWords";
 
-// todo 命名難しい、絞り込みページ的な
+// todo 命名難しい、絞り込みページ的な、ワードとリストの件数０だったら検索ページに戻るみたいなことしたい
 const ArticlesBySearchHistoryWord: React.VFC = () => {
   const router = useRouter();
   const searchWord = (router.query.word as string) || "";
@@ -32,7 +33,7 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
   // todo: コンポーネントの細分化
   return (
     <div className="max-w-5xl mx-auto px-12">
-      <form className="mt-12 mb-4">
+      <form className="mt-12">
         <label className="block text-gray-700 text-lg font-bold mb-2">
           LGTM👍 数で絞り込み（下限を指定）
         </label>
@@ -44,12 +45,13 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
           onChange={(e) => setMinLikeCount(parseInt(e.target.value) || 0)}
         />
         <button
-          className={`${buttonColor} text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+          className={`${buttonColor} text-white font-bold py-2 px-4 mr-1 rounded focus:outline-none focus:shadow-outline`}
           onClick={onClickReset}
           disabled={minLikesCount === 0}
         >
           リセット
         </button>
+        <SearchHistoryWords />
       </form>
       {searchWord && (
         <p className="mb-4 text-xl">
