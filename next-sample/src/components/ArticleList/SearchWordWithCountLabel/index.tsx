@@ -1,5 +1,5 @@
 import React from "react";
-import { QiitaItem } from "../../types/QiitaItem";
+import { QiitaItem } from "../../../types/QiitaItem";
 
 interface Props {
   searchWord: string;
@@ -7,7 +7,7 @@ interface Props {
 }
 
 // 「検索キーワード と 記事数」ラベルコンポーネント
-export const SearchWordAndArticleCountLabel: React.VFC<Props> = (props) => {
+export const SearchWordWithCountLabel: React.VFC<Props> = (props) => {
   return (
     <>
       {props.searchWord && (

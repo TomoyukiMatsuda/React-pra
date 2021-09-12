@@ -2,10 +2,9 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue, useResetRecoilState } from "recoil";
 import { searchHistoryArticleListSelector } from "../../../grobalStates/selectors/searchHistoryArticleListSelector";
-import { ArticleItem } from "../../../components/ArticleList/ArticleItem";
 import { minLikesCountState } from "../../../grobalStates/atoms/minLikesCountAtom";
 import { LikesCountFilter } from "../../../components/LikesCountFilter";
-import { SearchWordAndArticleCountLabel } from "../../../components/SearchWordAndArticleCountLabel";
+import { ArticleList } from "../../../components/ArticleList";
 
 // todo 命名難しい、絞り込みページ的な、ワードとリストの件数０だったら検索ページに戻るみたいなことしたい
 const ArticlesBySearchHistoryWord: React.VFC = () => {
@@ -14,7 +13,6 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
   const articleList = useRecoilValue(
     searchHistoryArticleListSelector(searchWord)
   );
-
   const resetMinLikesCount = useResetRecoilState(minLikesCountState);
 
   useEffect(() => {
@@ -26,13 +24,7 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
   return (
     <div className="max-w-5xl mx-auto px-12">
       <LikesCountFilter />
-      <SearchWordAndArticleCountLabel
-        searchWord={searchWord}
-        articles={articleList}
-      />
-      {articleList?.map((article) => {
-        return <ArticleItem key={article.id} article={article} />;
-      })}
+      <ArticleList articles={articleList} searchWord={searchWord} />
     </div>
   );
 };
