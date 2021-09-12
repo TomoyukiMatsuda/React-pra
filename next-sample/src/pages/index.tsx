@@ -3,7 +3,7 @@ import { useListQiitaArticles } from "../hooks/useListQiitaArticles";
 import { ArticleList } from "../components/ArticleList";
 import { SearchForm } from "../components/SearchForm";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { searchHistoryArticleListSelector } from "../selectors/searchHistoryArticleListSelector";
+import { searchHistoryArticleListSelector } from "../grobalStates/selectors/searchHistoryArticleListSelector";
 
 const Home: React.VFC = () => {
   const { articles, searchWord, errorMessage, isLoading, fetchArticles } =

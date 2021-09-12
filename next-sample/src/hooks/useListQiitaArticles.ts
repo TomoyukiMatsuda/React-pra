@@ -2,7 +2,7 @@ import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { apiClient } from "../lib/apiClient";
 import { QiitaItem, QiitaItemResponse } from "../types/QiitaItem";
 import { useSetRecoilState } from "recoil";
-import { searchWordsSelector } from "../selectors/searchWordsSelector";
+import { searchWordsSelector } from "../grobalStates/selectors/searchWordsSelector";
 
 // todo 検索成功しても検索結果0件のときのフラグ必要かも isEmpty
 export const useListQiitaArticles = () => {

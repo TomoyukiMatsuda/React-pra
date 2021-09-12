@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue, useResetRecoilState } from "recoil";
-import { searchHistoryArticleListSelector } from "../../../selectors/searchHistoryArticleListSelector";
+import { searchHistoryArticleListSelector } from "../../../grobalStates/selectors/searchHistoryArticleListSelector";
 import { ArticleItem } from "../../../components/ArticleList/ArticleItem";
-import { minLikesCountState } from "../../../atoms/minLikesCountAtom";
+import { minLikesCountState } from "../../../grobalStates/atoms/minLikesCountAtom";
 import { LikesCountFilter } from "../../../components/LikesCountFilter";
 import { SearchWordAndArticleCountLabel } from "../../../components/SearchWordAndArticleCountLabel";
 

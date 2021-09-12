@@ -1,8 +1,9 @@
 import { DefaultValue, selector } from "recoil";
 import { searchWordsState } from "../atoms/searchWordsAtom";
+import { SelectorKeys } from "../recoilKeys";
 
 export const searchWordsSelector = selector<string[]>({
-  key: "searchHistoryArticleListSelector",
+  key: SelectorKeys.SEARCH_WORDS,
   get: ({ get }) => {
     return get(searchWordsState);
   },

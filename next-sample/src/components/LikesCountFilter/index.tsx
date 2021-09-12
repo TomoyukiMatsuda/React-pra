@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { SearchHistoryWords } from "../SearchHistoryWords";
 import { useRecoilState, useResetRecoilState } from "recoil";
-import { minLikesCountState } from "../../atoms/minLikesCountAtom";
+import { minLikesCountState } from "../../grobalStates/atoms/minLikesCountAtom";
 
 // LGTM数絞り込みフォームコンポーネント
 export const LikesCountFilter: React.VFC = () => {
