@@ -19,13 +19,15 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
       ? "bg-red-400 hover:bg-red-300" // フォーム入力有：ブルー
       : "bg-gray-300"; // フォーム入力無：グレー
 
-  const onClickReset = useCallback(
-    (e) => {
-      e.preventDefault(); // リロードを防ぐ
-      resetMinLikesCount();
-    },
-    [resetMinLikesCount]
-  );
+  const onClickReset = useCallback((e) => {
+    e.preventDefault(); // リロードを防ぐ
+    resetMinLikesCount();
+  }, []);
+
+  useEffect(() => {
+    // アンマウント時にLGTM数リセット
+    return () => resetMinLikesCount();
+  }, []);
 
   // todo: コンポーネントの細分化
   return (
