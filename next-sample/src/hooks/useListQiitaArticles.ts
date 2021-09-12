@@ -7,7 +7,7 @@ import { searchWordsSelector } from "../grobalStates/selectors/searchWordsSelect
 // todo 検索成功しても検索結果0件のときのフラグ必要かも isEmpty
 export const useListQiitaArticles = () => {
   const setSearchHistoryWords = useSetRecoilState(searchWordsSelector);
-  const [articles, setArticles] = useState<Array<QiitaItem>>([]);
+  const [articles, setArticles] = useState<QiitaItem[]>([]);
   const [searchWord, setSearchWord] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
@@ -24,7 +24,7 @@ export const useListQiitaArticles = () => {
     // todo: 検索済みだったらAPIを叩かずにキャッシュを利用したい
     // await を付与することでこの処理が終わらない限り次の処理に進まないようになる（これがないとローディング処理などが先に呼ばれてしまう）
     await apiClient
-      .get<Array<QiitaItemResponse>>("/items", {
+      .get<QiitaItemResponse[]>("/items", {
         params: {
           query: formText, // フォーム入力を検索ワードとして設定
           per_page: 100, // 100件 の記事を取得するように設定
