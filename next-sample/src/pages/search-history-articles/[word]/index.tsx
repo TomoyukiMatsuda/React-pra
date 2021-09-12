@@ -51,9 +51,12 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
       </form>
       {searchWord && (
         <p className="mb-4 text-xl">
-          検索キーワード
-          <span className="ml-2 font-bold text-blue-700 border-b-2 border-blue-700">
+          検索キーワード と 記事数：
+          <span className="ml-2 mr-3 font-bold text-blue-700 border-b-2 border-blue-700">
             {searchWord}
+          </span>
+          <span className="font-bold text-blue-700 border-b-2 border-blue-700">
+            {articleList.length} 件
           </span>
         </p>
       )}

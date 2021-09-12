@@ -3,16 +3,15 @@ import Link from "next/link";
 import { useListQiitaArticles } from "../hooks/useListQiitaArticles";
 import { ArticleList } from "../components/ArticleList";
 import { SearchForm } from "../components/SearchForm";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import { useSetRecoilState, useRecoilValue } from "recoil";
 import { searchHistoryArticleListSelector } from "../selectors/searchHistoryArticleListSelector";
 import { searchWordsState } from "../atoms/searchWordsAtom";
 
 const Home: React.VFC = () => {
   const { articles, searchWord, errorMessage, isLoading, fetchArticles } =
     useListQiitaArticles();
-  // グローバルステートをセット
-  const [searchHistoryWords, setSearchHistoryWords] =
-    useRecoilState(searchWordsState);
+  // グローバルステートをセット ここを読み取りだけにする
+  const searchHistoryWords = useRecoilValue(searchWordsState);
   const setSearchHistoryArticleList = useSetRecoilState(
     searchHistoryArticleListSelector(searchWord)
   );
@@ -21,11 +20,6 @@ const Home: React.VFC = () => {
     // グローバルステートをセット
     setSearchHistoryArticleList(articles);
   }, [articles, setSearchHistoryArticleList]);
-
-  useEffect(() => {
-    // グローバルステートをセット
-    setSearchHistoryWords((currVal) => [...currVal, searchWord]);
-  }, [searchWord, setSearchHistoryWords]);
 
   return (
     <div className="max-w-5xl my-0 mx-auto px-12">

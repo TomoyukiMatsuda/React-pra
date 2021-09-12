@@ -1,9 +1,12 @@
 import { Dispatch, FormEvent, SetStateAction, useState } from "react";
 import { apiClient } from "../lib/apiClient";
 import { QiitaItem, QiitaItemResponse } from "../types/QiitaItem";
+import { useSetRecoilState } from "recoil";
+import { searchWordsState } from "../atoms/searchWordsAtom";
 
 // todo 検索成功しても検索結果0件のときのフラグ必要かも isEmpty
 export const useListQiitaArticles = () => {
+  const setSearchHistoryWords = useSetRecoilState(searchWordsState);
   const [articles, setArticles] = useState<Array<QiitaItem>>([]);
   const [searchWord, setSearchWord] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -40,6 +43,11 @@ export const useListQiitaArticles = () => {
         setArticles(searchArticleResponse);
         // 検索キーワードをレスポンスから取得してセット
         setSearchWord(response.config.params.query);
+        // 検索キーワード履歴のリストにセット（グローバルステート）
+        setSearchHistoryWords((currVal) => [
+          response.config.params.query,
+          ...currVal,
+        ]);
       })
       .catch((error) => {
         // エラーメッセージをセット
