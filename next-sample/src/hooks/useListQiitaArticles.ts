@@ -49,12 +49,6 @@ export const useListQiitaArticles = () => {
           response.config.params.query,
           ...currVal,
         ]);
-        // setSearchHistoryWords((currVal) => {
-        //   const newWords = [response.config.params.query, ...currVal];
-        //   console.log("後", Array.from(new Set<string>(newWords)));
-        //
-        //   return Array.from(new Set<string>(newWords));
-        // });
       })
       .catch((error) => {
         // エラーメッセージをセット
