@@ -21,6 +21,7 @@ export const useListQiitaArticles = () => {
     setIsLoading(true); // ローディング開始
     setErrorMessage(""); // エラーメッセージを初期化
 
+    // todo: 検索済みだったらAPIを叩かずにキャッシュを利用したい
     // await を付与することでこの処理が終わらない限り次の処理に進まないようになる（これがないとローディング処理などが先に呼ばれてしまう）
     await apiClient
       .get<Array<QiitaItemResponse>>("/items", {

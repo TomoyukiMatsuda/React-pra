@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue, useResetRecoilState } from "recoil";
 import { searchHistoryArticleListSelector } from "../../../selectors/searchHistoryArticleListSelector";
@@ -32,7 +32,7 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
     <div className="max-w-5xl mx-auto px-12">
       <form className="mt-12 mb-4">
         <label className="block text-gray-700 text-lg font-bold mb-2">
-          LGTM 数で絞り込み（下限を指定）
+          LGTM👍 数で絞り込み（下限を指定）
         </label>
         <input
           className="shadow appearance-none border rounded py-2 px-3 mr-2 mb-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
