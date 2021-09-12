@@ -1,6 +1,6 @@
 import React from "react";
 import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { searchHistoryArticleListSelector } from "../../../selectors/searchHistoryArticleListSelector";
 import { ArticleItem } from "../../../components/ArticleList/ArticleItem";
 
@@ -12,6 +12,7 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
   const articleList = useRecoilValue(
     searchHistoryArticleListSelector(searchWord)
   );
+  //const [minLikeCount, setMinLikeCount] = useRecoilState()
 
   return (
     <div className="max-w-5xl mx-auto px-12">
@@ -20,7 +21,7 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
         // onSubmit={(e) => fetchArticles(e)}
       >
         <label className="block text-gray-700 text-lg font-bold mb-2">
-          LGTM 数で絞り込み
+          LGTM 数で絞り込み（下限を指定）
         </label>
         <input
           className="shadow appearance-none border rounded py-2 px-3 mb-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
