@@ -44,11 +44,14 @@ export const useListQiitaArticles = () => {
         setArticles(searchArticleResponse);
         // 検索キーワードをレスポンスから取得してセット
         setSearchWord(response.config.params.query);
-        // 検索キーワード履歴のリストにセット（グローバルステート）
-        setSearchHistoryWords((currVal) => [
-          response.config.params.query,
-          ...currVal,
-        ]);
+
+        // 検索結果が1件以上ある場合だけ検索履歴ワードをセットする（グローバルステート）
+        if (searchArticleResponse.length !== 0) {
+          setSearchHistoryWords((currVal) => [
+            response.config.params.query,
+            ...currVal,
+          ]);
+        }
       })
       .catch((error) => {
         // エラーメッセージをセット
