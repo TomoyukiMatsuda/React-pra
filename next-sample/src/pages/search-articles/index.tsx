@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { useListQiitaArticles } from "../hooks/useListQiitaArticles";
-import { SearchForm } from "../components/SearchArticles/SearchForm";
-import { useSetRecoilState, useRecoilValue } from "recoil";
-import { searchHistoryArticleListSelector } from "../grobalStates/selectors/searchHistoryArticleListSelector";
-import { SearchResult } from "../components/SearchArticles/SearchResult";
+import { useListQiitaArticles } from "../../hooks/useListQiitaArticles";
+import { SearchForm } from "../../components/SearchArticles/SearchForm";
+import { useSetRecoilState } from "recoil";
+import { searchHistoryArticleListSelector } from "../../grobalStates/selectors/searchHistoryArticleListSelector";
+import { SearchResult } from "../../components/SearchArticles/SearchResult";
+import { BaseContainer } from "../../components/BaseContainer";
 
 const Home: React.VFC = () => {
   const { articles, searchWord, errorMessage, isLoading, fetchArticles } =
@@ -18,7 +19,7 @@ const Home: React.VFC = () => {
   }, [articles, setSearchHistoryArticleList]);
 
   return (
-    <div className="max-w-5xl my-0 mx-auto px-12">
+    <BaseContainer>
       <SearchForm fetchArticles={fetchArticles} />
       <SearchResult
         articles={articles}
@@ -26,7 +27,7 @@ const Home: React.VFC = () => {
         errorMessage={errorMessage}
         isLoading={isLoading}
       />
-    </div>
+    </BaseContainer>
   );
 };
 

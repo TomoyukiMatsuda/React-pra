@@ -5,6 +5,7 @@ import { searchHistoryArticleListSelector } from "../../../grobalStates/selector
 import { minLikesCountState } from "../../../grobalStates/atoms/minLikesCountAtom";
 import { LikesCountFilter } from "../../../components/FilterArticles/LikesCountFilter";
 import { ArticleList } from "../../../components/common/ArticleList";
+import { BaseContainer } from "../../../components/BaseContainer";
 
 // todo 命名難しい、絞り込みページ的な、ワードとリストの件数０だったら検索ページに戻るみたいなことしたい
 const ArticlesBySearchHistoryWord: React.VFC = () => {
@@ -22,10 +23,10 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
 
   // todo: コンポーネントの細分化
   return (
-    <div className="max-w-5xl mx-auto px-12">
+    <BaseContainer>
       <LikesCountFilter />
       <ArticleList articles={articleList} searchWord={searchWord} />
-    </div>
+    </BaseContainer>
   );
 };
 

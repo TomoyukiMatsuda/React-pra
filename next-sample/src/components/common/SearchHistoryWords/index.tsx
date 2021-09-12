@@ -14,7 +14,7 @@ export const SearchHistoryWords: React.VFC = () => {
           return (
             <Link
               key={`${searchHistoryWord}_${index}`}
-              href={`/search-history-articles/${searchHistoryWord}`}
+              href={`/filter-articles/${searchHistoryWord}`}
             >
               <span className="p-2 mx-1 bg-green-100 text-green-800 rounded-lg shadow cursor-pointer">
                 {searchHistoryWord}
