@@ -23,7 +23,7 @@ export const useListQiitaArticles = () => {
       .get<Array<QiitaItemResponse>>("/items", {
         params: {
           query: formText, // フォーム入力を検索ワードとして設定
-          per_page: 25, // 25件 の記事を取得するように設定
+          per_page: 100, // 100件 の記事を取得するように設定
         },
       })
       .then((response) => {
