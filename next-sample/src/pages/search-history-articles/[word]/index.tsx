@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { searchHistoryArticleListSelector } from "../../../selectors/searchHistoryArticleListSelector";
 import { ArticleItem } from "../../../components/ArticleList/ArticleItem";
+import { minLikesCountState } from "../../../atoms/minLikesCountAtom";
 
 // todo 命名難しい、絞り込みページ的な
 const ArticlesBySearchHistoryWord: React.VFC = () => {
@@ -12,14 +13,11 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
   const articleList = useRecoilValue(
     searchHistoryArticleListSelector(searchWord)
   );
-  //const [minLikeCount, setMinLikeCount] = useRecoilState()
+  const [minLikesCount, setMinLikeCount] = useRecoilState(minLikesCountState);
 
   return (
     <div className="max-w-5xl mx-auto px-12">
-      <form
-        className="mt-12 mb-4"
-        // onSubmit={(e) => fetchArticles(e)}
-      >
+      <form className="mt-12 mb-4">
         <label className="block text-gray-700 text-lg font-bold mb-2">
           LGTM 数で絞り込み（下限を指定）
         </label>
@@ -27,8 +25,8 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
           className="shadow appearance-none border rounded py-2 px-3 mb-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
           type="number"
           min="0"
-          // value={formText}
-          // onChange={(e) => setFormText(e.target.value)}
+          value={minLikesCount}
+          onChange={(e) => setMinLikeCount(parseInt(e.target.value) || 0)}
         />
       </form>
       {searchWord && (
