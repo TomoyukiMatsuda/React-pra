@@ -9,6 +9,7 @@ interface Props {
   isLoading: boolean;
 }
 
+// 検索結果表示コンポーネント
 export const SearchResult: React.VFC<Props> = (props) => {
   // ローディング中
   if (props.isLoading) {

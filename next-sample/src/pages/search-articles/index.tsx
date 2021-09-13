@@ -6,6 +6,7 @@ import { searchHistoryArticleListSelector } from "../../grobalStates/selectors/s
 import { SearchResult } from "../../components/SearchArticles/SearchResult";
 import { BaseContainer } from "../../components/BaseContainer";
 
+// Qiita記事検索ページ
 const SearchArticles: React.VFC = () => {
   const { articles, searchWord, errorMessage, isLoading, fetchArticles } =
     useListQiitaArticles();

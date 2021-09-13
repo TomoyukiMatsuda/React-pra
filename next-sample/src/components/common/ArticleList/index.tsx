@@ -8,6 +8,7 @@ interface Props {
   searchWord: string;
 }
 
+// Qiita記事リスト＋検索キーワードと記事数表示コンポーネント
 export const ArticleList: React.VFC<Props> = (props) => {
   return (
     <>

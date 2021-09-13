@@ -7,7 +7,7 @@ import { LikesCountFilter } from "../../../components/FilterArticles/LikesCountF
 import { ArticleList } from "../../../components/common/ArticleList";
 import { BaseContainer } from "../../../components/BaseContainer";
 
-// todo 絞り込みページ的な、ワードとリストの件数０だったら検索ページに戻るみたいなことしたい
+// LGTM数でQiita記事絞り込みページ
 const FilterArticlesByWord: React.VFC = () => {
   const router = useRouter();
   const searchWord = (router.query.word as string) || "";

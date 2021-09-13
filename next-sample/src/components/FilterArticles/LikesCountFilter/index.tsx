@@ -3,7 +3,7 @@ import { SearchHistoryWords } from "../../common/SearchHistoryWords";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { minLikesCountState } from "../../../grobalStates/atoms/minLikesCountAtom";
 
-// LGTM数絞り込みフォームコンポーネント
+// LGTM数でQiita記事絞り込みフォームコンポーネント
 export const LikesCountFilter: React.VFC = () => {
   const [minLikesCount, setMinLikeCount] = useRecoilState(minLikesCountState);
   const resetMinLikesCount = useResetRecoilState(minLikesCountState);

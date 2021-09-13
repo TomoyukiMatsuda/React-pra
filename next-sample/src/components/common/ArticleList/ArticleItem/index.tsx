@@ -5,6 +5,7 @@ interface Props {
   article: QiitaItem;
 }
 
+// Qiita記事アイテムコンポーネント
 export const ArticleItem: React.VFC<Props> = ({ article }) => {
   return (
     <div className="mb-3 py-2 px-8 bg-blue-100 rounded-lg shadow">
