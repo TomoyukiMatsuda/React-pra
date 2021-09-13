@@ -12,15 +12,15 @@ export const searchHistoryArticleListSelector = selectorFamily<
 >({
   key: SelectorKeys.SEARCH_HISTORY_ARTICLE_LIST,
   get:
-    (key) =>
+    (id) =>
     ({ get }) => {
-      return get(searchHistoryArticleListState(key)).filter((item) => {
+      return get(searchHistoryArticleListState(id)).filter((item) => {
         return item.likes_count >= get(minLikesCountState);
       });
     },
   set:
-    (key) =>
+    (id) =>
     ({ set }, newValue) => {
-      set(searchHistoryArticleListState(key), newValue);
+      set(searchHistoryArticleListState(id), newValue);
     },
 });
