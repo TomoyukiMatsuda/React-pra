@@ -8,9 +8,7 @@ export const LikesCountFilter: React.VFC = () => {
   const [minLikesCount, setMinLikeCount] = useRecoilState(minLikesCountState);
   const resetMinLikesCount = useResetRecoilState(minLikesCountState);
   const buttonColor =
-    minLikesCount !== 0
-      ? "bg-red-400 hover:bg-red-300" // フォーム入力有：ブルー
-      : "bg-gray-300"; // フォーム入力無：グレー
+    minLikesCount !== 0 ? "bg-red-400 hover:bg-red-300" : "bg-gray-300";
 
   const onClickReset = useCallback((e) => {
     e.preventDefault(); // リロードを防ぐ
@@ -18,7 +16,7 @@ export const LikesCountFilter: React.VFC = () => {
   }, []);
 
   return (
-    <form className="mt-12 mb-2">
+    <form className="mt-3 mb-2">
       <label className="block text-gray-700 text-lg font-bold mb-2">
         LGTM👍 数で絞り込み（下限を指定）
       </label>

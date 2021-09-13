@@ -23,6 +23,12 @@ const FilterArticlesByWord: React.VFC = () => {
 
   return (
     <BaseContainer>
+      <button
+        className={`bg-red-400 hover:bg-red-300 text-white font-bold mt-2 py-1 px-3 rounded focus:outline-none focus:shadow-outline`}
+        onClick={() => router.push("/search-articles")}
+      >
+        ＜ もどる
+      </button>
       <LikesCountFilter />
       <ArticleList articles={articleList} searchWord={searchWord} />
     </BaseContainer>
