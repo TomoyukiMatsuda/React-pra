@@ -6,7 +6,7 @@ import { searchHistoryArticleListSelector } from "../../grobalStates/selectors/s
 import { SearchResult } from "../../components/SearchArticles/SearchResult";
 import { BaseContainer } from "../../components/BaseContainer";
 
-const Home: React.VFC = () => {
+const SearchArticles: React.VFC = () => {
   const { articles, searchWord, errorMessage, isLoading, fetchArticles } =
     useListQiitaArticles();
   const setSearchHistoryArticleList = useSetRecoilState(
@@ -31,4 +31,4 @@ const Home: React.VFC = () => {
   );
 };
 
-export default Home;
+export default SearchArticles;

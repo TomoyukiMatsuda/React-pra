@@ -7,8 +7,8 @@ import { LikesCountFilter } from "../../../components/FilterArticles/LikesCountF
 import { ArticleList } from "../../../components/common/ArticleList";
 import { BaseContainer } from "../../../components/BaseContainer";
 
-// todo 命名難しい、絞り込みページ的な、ワードとリストの件数０だったら検索ページに戻るみたいなことしたい
-const ArticlesBySearchHistoryWord: React.VFC = () => {
+// todo 絞り込みページ的な、ワードとリストの件数０だったら検索ページに戻るみたいなことしたい
+const FilterArticlesByWord: React.VFC = () => {
   const router = useRouter();
   const searchWord = (router.query.word as string) || "";
   const articleList = useRecoilValue(
@@ -21,7 +21,6 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
     return () => resetMinLikesCount();
   }, []);
 
-  // todo: コンポーネントの細分化
   return (
     <BaseContainer>
       <LikesCountFilter />
@@ -30,4 +29,4 @@ const ArticlesBySearchHistoryWord: React.VFC = () => {
   );
 };
 
-export default ArticlesBySearchHistoryWord;
+export default FilterArticlesByWord;
