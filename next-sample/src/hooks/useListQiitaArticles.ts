@@ -3,26 +3,20 @@ import { apiClient } from "../lib/apiClient";
 import { QiitaItem, QiitaItemResponse } from "../types/QiitaItem";
 
 export const useListQiitaArticles = () => {
-  const [articles, setArticles] = useState<Array<QiitaItem>>([]);
-  const [searchWord, setSearchWord] = useState("");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [articles, setArticles] = useState<QiitaItem[]>([]);
 
   const fetchArticles = async (
     e: FormEvent<HTMLFormElement>,
     formText: string,
     setFormText: Dispatch<SetStateAction<string>>
   ) => {
-    e.preventDefault(); // フォームのデフォルトの動作（リロード）を防ぐ
-    setIsLoading(true); // ローディング開始
-    setErrorMessage(""); // エラーメッセージを初期化
+    e.preventDefault();
 
-    // await を付与することでこの処理が終わらない限り次の処理に進まないようになる（これがないとローディング処理などが先に呼ばれてしまう）
     await apiClient
       .get<Array<QiitaItemResponse>>("/items", {
         params: {
-          query: formText, // フォーム入力を検索ワードとして設定
-          per_page: 25, // 25件 の記事を取得するように設定
+          query: formText,
+          per_page: 25,
         },
       })
       .then((response) => {
@@ -37,24 +31,16 @@ export const useListQiitaArticles = () => {
             };
           })
         );
-
-        // 検索キーワードをレスポンスから取得してセット
-        setSearchWord(response.config.params.query);
       })
       .catch((error) => {
-        // エラーメッセージをセット
-        setErrorMessage(error.message);
+        // エラー
+        console.log("エラー");
       });
-
-    setIsLoading(false); // ローディング終了
     setFormText(""); // 最終的にフォーム入力を空にする
   };
 
   return {
     articles,
-    searchWord,
-    errorMessage,
-    isLoading,
     fetchArticles,
   };
 };
