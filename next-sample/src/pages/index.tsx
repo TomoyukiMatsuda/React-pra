@@ -4,12 +4,13 @@ import { ArticleList } from "../components/ArticleList";
 import { SearchForm } from "../components/SearchForm";
 
 const Home: React.VFC = () => {
-  const { articles, fetchArticles } = useListQiitaArticles();
-
+  // const { articles, fetchArticles } = useListQiitaArticles();
   return (
     <div className="max-w-5xl my-0 mx-auto px-12">
-      <SearchForm fetchArticles={fetchArticles} />
-      <ArticleList articles={articles} />
+      {/*<SearchForm fetchArticles={fetchArticles} />*/}
+      <SearchForm />
+      {/*<ArticleList articles={articles} />*/}
+      <ArticleList />
     </div>
   );
 };
