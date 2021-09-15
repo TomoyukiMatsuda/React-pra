@@ -1,22 +1,28 @@
 import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { useListQiitaArticles } from "../../hooks/useListQiitaArticles";
 
-interface Props {
-  fetchArticles: (
-    e: FormEvent<HTMLFormElement>,
-    formText: string,
-    setFormText: Dispatch<SetStateAction<string>>
-  ) => void;
-}
+// interface Props {
+//   fetchArticles: (
+//     e: FormEvent<HTMLFormElement>,
+//     formText: string,
+//     setFormText: Dispatch<SetStateAction<string>>
+//   ) => void;
+// }
 
-export const SearchForm: React.VFC<Props> = (props) => {
+// export const SearchForm: React.VFC<Props> = (props) => {
+export const SearchForm: React.VFC = () => {
   const [formText, setFormText] = useState<string>("");
   const buttonColor = formText
-    ? "bg-blue-700 hover:bg-blue-500" // フォーム入力有：ブルー
-    : "bg-gray-300"; // フォーム入力無：グレー
+    ? "bg-blue-700 hover:bg-blue-500"
+    : "bg-gray-300";
+
+  const { fetchArticles } = useListQiitaArticles();
+
   return (
     <form
       className="mt-12 mb-6"
-      onSubmit={(e) => props.fetchArticles(e, formText, setFormText)}
+      // onSubmit={(e) => props.fetchArticles(e, formText, setFormText)}
+      onSubmit={(e) => fetchArticles(e, formText, setFormText)}
     >
       <label className="block text-gray-700 text-lg font-bold mb-2">
         Qiita 記事 検索キーワードを入力
