@@ -3,7 +3,7 @@ import { searchWordsState } from "../atoms/searchWordsAtom";
 import { SelectorKeys } from "../recoilKeys";
 
 export const searchWordsSelector = selector<string[]>({
-  key: SelectorKeys.SEARCH_WORDS,
+  key: SelectorKeys.SEARCH_WORDS_SELECTOR,
   get: ({ get }) => {
     return get(searchWordsState);
   },

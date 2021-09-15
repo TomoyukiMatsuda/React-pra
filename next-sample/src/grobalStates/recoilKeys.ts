@@ -1,10 +1,12 @@
+// Atomを管理するキー
 export enum AtomKeys {
-  SEARCH_HISTORY_ARTICLE_LIST_STATE = "searchHistoryArticleListState",
+  ARTICLE_LIST_STATE = "articleListState",
   SEARCH_WORDS_STATE = "searchWordsState",
   MIN_LIKES_COUNT_STATE = "minLikesCountState",
 }
 
+// Selectorを管理するキー
 export enum SelectorKeys {
-  SEARCH_HISTORY_ARTICLE_LIST = "searchHistoryArticleListSelector",
-  SEARCH_WORDS = "searchWordsSelector",
+  ARTICLE_LIST_SELECTOR = "articleListSelector",
+  SEARCH_WORDS_SELECTOR = "searchWordsSelector",
 }

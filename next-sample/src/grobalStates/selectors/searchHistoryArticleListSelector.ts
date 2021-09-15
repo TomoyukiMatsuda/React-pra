@@ -1,6 +1,6 @@
 import { selectorFamily } from "recoil";
 import { QiitaItem } from "../../types/QiitaItem";
-import { searchHistoryArticleListState } from "../atoms/searchHistoryArticleListAtom";
+import { articleListState } from "../atoms/articleListAtom";
 import { minLikesCountState } from "../atoms/minLikesCountAtom";
 import { SelectorKeys } from "../recoilKeys";
 
@@ -10,17 +10,17 @@ export const searchHistoryArticleListSelector = selectorFamily<
   QiitaItem[],
   string
 >({
-  key: SelectorKeys.SEARCH_HISTORY_ARTICLE_LIST,
+  key: SelectorKeys.ARTICLE_LIST_SELECTOR,
   get:
     (id) =>
     ({ get }) => {
-      return get(searchHistoryArticleListState(id)).filter((item) => {
+      return get(articleListState(id)).filter((item) => {
         return item.likes_count >= get(minLikesCountState);
       });
     },
   set:
     (id) =>
     ({ set }, newValue) => {
-      set(searchHistoryArticleListState(id), newValue);
+      set(articleListState(id), newValue);
     },
 });
