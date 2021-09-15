@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue, useResetRecoilState } from "recoil";
-import { searchHistoryArticleListSelector } from "../../../grobalStates/selectors/searchHistoryArticleListSelector";
+import { articleListSelector } from "../../../grobalStates/selectors/articleListSelector";
 import { minLikesCountState } from "../../../grobalStates/atoms/minLikesCountAtom";
 import { LikesCountFilter } from "../../../components/FilterArticles/LikesCountFilter";
 import { ArticleList } from "../../../components/common/ArticleList";
@@ -11,9 +11,7 @@ import { BaseContainer } from "../../../components/BaseContainer";
 const FilterArticlesByWord: React.VFC = () => {
   const router = useRouter();
   const searchWord = (router.query.word as string) || "";
-  const articleList = useRecoilValue(
-    searchHistoryArticleListSelector(searchWord)
-  );
+  const articleList = useRecoilValue(articleListSelector(searchWord));
   const resetMinLikesCount = useResetRecoilState(minLikesCountState);
 
   useEffect(() => {

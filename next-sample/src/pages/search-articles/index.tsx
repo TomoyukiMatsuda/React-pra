@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useListQiitaArticles } from "../../hooks/useListQiitaArticles";
 import { SearchForm } from "../../components/SearchArticles/SearchForm";
 import { useSetRecoilState } from "recoil";
-import { searchHistoryArticleListSelector } from "../../grobalStates/selectors/searchHistoryArticleListSelector";
+import { articleListSelector } from "../../grobalStates/selectors/articleListSelector";
 import { SearchResult } from "../../components/SearchArticles/SearchResult";
 import { BaseContainer } from "../../components/BaseContainer";
 
@@ -11,7 +11,7 @@ const SearchArticles: React.VFC = () => {
   const { articles, searchWord, errorMessage, isLoading, fetchArticles } =
     useListQiitaArticles();
   const setSearchHistoryArticleList = useSetRecoilState(
-    searchHistoryArticleListSelector(searchWord)
+    articleListSelector(searchWord)
   );
 
   useEffect(() => {
