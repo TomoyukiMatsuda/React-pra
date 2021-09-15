@@ -22,7 +22,7 @@ const FilterArticlesByWord: React.VFC = () => {
   return (
     <BaseContainer>
       <button
-        className={`bg-red-400 hover:bg-red-300 text-white font-bold mt-2 py-1 px-3 rounded focus:outline-none focus:shadow-outline`}
+        className={`bg-blue-500 hover:bg-blue-400 text-white font-bold mt-2 py-1 px-3 rounded focus:outline-none focus:shadow-outline`}
         onClick={() => router.push("/search-articles")}
       >
         ＜ もどる

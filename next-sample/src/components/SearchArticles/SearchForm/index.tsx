@@ -13,7 +13,7 @@ interface Props {
 export const SearchForm: React.VFC<Props> = (props) => {
   const [formText, setFormText] = useState<string>("");
   const buttonColor = formText
-    ? "bg-blue-700 hover:bg-blue-500"
+    ? "bg-blue-500 hover:bg-blue-400"
     : "bg-gray-300";
 
   return (
