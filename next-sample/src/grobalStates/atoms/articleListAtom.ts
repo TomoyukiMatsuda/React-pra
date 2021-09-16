@@ -4,6 +4,6 @@ import { AtomKeys } from "../recoilKeys";
 
 // searchArticleList（Qiita記事リスト）のAtom（データストア）
 export const articleListState = atomFamily<QiitaItem[], string>({
-  key: AtomKeys.ARTICLE_LIST_STATE, // プロジェクトで固有のキー
-  default: [], // 初期値
+  key: AtomKeys.ARTICLE_LIST_STATE,
+  default: [],
 });

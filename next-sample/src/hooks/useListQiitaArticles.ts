@@ -10,7 +10,6 @@ import { QiitaItem, QiitaItemResponse } from "../types/QiitaItem";
 import { useSetRecoilState } from "recoil";
 import { searchWordsSelector } from "../grobalStates/selectors/searchWordsSelector";
 
-// todo 検索成功しても検索結果0件のときのフラグ必要かも isEmpty
 export const useListQiitaArticles = () => {
   const setSearchHistoryWords = useSetRecoilState(searchWordsSelector);
   const [articles, setArticles] = useState<QiitaItem[]>([]);
@@ -28,8 +27,6 @@ export const useListQiitaArticles = () => {
       setIsLoading(true); // ローディング開始
       setErrorMessage(""); // エラーメッセージを初期化
 
-      // todo: 検索済みだったらAPIを叩かずにキャッシュを利用したい
-      // await を付与することでこの処理が終わらない限り次の処理に進まないようになる（これがないとローディング処理などが先に呼ばれてしまう）
       await apiClient
         .get<QiitaItemResponse[]>("/items", {
           params: {
@@ -38,8 +35,7 @@ export const useListQiitaArticles = () => {
           },
         })
         .then((response) => {
-          // レスポンスから利用したい要素の QiitaItem 型 の配列
-          // TODO: この処理不要そう
+          // データを利用したい値だけの形に整形
           const searchArticleResponse = response.data.map<QiitaItem>((d) => {
             return {
               id: d.id,
@@ -50,8 +46,7 @@ export const useListQiitaArticles = () => {
           });
 
           setArticles(searchArticleResponse);
-          // 検索キーワードをレスポンスから取得してセット
-          setSearchWord(response.config.params.query);
+          setSearchWord(response.config.params.query); // 検索キーワードをレスポンスから取得してセット
 
           // 検索結果が1件以上ある場合だけ検索履歴ワードをセットする（グローバルステート）
           if (searchArticleResponse.length !== 0) {
@@ -62,8 +57,7 @@ export const useListQiitaArticles = () => {
           }
         })
         .catch((error) => {
-          // エラーメッセージをセット
-          setErrorMessage(error.message);
+          setErrorMessage(error.message); // エラーメッセージをセット
         });
 
       setIsLoading(false); // ローディング終了
