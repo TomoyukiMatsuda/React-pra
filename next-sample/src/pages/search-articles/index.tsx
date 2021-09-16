@@ -21,7 +21,7 @@ const SearchArticles: React.VFC = () => {
 
   return (
     <BaseContainer>
-      <SearchForm fetchArticles={fetchArticles} />
+      <SearchForm fetchArticles={fetchArticles} isLoading={isLoading} />
       <SearchResult
         articles={articles}
         searchWord={searchWord}
