@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { SearchHistoryWords } from "../../common/SearchHistoryWords";
 import { useRecoilState, useResetRecoilState } from "recoil";
 import { minLikesCountState } from "../../../grobalStates/atoms/minLikesCountAtom";
@@ -13,6 +13,11 @@ export const LikesCountFilter: React.VFC = () => {
   const onClickReset = useCallback((e) => {
     e.preventDefault(); // リロードを防ぐ
     resetMinLikesCount();
+  }, []);
+
+  useEffect(() => {
+    // アンマウント時にLGTM数リセット
+    return () => resetMinLikesCount();
   }, []);
 
   return (
