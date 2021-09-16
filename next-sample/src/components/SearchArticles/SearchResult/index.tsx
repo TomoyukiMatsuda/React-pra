@@ -14,7 +14,9 @@ export const SearchResult: React.VFC<Props> = (props) => {
   // ローディング中
   if (props.isLoading) {
     return (
-      <p className="mb-2 p-8 bg-yellow-100 rounded-lg">ローディング.......</p>
+      <p className="mb-2 p-8 bg-yellow-100 rounded-lg">
+        ローディング中.......やで
+      </p>
     );
   }
   // エラー（API失敗）
