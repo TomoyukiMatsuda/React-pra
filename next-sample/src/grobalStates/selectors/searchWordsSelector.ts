@@ -11,6 +11,8 @@ export const searchWordsSelector = selector<string[]>({
     // 型がDefaultValueであれば return
     if (newValue instanceof DefaultValue) return;
     // 重複を防いだ値をセットする
-    set(searchWordsState, Array.from(new Set<string>(newValue)));
+    set(searchWordsState, (currVal) => {
+      return Array.from(new Set<string>([...newValue, ...currVal]));
+    });
   },
 });

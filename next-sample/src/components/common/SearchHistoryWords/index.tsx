@@ -5,12 +5,12 @@ import { searchWordsSelector } from "../../../grobalStates/selectors/searchWords
 
 // 検索履歴リンクコンポーネント
 export const SearchHistoryWords: React.VFC = () => {
-  const searchHistoryWords = useRecoilValue(searchWordsSelector);
+  const searchWords = useRecoilValue(searchWordsSelector);
 
   return (
     <>
-      {searchHistoryWords.length !== 0 &&
-        searchHistoryWords?.map((searchHistoryWord, index) => {
+      {searchWords.length !== 0 &&
+        searchWords?.map((searchHistoryWord, index) => {
           return (
             <Link
               key={`${searchHistoryWord}_${index}`}

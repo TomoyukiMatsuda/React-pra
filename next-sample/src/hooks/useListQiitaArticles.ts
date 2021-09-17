@@ -11,7 +11,7 @@ import { useSetRecoilState } from "recoil";
 import { searchWordsSelector } from "../grobalStates/selectors/searchWordsSelector";
 
 export const useListQiitaArticles = () => {
-  const setSearchHistoryWords = useSetRecoilState(searchWordsSelector);
+  const setSearchWords = useSetRecoilState(searchWordsSelector);
   const [articles, setArticles] = useState<QiitaItem[]>([]);
   const [searchWord, setSearchWord] = useState("");
   const [errorMessage, setErrorMessage] = useState<string>("");
@@ -50,10 +50,8 @@ export const useListQiitaArticles = () => {
 
           // 検索結果が1件以上ある場合だけ検索履歴ワードをセットする（グローバルステート）
           if (searchArticleResponse.length !== 0) {
-            setSearchHistoryWords((currVal) => [
-              response.config.params.query,
-              ...currVal,
-            ]);
+            // セットする値は配列なので、検索キーワード１件だけの配列をセット
+            setSearchWords([response.config.params.query]);
           }
         })
         .catch((error) => {
@@ -63,13 +61,7 @@ export const useListQiitaArticles = () => {
       setIsLoading(false); // ローディング終了
       setFormText(""); // 最終的にフォーム入力を空にする
     },
-    [
-      setIsLoading,
-      setErrorMessage,
-      setArticles,
-      setSearchWord,
-      setSearchHistoryWords,
-    ]
+    [setIsLoading, setErrorMessage, setArticles, setSearchWord, setSearchWords]
   );
 
   return {

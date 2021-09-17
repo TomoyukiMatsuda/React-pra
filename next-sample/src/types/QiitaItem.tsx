@@ -1,4 +1,4 @@
-// アプリ内で利用するためのQiita記事型定義
+// アプリ内で利用するための値を持つQiita記事型定義
 export type QiitaItem = Pick<
   QiitaItemResponse,
   "id" | "title" | "likes_count" | "user"
