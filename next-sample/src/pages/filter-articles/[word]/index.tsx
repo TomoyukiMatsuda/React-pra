@@ -9,7 +9,7 @@ import { BaseContainer } from "../../../components/BaseContainer";
 // LGTM数でQiita記事絞り込みページ
 const FilterArticlesByWord: React.VFC = () => {
   const router = useRouter();
-  const searchWord = (router.query.word as string) || "";
+  const searchWord = (router.query.word as string) || ""; // router.query.word の word はディレクトリ名[word]に対応している
   const articleList = useRecoilValue(articleListSelector(searchWord));
 
   return (

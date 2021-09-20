@@ -10,14 +10,15 @@ import { BaseContainer } from "../../components/BaseContainer";
 const SearchArticles: React.VFC = () => {
   const { articles, searchWord, errorMessage, isLoading, fetchArticles } =
     useListQiitaArticles();
-  const setSearchHistoryArticleList = useSetRecoilState(
+  // 検索キーワードを引数に渡した articleListSelector のセッター
+  const setSearchArticleList = useSetRecoilState(
     articleListSelector(searchWord)
   );
 
   useEffect(() => {
     // グローバルステートをセット
-    setSearchHistoryArticleList(articles);
-  }, [articles, setSearchHistoryArticleList]);
+    setSearchArticleList(articles);
+  }, [articles, setSearchArticleList]);
 
   return (
     <BaseContainer>
