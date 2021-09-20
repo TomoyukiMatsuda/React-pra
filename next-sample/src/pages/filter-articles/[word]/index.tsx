@@ -2,7 +2,7 @@ import React from "react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { articleListSelector } from "../../../grobalStates/selectors/articleListSelector";
-import { LikesCountFilter } from "../../../components/FilterArticles/LikesCountFilter";
+import { LikesCountFilter } from "../../../components/FilterArticlesPage/LikesCountFilter";
 import { ArticleList } from "../../../components/common/ArticleList";
 import { BaseContainer } from "../../../components/BaseContainer";
 

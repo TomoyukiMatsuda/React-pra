@@ -8,8 +8,7 @@ export const searchWordsSelector = selector<string[]>({
     return get(searchWordsState);
   },
   set: ({ set }, newValue) => {
-    // 型がDefaultValueであれば return
-    if (newValue instanceof DefaultValue) return;
+    if (newValue instanceof DefaultValue) return; // 型がDefaultValueであれば return
     // 重複を防いだ値をセットする
     set(searchWordsState, (currVal) => {
       return Array.from(new Set<string>([...newValue, ...currVal]));
