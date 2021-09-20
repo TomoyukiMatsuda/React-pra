@@ -45,8 +45,8 @@ export const useListQiitaArticles = () => {
             };
           });
 
-          setArticles(searchArticleResponse);
           setSearchWord(response.config.params.query); // 検索キーワードをレスポンスから取得してセット
+          setArticles(searchArticleResponse);
 
           // 検索結果が1件以上ある場合だけ検索履歴ワードをセットする（グローバルステート）
           if (searchArticleResponse.length !== 0) {
