@@ -26,7 +26,7 @@ export const LikesCountFilter: React.VFC = () => {
         LGTM👍 数で絞り込み（下限を指定）
       </label>
       <input
-        className="shadow appearance-none border rounded py-2 px-3 mr-2 mb-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        className="w-24 shadow appearance-none border rounded py-2 px-3 mr-2 mb-4 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
         type="number"
         min="0"
         value={minLikesCount}
