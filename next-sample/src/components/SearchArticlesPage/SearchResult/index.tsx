@@ -1,19 +1,22 @@
 import React from "react";
-import { QiitaItem } from "../../types/QiitaItem";
-import { ArticleItem } from "./ArticleItem";
+import { QiitaItem } from "../../../types/QiitaItem";
+import { ArticleList } from "../../common/ArticleList";
 
 interface Props {
-  articles: Array<QiitaItem>;
+  articles: QiitaItem[];
   searchWord: string;
   errorMessage: string;
   isLoading: boolean;
 }
 
-export const ArticleList: React.VFC<Props> = (props) => {
+// 検索結果表示コンポーネント
+export const SearchResult: React.VFC<Props> = (props) => {
   // ローディング中
   if (props.isLoading) {
     return (
-      <p className="mb-2 p-8 bg-yellow-100 rounded-lg">ローディング.......</p>
+      <p className="mb-2 p-8 bg-yellow-100 rounded-lg">
+        ローディング中.......やで
+      </p>
     );
   }
   // エラー（API失敗）
@@ -34,20 +37,7 @@ export const ArticleList: React.VFC<Props> = (props) => {
       </p>
     );
   }
-
   return (
-    <>
-      {props.searchWord && (
-        <p className="mb-4 text-xl">
-          検索キーワード
-          <span className="ml-2 font-bold text-blue-700 border-b-2 border-blue-700">
-            {props.searchWord}
-          </span>
-        </p>
-      )}
-      {props.articles?.map((article) => {
-        return <ArticleItem key={article.id} article={article} />;
-      })}
-    </>
+    <ArticleList articles={props.articles} searchWord={props.searchWord} />
   );
 };
