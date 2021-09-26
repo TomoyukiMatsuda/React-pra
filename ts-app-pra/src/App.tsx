@@ -163,7 +163,22 @@ const convertedObjArr = objArr.map((obj) => {
   );
 });
 
-console.log(convertedObjArr);
+//console.log(convertedObjArr);
+
+function factory() {
+  let num = 0;
+
+  return () => {
+    num = num + 1;
+    console.log(num);
+  };
+}
+
+const increment = factory();
+increment();
+increment();
+increment();
+increment();
 
 function App() {
   return (
