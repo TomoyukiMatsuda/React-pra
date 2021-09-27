@@ -175,10 +175,19 @@ function factory() {
 }
 
 const increment = factory();
-increment();
-increment();
-increment();
-increment();
+// increment();
+// increment();
+// increment();
+// increment();
+
+function addNumFactory(func: (num: number) => number) {
+  return function addNum(val: number) {
+    return func(val) + val;
+  };
+}
+
+const numFunc = addNumFactory((n) => n + 2);
+console.log(numFunc(10));
 
 function App() {
   return (
