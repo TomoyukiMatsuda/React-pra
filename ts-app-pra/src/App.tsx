@@ -180,14 +180,35 @@ const increment = factory();
 // increment();
 // increment();
 
-function addNumFactory(func: (num: number) => number) {
-  return function addNum(val: number) {
-    return func(val) + val;
-  };
+function calcFactory(def: number) {
+  // クロージャー変数：この値が更新される形になる
+  let result: number = def;
+
+  function plus(num: number) {
+    result = result + num;
+    console.log(result);
+  }
+  function minus(num: number) {
+    result = result - num;
+    console.log(result);
+  }
+  function multiply(num: number) {
+    result = result * num;
+    console.log(result);
+  }
+  function divide(num: number) {
+    result = result / num;
+    console.log(result);
+  }
+
+  return { plus, minus, multiply, divide };
 }
 
-const numFunc = addNumFactory((n) => n + 2);
-console.log(numFunc(10));
+const calc = calcFactory(10);
+calc.plus(5);
+calc.minus(3);
+calc.multiply(3);
+calc.divide(2);
 
 function App() {
   return (
