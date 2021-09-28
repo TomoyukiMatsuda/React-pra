@@ -152,11 +152,11 @@ const convertedObjArr = objArr.map((obj) => {
       // value を number型にキャストする
       const castedValue = Number(value);
       if (Number.isFinite(castedValue)) {
-        console.log([key, castedValue]);
+        //console.log([key, castedValue]);
         // キャストに成功していれば、キャストした値をvalueとして返す
         return [key, castedValue];
       }
-      console.log([key, value]);
+      //console.log([key, value]);
       // キャストに失敗すれば、そのままの値をvalueとして返す
       return [key, value];
     })
@@ -180,35 +180,54 @@ const increment = factory();
 // increment();
 // increment();
 
+// クロージャのメリットは、オブジェクトの変数やメソッドを他のプログラムから簡単に変更されないように制御できることです。
+
+// ４つのクロージャ関数を生成して返す関数
 function calcFactory(def: number) {
-  // クロージャー変数：この値が更新される形になる
+  // ローカル変数 result：calcFactory関数のスコープ内でしか参照できない
   let result: number = def;
 
-  function plus(num: number) {
+  // この４つの関数たちがクロージャ
+  const plus = (num: number) => {
+    console.log("計算前", result);
     result = result + num;
-    console.log(result);
-  }
-  function minus(num: number) {
+    console.log("計算後", result);
+  };
+  const minus = (num: number) => {
+    console.log("計算前", result);
     result = result - num;
-    console.log(result);
-  }
-  function multiply(num: number) {
+    console.log("計算後", result);
+  };
+  const multiply = (num: number) => {
+    console.log("計算前", result);
     result = result * num;
-    console.log(result);
-  }
-  function divide(num: number) {
+    console.log("計算後", result);
+  };
+  const divide = (num: number) => {
+    console.log("計算前", result);
     result = result / num;
-    console.log(result);
-  }
+    console.log("計算後", result);
+  };
 
+  // クロージャ関数を返す
   return { plus, minus, multiply, divide };
 }
 
+// このタイミングでdefに10をもつクロージャが生成される
 const calc = calcFactory(10);
-calc.plus(5);
-calc.minus(3);
-calc.multiply(3);
-calc.divide(2);
+calc.plus(3);
+calc.minus(5);
+calc.multiply(8);
+calc.divide(4);
+
+console.log("--------------------------------------");
+
+// このタイミングでdefに20をもつcalcとは異なるクロージャが生成される
+const calc2 = calcFactory(20);
+calc2.plus(3);
+calc2.minus(5);
+calc2.multiply(8);
+calc2.divide(4);
 
 function App() {
   return (
