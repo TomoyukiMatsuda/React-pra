@@ -229,6 +229,38 @@ calc2.minus(5);
 calc2.multiply(8);
 calc2.divide(4);
 
+const calcf = (function (def: number) {
+  // ローカル変数 result：calcFactory関数のスコープ内でしか参照できない
+  let result: number = def;
+
+  // この４つの関数たちがクロージャ
+  const plus = (num: number) => {
+    console.log("計算前", result);
+    result = result + num;
+    console.log("計算後", result);
+  };
+  const minus = (num: number) => {
+    console.log("計算前", result);
+    result = result - num;
+    console.log("計算後", result);
+  };
+  const multiply = (num: number) => {
+    console.log("計算前", result);
+    result = result * num;
+    console.log("計算後", result);
+  };
+  const divide = (num: number) => {
+    console.log("計算前", result);
+    result = result / num;
+    console.log("計算後", result);
+  };
+
+  // クロージャ関数を返す
+  return { plus, minus, multiply, divide };
+})(20);
+
+calcf.plus(30);
+
 function App() {
   return (
     <div className="App">
