@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { Sample } from "./Sample";
 
 // Intersection Types
 type Profile = {
@@ -259,12 +260,13 @@ const calcf = (function (def: number) {
   return { plus, minus, multiply, divide };
 })(20);
 
-calcf.plus(30);
+console.log("#############################################");
 
 function App() {
   return (
     <div className="App">
       <header className="App-header"></header>
+      <Sample />
     </div>
   );
 }
