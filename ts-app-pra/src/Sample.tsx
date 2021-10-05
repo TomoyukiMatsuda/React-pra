@@ -49,6 +49,28 @@ export const Sample = () => {
   console.log("問題４ obj：", obj); // 問題４ obj：{ prop1: 9, prop2: 8 }
   console.log("問題４ obj4：", obj4); // 問題４ obj4：{ prop1: 9, prop2: 8, prop3: 7 }
 
+  /**
+   * 問題１：
+   * obj.prop1の値をminus関数を用いて-1したい
+   * と思いました。
+   * しかしminus関数実行後のobj.prop1の値は変
+   * わっていませんでした。
+   * 以下のminus関数をどのように修正すればobj.prop1
+   * の値を変更することができるでしょうか？
+   *
+   */
+  console.log("#####################################");
+  let object = {
+    prop1: 10,
+  };
+
+  function minus(object: any, value: number) {
+    obj.prop1 = obj.prop1 - value;
+  }
+
+  minus(object, 1);
+  console.log(object.prop1);
+
   return (
     <div>
       <p>サンプル</p>
