@@ -1,4 +1,19 @@
+// ジェネリクス
+interface Gene<S, T> {
+  foo: S;
+  bar: T;
+  func: (arg: S) => void;
+}
+
 export const Sample = () => {
+  const gene: Gene<string, number> = {
+    foo: "foo",
+    bar: 100,
+    func: (arg) => console.log(arg),
+  };
+
+  gene.func(gene.foo);
+
   // ホイスティング
   // a(); 呼べない
   func();
