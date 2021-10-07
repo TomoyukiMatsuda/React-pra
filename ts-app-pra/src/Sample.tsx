@@ -86,6 +86,15 @@ export const Sample = () => {
   minus(object, 1);
   console.log(object.prop1);
 
+  const arr = [0, 1, 2, 3, 4, 5];
+  console.log("arr", ...arr);
+  const fc = (foo: string, ...bar: number[]) => console.log("bar", bar);
+  // 下記２つは同じこと
+  fc("foo", ...arr);
+  fc("foo", 0, 1, 2, 3, 4, 5);
+  // これはできない↓↓
+  // fc('foo', arr)  // Argument of type 'number[]' is not assignable to parameter of type 'number'.
+
   return (
     <div>
       <p>サンプル</p>
