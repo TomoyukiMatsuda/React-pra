@@ -19,6 +19,7 @@
     "save": "^2.4.0"
   },
   "devDependencies": {
+    "@types/nprogress": "^0.2.0",
     "@types/react": "17.0.19",
     "autoprefixer": "^10.3.3",
     "eslint": "^7.32.0",

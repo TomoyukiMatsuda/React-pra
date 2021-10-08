@@ -7,6 +7,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     // <RecoilRoot>で囲うことで、その中でRecoilが利用できるようになる
     <RecoilRoot>
+      {/*ページ遷移時のローディング表示*/}
       <NextNProgress />
       <Component {...pageProps} />
     </RecoilRoot>

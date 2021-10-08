@@ -5,6 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { articleListSelector } from "../../grobalStates/selectors/articleListSelector";
 import { SearchResult } from "../../components/SearchArticlesPage/SearchResult";
 import { BaseContainer } from "../../components/BaseContainer";
+import nProgress from "nprogress";
 
 // Qiita記事検索ページ
 const SearchArticles: React.VFC = () => {
@@ -14,11 +15,24 @@ const SearchArticles: React.VFC = () => {
   const setSearchArticleList = useSetRecoilState(
     articleListSelector(searchWord)
   );
+  nProgress.configure({ minimum: 0.3 });
 
   useEffect(() => {
     // グローバルステートをセット
     setSearchArticleList(articles);
   }, [articles, setSearchArticleList]);
+
+  // todo: ローディングプログレスバー表示したいもののうまくいっていない
+  useEffect(() => {
+    //isLoading ? nProgress.start() : nProgress.done();
+    if (isLoading) {
+      console.log("isLoading true");
+      nProgress.start();
+    } else {
+      console.log("isLoading false");
+      nProgress.done();
+    }
+  }, [isLoading]);
 
   return (
     <BaseContainer>
