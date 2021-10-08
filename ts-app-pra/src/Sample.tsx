@@ -86,6 +86,7 @@ export const Sample = () => {
   minus(object, 1);
   console.log(object.prop1);
 
+  // 可変長引数
   const arr = [0, 1, 2, 3, 4, 5];
   console.log("arr", ...arr);
   const fc = (foo: string, ...bar: number[]) => console.log("bar", bar);
