@@ -54,5 +54,21 @@ export const Sample2 = () => {
   console.log("g", g);
   console.log("property2", property2);
 
+  // 参照の比較と値の比較
+  const obj = {
+    property: 0,
+  };
+  const obj2 = {
+    property: 0,
+  };
+  // オブジェクトの異なる参照先を比較している
+  console.log("obj === obj2", obj === obj2); // false
+  // プリミティブ型のを比較している
+  console.log("obj.property === obj2.property", obj.property === obj2.property); // true
+
+  // 同じ参照を比較している
+  const obj3 = obj;
+  console.log("obj === obj3", obj === obj3); // true
+
   return <div>サンプル２</div>;
 };
