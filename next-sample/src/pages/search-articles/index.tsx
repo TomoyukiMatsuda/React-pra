@@ -5,6 +5,7 @@ import { useSetRecoilState } from "recoil";
 import { articleListSelector } from "../../grobalStates/selectors/articleListSelector";
 import { SearchResult } from "../../components/SearchArticlesPage/SearchResult";
 import { BaseContainer } from "../../components/BaseContainer";
+import nProgress from "nprogress";
 
 // Qiita記事検索ページ
 const SearchArticles: React.VFC = () => {
@@ -19,6 +20,11 @@ const SearchArticles: React.VFC = () => {
     // グローバルステートをセット
     setSearchArticleList(articles);
   }, [articles, setSearchArticleList]);
+
+  useEffect(() => {
+    // この記述により、ページ遷移時だけでなく、APIを叩く際のプログレスバーの表示も実現している
+    isLoading ? nProgress.start() : nProgress.done();
+  }, [isLoading]);
 
   return (
     <BaseContainer>
