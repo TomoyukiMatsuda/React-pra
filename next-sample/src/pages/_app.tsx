@@ -4,13 +4,14 @@ import { RecoilRoot } from "recoil";
 import NextNProgress from "nextjs-progressbar";
 import nProgress from "nprogress";
 
-nProgress.configure({ speed: 400, minimum: 0.3 });
+nProgress.configure({ speed: 200, minimum: 0.3 });
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     // <RecoilRoot>で囲うことで、その中でRecoilが利用できるようになる
     <RecoilRoot>
-      <NextNProgress />
+      <NextNProgress />{" "}
+      {/*ページ遷移時とAPIローディング時にプログレスバーを表示*/}
       <Component {...pageProps} />
     </RecoilRoot>
   );
