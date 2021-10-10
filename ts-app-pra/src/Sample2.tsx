@@ -33,5 +33,26 @@ export const Sample2 = () => {
   // e = {}; // エラーこれはできない
   // e = d; // これも同様のエラーでできない
 
+  // 分割代入と参照
+  const f = {
+    property1: "初期値",
+  };
+  // 分割代入では変更元に影響を及ぼさない
+  let { property1 } = f;
+  property1 = "初期値を変更";
+  console.log("f", f);
+  console.log("property1", property1);
+
+  const g = {
+    property2: {
+      nestProperty: "初期値",
+    },
+  };
+  let { property2 } = g;
+  // 変更もと（nestProperty）に影響を及ぼす
+  property2.nestProperty = "初期値を変更";
+  console.log("g", g);
+  console.log("property2", property2);
+
   return <div>サンプル２</div>;
 };
