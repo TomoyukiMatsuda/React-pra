@@ -15,23 +15,15 @@ const SearchArticles: React.VFC = () => {
   const setSearchArticleList = useSetRecoilState(
     articleListSelector(searchWord)
   );
-  nProgress.configure({ minimum: 0.3 });
 
   useEffect(() => {
     // グローバルステートをセット
     setSearchArticleList(articles);
   }, [articles, setSearchArticleList]);
 
-  // todo: ローディングプログレスバー表示したいもののうまくいっていない
   useEffect(() => {
-    //isLoading ? nProgress.start() : nProgress.done();
-    if (isLoading) {
-      console.log("isLoading true");
-      nProgress.start();
-    } else {
-      console.log("isLoading false");
-      nProgress.done();
-    }
+    // この記述により、ページ遷移時だけでなく、APIを叩く際のプログレスバーの表示も実現している
+    isLoading ? nProgress.start() : nProgress.done();
   }, [isLoading]);
 
   return (
