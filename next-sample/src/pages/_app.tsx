@@ -10,7 +10,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     // <RecoilRoot>で囲うことで、その中でRecoilが利用できるようになる
     <RecoilRoot>
-      <NextNProgress />{" "}
+      <NextNProgress />
       {/*ページ遷移時とAPIローディング時にプログレスバーを表示*/}
       <Component {...pageProps} />
     </RecoilRoot>
