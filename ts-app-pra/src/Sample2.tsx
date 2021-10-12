@@ -70,5 +70,8 @@ export const Sample2 = () => {
   const obj3 = obj;
   console.log("obj === obj3", obj === obj3); // true
 
+  // 中身を確認
+  console.log(obj.property);
+
   return <div>サンプル２</div>;
 };
