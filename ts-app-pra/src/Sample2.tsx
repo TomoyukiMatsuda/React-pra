@@ -1,4 +1,6 @@
 // 変数
+import { strict } from "assert";
+
 export const Sample2 = () => {
   // プリミティブ型のコピーはコピー元に影響を及ぼさない
   let a = "こんにちは";
@@ -70,8 +72,12 @@ export const Sample2 = () => {
   const obj3 = obj;
   console.log("obj === obj3", obj === obj3); // true
 
-  // 中身を確認
-  console.log(obj.property);
+  // オプショナル引数をもつ関数
+  const greeting = (name: string, greet?: string) => {
+    console.log(`${greet || "hello"}, ${name}`);
+  };
+  greeting("松田");
+  greeting("ともゆき", "こんちは");
 
   return <div>サンプル２</div>;
 };
