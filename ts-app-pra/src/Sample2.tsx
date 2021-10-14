@@ -79,5 +79,15 @@ export const Sample2 = () => {
   greeting("松田");
   greeting("ともゆき", "こんちは");
 
+  console.log("###########コールバック関数##############");
+  function fn(name: string) {
+    console.log("hello" + name);
+  }
+
+  function cb(func: (name: string) => void) {
+    func("matsuda");
+  }
+  cb(fn);
+
   return <div>サンプル２</div>;
 };
