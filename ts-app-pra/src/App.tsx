@@ -2,6 +2,7 @@ import React from "react";
 import "./App.css";
 import { Sample } from "./Sample";
 import { Sample2 } from "./Sample2";
+import { Sample3 } from "./Sample3";
 
 // Intersection Types
 type Profile = {
@@ -268,7 +269,8 @@ function App() {
     <div className="App">
       <header className="App-header"></header>
       {/*<Sample />*/}
-      <Sample2 />
+      {/*<Sample2 />*/}
+      <Sample3 />
     </div>
   );
 }
