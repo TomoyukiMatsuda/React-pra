@@ -9,7 +9,6 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     // <RecoilRoot>で囲うことで、その中でRecoilが利用できるようになる
     <RecoilRoot>
-      <Nextn
       <Component {...pageProps} />
     </RecoilRoot>
   );
