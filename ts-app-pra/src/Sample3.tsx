@@ -1,17 +1,26 @@
 import React from "react";
 
 export const Sample3: React.VFC = () => {
-  function a() {
-    console.log("hello");
+  // 関数funcを定義
+  function func() {
+    console.log("funcを実行");
   }
 
-  a.prop = 0;
-  a.method = () => {
-    console.log("method");
+  // 関数funcに値（prop）と関数（method）を格納する
+  func.prop = 10;
+  func.method = () => {
+    console.log("methodを実行");
   };
-  a();
-  a.method();
-  console.log(a);
+
+  // funcを実行
+  func();
+  // func.prop の中身を確認
+  console.log("func.prop：", func.prop);
+  // func.methodを実行
+  func.method();
+
+  // func の中身を確認してみる
+  console.log({ func });
 
   console.log("#########################");
 
