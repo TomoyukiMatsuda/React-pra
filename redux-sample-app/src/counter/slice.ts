@@ -1,3 +1,6 @@
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { Payload } from "@hapi/boom";
+
 export type CounterState = {
   count: number;
   loading: boolean;
@@ -13,3 +16,17 @@ export const initialState: CounterState = {
 };
 
 // createSliceを作成する
+const counterSlice = createSlice({
+  name: "counter",
+  initialState,
+  reducers: {
+    incrementCounter: (state, action: PayloadAction<number>) => ({
+      ...state,
+      count: state.count + action.payload,
+    }),
+    decrementCounter: (state, action: PayloadAction<number>) => ({
+      ...state,
+      count: state.count - action.payload,
+    }),
+  },
+});
