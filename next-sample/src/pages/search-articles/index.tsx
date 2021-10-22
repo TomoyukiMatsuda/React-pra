@@ -22,6 +22,7 @@ const SearchArticles: React.VFC = () => {
   }, [articles, setSearchArticleList]);
 
   useEffect(() => {
+    // TODO: NextNProgress を利用せずにプログレスバーをローディング時に表示する
     // この記述により、ページ遷移時だけでなく、APIを叩く際のプログレスバーの表示も実現している
     isLoading ? nProgress.start() : nProgress.done();
   }, [isLoading]);
