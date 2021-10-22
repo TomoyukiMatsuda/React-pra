@@ -1,7 +1,13 @@
-import 'tailwindcss/tailwind.css'
-import type { AppProps } from 'next/app'
+import "tailwindcss/tailwind.css";
+import type { AppProps } from "next/app";
+import { Provider } from "react-redux";
+import { createStore } from "../store/createStore";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <Provider store={createStore()}>
+      <Component {...pageProps} />
+    </Provider>
+  );
 }
-export default MyApp
+export default MyApp;
