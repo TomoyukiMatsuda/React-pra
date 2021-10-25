@@ -89,5 +89,12 @@ export const Sample2 = () => {
   }
   cb(fn);
 
+  const baseObj = { first: 1, second: 2, third: 3, forth: 4 };
+  // second を削除した オブジェクトを生成する（baseObjには影響しない）
+  const { second: sec, ...secondDeletedObj } = baseObj;
+  const { second: secd, forth, ...deletedObj } = baseObj;
+  console.log("secondDeletedObj", secondDeletedObj);
+  console.log("deletedObj", deletedObj);
+
   return <div>サンプル２</div>;
 };
