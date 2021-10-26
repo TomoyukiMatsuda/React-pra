@@ -96,5 +96,15 @@ export const Sample2 = () => {
   console.log("secondDeletedObj", secondDeletedObj);
   console.log("deletedObj", deletedObj);
 
+  const getScrollTopPosition = (): number => {
+    // これでスクロールトップの位置を取得できる
+    // ブラウザによって取得方法が異なるため全て取得してきたMaxの値をreturn
+    return Math.max(
+      window.pageYOffset,
+      document.documentElement.scrollTop,
+      document.body.scrollTop
+    );
+  };
+
   return <div>サンプル２</div>;
 };
