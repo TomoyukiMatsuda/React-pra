@@ -105,6 +105,8 @@ export const Sample2 = () => {
       document.body.scrollTop
     );
   };
+  // これでスクロールできるっぽい (x横, y縦)
+  // window.scrollTo(0, getScrollTopPosition())
 
   return <div>サンプル２</div>;
 };
