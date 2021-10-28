@@ -270,9 +270,9 @@ function App() {
     <div className="App">
       <header className="App-header"></header>
       {/*<Sample />*/}
-      <Sample2 />
+      {/*<Sample2 />*/}
       {/*<Sample3 />*/}
-      {/*<Sample4 />*/}
+      <Sample4 />
     </div>
   );
 }

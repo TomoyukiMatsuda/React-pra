@@ -6,12 +6,12 @@ export const Sample4 = () => {
     name: "Tomoyuki",
     hello: function () {
       console.log("Hello, " + this.name);
-      console.log(this);
     },
   };
   console.log(this);
   // this はfunctionを読んだ時の「.」の前についているオブジェクトを指している（つまり今回の場合は person が this の正体）
   person.hello();
+  const ref = person.hello;
 
   return <div>サンプル4</div>;
 };
