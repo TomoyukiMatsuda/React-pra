@@ -1,10 +1,6 @@
 import React, { useCallback, useState } from "react";
 
-interface Props {
-  onAddClick?: () => void;
-}
-
-export const AddTodo: React.VFC<Props> = (props) => {
+export const AddTodo: React.VFC = () => {
   const [inputText, setInputText] = useState("");
 
   const onAddClick = useCallback(() => {}, [inputText]);
