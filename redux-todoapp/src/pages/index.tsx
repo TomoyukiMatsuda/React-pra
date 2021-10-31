@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { AddTodo } from "../AddTodo";
+import { AddTodo } from "../components/AddTodo";
 
 const Home: NextPage = () => {
   return (
