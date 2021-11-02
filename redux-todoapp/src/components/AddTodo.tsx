@@ -2,8 +2,9 @@ import React, { useCallback, useState } from "react";
 
 export const AddTodo: React.VFC = () => {
   const [inputText, setInputText] = useState("");
-
-  const onAddClick = useCallback(() => {}, [inputText]);
+  const onAddClick = useCallback(() => {
+    console.log("inputtext", inputText);
+  }, [inputText]);
 
   return (
     <div>
