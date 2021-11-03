@@ -1,11 +1,5 @@
 import { Action } from "redux";
-
-// action types: 一意となるキーを指定するので、Actionが増えるたびにここにキーを書いていく
-export const ActionTypes = {
-  increment: "INCREMENT",
-  decrement: "DECREMENT",
-  countReset: "COUNT_RESET",
-} as const;
+import { ActionTypes } from "../actionTypes";
 
 // stateの型
 export type Count = {
@@ -24,3 +18,8 @@ interface DecrementAction extends Action {
 interface ResetAction extends Action {
   type: typeof ActionTypes.countReset;
 }
+
+export type CounterActionTypes =
+  | IncrementAction
+  | DecrementAction
+  | ResetAction;
