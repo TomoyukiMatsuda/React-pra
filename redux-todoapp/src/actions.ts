@@ -1,19 +1,26 @@
-const ADD_TODO = "ADD_TODO";
-const COMPLETE_TODO = "COMPLETE_TODO";
-const REMOVE_TODO = "REMOVE_TODO";
+import { Action } from "redux";
 
-interface AddTodo {
-  type: string;
-  text: string;
+// action types: 一意となるキーを指定するので、Actionが増えるたびにここにキーを書いていく
+export const ActionTypes = {
+  increment: "INCREMENT",
+  decrement: "DECREMENT",
+  countReset: "COUNT_RESET",
+} as const;
+
+// stateの型
+export type Count = {
+  value: number;
+};
+
+// Actions の type
+interface IncrementAction extends Action {
+  type: typeof ActionTypes.increment;
 }
 
-// actionは、何を行なうものかを識別するために"type"プロパティを必ず持つ。他のプロパティについては自由。
-export const todoActionTypes = [ADD_TODO, COMPLETE_TODO, REMOVE_TODO];
+interface DecrementAction extends Action {
+  type: typeof ActionTypes.decrement;
+}
 
-// actionを作るだけ
-export const addTodo = (text: string): AddTodo => {
-  return {
-    type: ADD_TODO,
-    text,
-  };
-};
+interface ResetAction extends Action {
+  type: typeof ActionTypes.countReset;
+}
