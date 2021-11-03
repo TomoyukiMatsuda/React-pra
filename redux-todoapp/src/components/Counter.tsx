@@ -25,10 +25,14 @@ export const Counter: React.VFC = () => {
 
   return (
     <>
-      <div>{currentCount.value}</div>
+      <div style={{ margin: 20 }}>{currentCount.value}</div>
       <button onClick={handleIncrement}>カウントアップ</button>
-      <button onClick={handleDecrement}>カウントダウン</button>
-      <button onClick={handleReset}>カウントリセット</button>
+      <button style={{ marginLeft: 20 }} onClick={handleDecrement}>
+        カウントダウン
+      </button>
+      <button style={{ marginLeft: 20 }} onClick={handleReset}>
+        カウントリセット
+      </button>
     </>
   );
 };
