@@ -17,7 +17,11 @@ export const AddTodo: React.VFC = () => {
 
   return (
     <div>
-      <input type="text" onChange={(e) => setInputText(e.target.value)} />
+      <input
+        type="text"
+        value={inputText}
+        onChange={(e) => setInputText(e.target.value)}
+      />
       <button onClick={() => onAddClick()}>追加</button>
       <TodoList todos={todoList} />
     </div>
