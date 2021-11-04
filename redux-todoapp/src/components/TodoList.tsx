@@ -1,16 +1,16 @@
 import React from "react";
 import { Todo } from "./Todo";
+import { Todos } from "../store/todo/types";
 
 interface Props {
-  onClickTodo: () => void;
-  todos: Todo[];
+  todos: Todos;
 }
 
 export const TodoList: React.VFC<Props> = (props) => {
   return (
     <ul>
       {props.todos.map((todo, index) => (
-        <Todo key={index} onClickTodo={props.onClickTodo} todo={todo} />
+        <Todo key={index} text={todo.text} />
       ))}
     </ul>
   );
