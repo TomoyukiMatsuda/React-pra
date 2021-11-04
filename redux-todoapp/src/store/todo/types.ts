@@ -1,7 +1,7 @@
 import { Action } from "redux";
 import { ActionTypes } from "../actionTypes";
 
-type TodoData = {
+export type TodoData = {
   id: number;
   text: string;
 };

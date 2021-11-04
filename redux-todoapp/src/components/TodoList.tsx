@@ -10,7 +10,7 @@ export const TodoList: React.VFC<Props> = (props) => {
   return (
     <ul>
       {props.todos.map((todo, index) => (
-        <Todo key={index} text={todo.text} />
+        <Todo key={index} todo={todo} />
       ))}
     </ul>
   );
