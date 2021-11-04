@@ -19,7 +19,6 @@ export const Counter: React.VFC = () => {
 
   // storeからstateを取得する
   // rootReducer.counterにcountReducer
-
   // useSelector(利用するstateの値を返す関数)
   const currentCount: Count = useSelector((state: RootState) => state.counter);
 
