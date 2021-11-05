@@ -20,3 +20,9 @@ export const deleteTodoAction = (todoId: number): TodoActionTypes => {
     },
   };
 };
+
+export const deleteAllTodoAction = (): TodoActionTypes => {
+  return {
+    type: ActionTypes.deleteAllTodo,
+  };
+};

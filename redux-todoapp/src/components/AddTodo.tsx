@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
-import { addTodoAction } from "../store/todo/actions";
+import { addTodoAction, deleteAllTodoAction } from "../store/todo/actions";
 import { TodoList } from "./TodoList";
 
 export const AddTodo: React.VFC = () => {
@@ -10,10 +10,14 @@ export const AddTodo: React.VFC = () => {
 
   // useSelector(利用するstateの値を返す関数)
   const todoList = useSelector((state: RootState) => state.todo);
-  const onAddClick = useCallback(() => {
+  const onClickAdd = useCallback(() => {
     dispatch(addTodoAction(inputText));
     setInputText("");
   }, [inputText]);
+
+  const onClickDeleteAll = useCallback(() => {
+    dispatch(deleteAllTodoAction());
+  }, []);
 
   return (
     <div>
@@ -22,7 +26,8 @@ export const AddTodo: React.VFC = () => {
         value={inputText}
         onChange={(e) => setInputText(e.target.value)}
       />
-      <button onClick={() => onAddClick()}>追加</button>
+      <button onClick={() => onClickAdd()}>追加</button>
+      <button onClick={() => onClickDeleteAll()}>全件削除</button>
       <TodoList todos={todoList} />
     </div>
   );
