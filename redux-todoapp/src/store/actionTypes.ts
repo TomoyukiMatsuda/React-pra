@@ -7,4 +7,5 @@ export const ActionTypes = {
   countReset: "COUNT_RESET",
   addTodo: "ADD_TODO",
   deleteTodo: "DELETE_TODO",
+  deleteAllTodo: "DELETE_ALL_TODO",
 } as const;
