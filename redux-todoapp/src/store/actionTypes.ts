@@ -8,4 +8,6 @@ export const ActionTypes = {
   addTodo: "ADD_TODO",
   deleteTodo: "DELETE_TODO",
   deleteAllTodo: "DELETE_ALL_TODO",
+  openModal: "OPEN_MODAL",
+  closeModal: "CLOSE_MODAL",
 } as const;
