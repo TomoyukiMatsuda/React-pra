@@ -1,11 +1,13 @@
 import React, { ReactNode } from "react";
+import { useDispatch } from "react-redux";
+import { closeModalAction } from "../store/modal/actions";
 
 interface Props {
   children: ReactNode;
 }
 
 export const BackgroundModal: React.VFC<Props> = ({ children }) => {
-  // todo: リセット関数
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -19,6 +21,7 @@ export const BackgroundModal: React.VFC<Props> = ({ children }) => {
           backgroundColor: "lightgray",
           opacity: 75,
         }}
+        onClick={() => dispatch(closeModalAction())}
       >
         <button style={{ backgroundColor: "white" }}>閉じる</button>
       </div>
