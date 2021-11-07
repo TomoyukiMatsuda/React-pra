@@ -7,11 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store";
 import { openModalAction } from "../store/modal/actions";
 import { FooModal } from "../components/FooModal";
+import { useEffect } from "react";
 
 const Home: NextPage = () => {
-  // todo モーダル背景をスクロールできないようにする
   const modal = useSelector((state: RootState) => state.modal);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // モーダルが表示されている状態で背景をスクロールできないようにする
+    document.body.style.overflow = modal.isOpen ? "hidden" : "";
+  }, [modal.isOpen]);
 
   return (
     <div className={styles.container}>
