@@ -5,6 +5,8 @@ import styles from "../../styles/Home.module.css";
 import { ModalBackground } from "../components/ModalBackground";
 
 const Home: NextPage = () => {
+  // todo モーダル背景をスクロールできないようにする
+
   return (
     <div className={styles.container}>
       <Head>

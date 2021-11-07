@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { FooModal } from "../FooModal";
 
 export const ModalBackground: React.VFC = () => {
   // div className="flex justify-end fixed z-10 inset-0 bg-gray-300 bg-opacity-75"
@@ -38,6 +39,7 @@ export const ModalBackground: React.VFC = () => {
           />
         </button>
       </div>
+      <FooModal text="モーダルテキスト" />
     </>
   );
 };
