@@ -24,8 +24,10 @@ export const ModalBackground: React.VFC = () => {
             height: "3rem",
             width: "3rem",
             zIndex: 20,
-            borderRadius: "1.5rem",
+            backgroundColor: "gray",
+            borderRadius: "50%",
             border: "none",
+            cursor: "pointer",
           }}
         >
           <Image
