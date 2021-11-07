@@ -9,12 +9,12 @@ const initialState: Modal = {
 export const modalReducer = (
   state = initialState,
   action: ModalActionTypes
-) => {
+): Modal => {
   switch (action.type) {
     case ActionTypes.openModal:
       return {
         isOpen: true,
-        content: state.content,
+        content: action.payload.content,
       };
     case ActionTypes.closeModal:
       return {

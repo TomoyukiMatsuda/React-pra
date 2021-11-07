@@ -1,10 +1,13 @@
 import React from "react";
 import Image from "next/image";
-import { FooModal } from "../FooModal";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { closeModalAction } from "../../store/modal/actions";
 
 export const ModalBackground: React.VFC = () => {
-  // div className="flex justify-end fixed z-10 inset-0 bg-gray-300 bg-opacity-75"
-  // <button className="mt-2 mr-2 z-20 h-12 w-12 hover:bg-white hover:bg-opacity-30 rounded-full">
+  const modal = useSelector((state: RootState) => state.modal);
+  const dispatch = useDispatch();
+
   return (
     <>
       <div
@@ -17,6 +20,7 @@ export const ModalBackground: React.VFC = () => {
           backgroundColor: "lightgray",
           opacity: 0.7,
         }}
+        onClick={() => dispatch(closeModalAction())}
       >
         <button
           style={{
@@ -39,7 +43,7 @@ export const ModalBackground: React.VFC = () => {
           />
         </button>
       </div>
-      <FooModal text="モーダルテキスト" />
+      {modal.content}
     </>
   );
 };
