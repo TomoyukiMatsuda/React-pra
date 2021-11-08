@@ -16,10 +16,12 @@ const fetcher = async (input: RequestInfo, init?: RequestInit) => {
 };
 
 export const Main: React.VFC = () => {
-  const { data, error } = useSWR<Res[]>(
+  const { data, error, isValidating } = useSWR<Res[]>(
     "https://jsonplaceholder.typicode.com/posts",
     fetcher
   );
+
+  console.log(isValidating);
 
   if (error) return <div>エラーーーーーー</div>;
   if (!data) return <div>ローディングちゅう</div>;
