@@ -3,16 +3,9 @@ import styles from "../../../styles/Home.module.css";
 import useSWR from "swr";
 import { JsonPlaceholderResponse } from "../../types/JsonPlaceholder";
 
-// fetcher
-const fetcher = async (input: RequestInfo, init?: RequestInit) => {
-  const res = await fetch(input, init);
-  return res.json();
-};
-
 export const Main: React.VFC = () => {
-  const { data, error, isValidating } = useSWR<JsonPlaceholderResponse[]>(
-    "https://jsonplaceholder.typicode.com/posts",
-    fetcher
+  const { data, error } = useSWR<JsonPlaceholderResponse[]>(
+    "https://jsonplaceholder.typicode.com/posts"
   );
 
   if (error) return <div>エラーーーーーー</div>;
