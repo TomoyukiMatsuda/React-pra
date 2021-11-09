@@ -1,13 +1,7 @@
 import React from "react";
 import styles from "../../../styles/Home.module.css";
 import useSWR from "swr";
-
-interface Res {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
+import { JsonPlaceholderResponse } from "../../types/JsonPlaceholder";
 
 // fetcher
 const fetcher = async (input: RequestInfo, init?: RequestInit) => {
@@ -16,12 +10,10 @@ const fetcher = async (input: RequestInfo, init?: RequestInit) => {
 };
 
 export const Main: React.VFC = () => {
-  const { data, error, isValidating } = useSWR<Res[]>(
+  const { data, error, isValidating } = useSWR<JsonPlaceholderResponse[]>(
     "https://jsonplaceholder.typicode.com/posts",
     fetcher
   );
-
-  console.log(isValidating);
 
   if (error) return <div>エラーーーーーー</div>;
   if (!data) return <div>ローディングちゅう</div>;
