@@ -20,9 +20,11 @@ export const Main: React.VFC = () => {
 
   return (
     <main className={styles.main}>
-      {data.map((d) => (
-        <p key={d.id}>{d.title}</p>
-      ))}
+      <ol>
+        {data.map((d) => (
+          <li key={d.id}>{d.title}</li>
+        ))}
+      </ol>
     </main>
   );
 };
