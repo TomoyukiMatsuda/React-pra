@@ -23,10 +23,13 @@
     "@types/react": "17.0.33",
     "@types/react-redux": "^7.1.20",
     "@types/redux-thunk": "^2.1.0",
+    "autoprefixer": "^10.4.0",
     "eslint": "7",
     "eslint-config-next": "12.0.1",
+    "postcss": "^8.3.11",
     "prettier": "2.4.1",
     "redux-devtools": "^3.7.0",
+    "tailwindcss": "^2.2.19",
     "typescript": "4.4.4"
   }
 }
