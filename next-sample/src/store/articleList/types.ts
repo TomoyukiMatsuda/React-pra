@@ -9,7 +9,7 @@ export interface ArticleListState {
 
 interface AddArticleList extends Action {
   type: typeof ActionTypes.addArticles;
-  payload: ArticleListState;
+  payload: { articleListState: ArticleListState };
 }
 
 interface ResetArticleList extends Action {
