@@ -6,6 +6,7 @@ import { addArticleListAction } from "../store/articleList/actions";
 
 export const useListQiitaItemsRedux = () => {
   const dispatch = useDispatch();
+  const [searchText, setSearchText] = useState("");
   const [errorText, setErrorText] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
@@ -38,6 +39,7 @@ export const useListQiitaItemsRedux = () => {
           })),
         })
       );
+      setSearchText(response.config.params.query);
     } catch (error) {
       // todo このリントどうにかならない？
       // @ts-ignore
@@ -48,5 +50,5 @@ export const useListQiitaItemsRedux = () => {
     setFormText("");
   };
 
-  return { fetchListArticles, errorText, loading };
+  return { fetchListArticles, searchText, errorText, loading };
 };

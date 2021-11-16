@@ -8,7 +8,9 @@ export const articleListReducer = (
 ): ArticleListState[] => {
   switch (action.type) {
     case "ADD_ARTICLES":
-      return [...state, action.payload];
+      // TODO: すでに検索すみワードであれば return state（重複セットを防ぐ）
+      // action.payload.articleListState.searchWord
+      return [...state, action.payload.articleListState];
     case "RESET_ARTICLES":
       return [];
     default:
