@@ -1,5 +1,4 @@
 import React, { useMemo } from "react";
-import Link from "next/link";
 import { ArticleList } from "../components/ArticleList";
 import { SearchForm } from "../components/SearchForm";
 import { useListQiitaItemsRedux } from "../hooks/useListQiitaItemsRedux";
@@ -13,7 +12,7 @@ const Home: React.VFC = () => {
   // TODO できればここでデータをハンドリングしたくない
   // 検索ワードに該当のリストを取得している
   const searchArticles = useMemo(
-    () => articleState.find((state) => state.searchWord == searchWord),
+    () => articleState.find((state) => state.searchWord === searchWord),
     [articleState, searchWord]
   );
 
