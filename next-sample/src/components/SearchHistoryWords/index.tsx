@@ -13,15 +13,13 @@ export const SearchHistoryWords: React.VFC = memo(() => {
     [articleState]
   );
 
-  console.log(searchWordList);
-
   return (
     <>
       {searchWordList.length !== 0 &&
         searchWordList?.map((word, index) => {
           return (
             <Link key={`${word}_${index}`} href={`/filter-articles/${word}`}>
-              <span className="p-2 mx-1 bg-green-100 text-green-800 rounded-lg shadow cursor-pointer">
+              <span className="p-2 mx-1 bg-green-100 text-green-800 rounded-lg shadow cursor-pointer hover:opacity-60">
                 {word}
               </span>
             </Link>
