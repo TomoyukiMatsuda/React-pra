@@ -1,4 +1,5 @@
 import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import { SearchHistoryWords } from "../SearchHistoryWords";
 
 interface Props {
   fetchArticles: (
@@ -28,12 +29,13 @@ export const SearchForm: React.VFC<Props> = (props) => {
         onChange={(e) => setFormText(e.target.value)}
       />
       <button
-        className={`${buttonColor} text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+        className={`${buttonColor} text-white font-bold py-2 px-4 mr-2 rounded focus:outline-none focus:shadow-outline`}
         type="submit"
         disabled={!formText}
       >
         検索
       </button>
+      <SearchHistoryWords />
     </form>
   );
 };

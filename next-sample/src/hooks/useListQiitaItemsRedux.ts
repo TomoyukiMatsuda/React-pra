@@ -6,8 +6,8 @@ import { addArticleListAction } from "../store/articleList/actions";
 
 export const useListQiitaItemsRedux = () => {
   const dispatch = useDispatch();
-  const [searchText, setSearchText] = useState("");
-  const [errorText, setErrorText] = useState<string>("");
+  const [searchWord, setSearchWord] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string>("");
   const [loading, setLoading] = useState(false);
 
   const fetchListArticles = async (
@@ -17,7 +17,7 @@ export const useListQiitaItemsRedux = () => {
   ) => {
     e.preventDefault();
     setLoading(true);
-    setErrorText("");
+    setErrorMessage("");
 
     try {
       const response = await apiClient.get<QiitaItemResponse[]>("/items", {
@@ -39,16 +39,16 @@ export const useListQiitaItemsRedux = () => {
           })),
         })
       );
-      setSearchText(response.config.params.query);
+      setSearchWord(response.config.params.query);
     } catch (error) {
       // todo このリントどうにかならない？
       // @ts-ignore
-      setErrorText(error.response.data.message);
+      setErrorMessage(error.response.data.message);
     }
 
     setLoading(false);
     setFormText("");
   };
 
-  return { fetchListArticles, searchText, errorText, loading };
+  return { fetchListArticles, searchWord, errorMessage, loading };
 };

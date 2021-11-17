@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { useListQiitaArticles } from "../hooks/useListQiitaArticles";
+import Link from "next/link";
 import { ArticleList } from "../components/ArticleList";
 import { SearchForm } from "../components/SearchForm";
 import { useListQiitaItemsRedux } from "../hooks/useListQiitaItemsRedux";
@@ -7,25 +7,23 @@ import { useSelector } from "react-redux";
 import { RootState } from "../store";
 
 const Home: React.VFC = () => {
-  const { fetchListArticles, searchText, errorText, loading } =
+  const { fetchListArticles, searchWord, errorMessage, loading } =
     useListQiitaItemsRedux();
   const articleState = useSelector((state: RootState) => state.articleList);
+  // TODO できればここでデータをハンドリングしたくない
+  // 検索ワードに該当のリストを取得している
   const searchArticles = useMemo(
-    () => articleState.find((state) => state.searchWord == searchText),
-    [articleState, searchText]
+    () => articleState.find((state) => state.searchWord == searchWord),
+    [articleState, searchWord]
   );
-
-  // todo: この利用していないカスタムフックを削除？
-  // const { articles, searchWord, errorMessage, isLoading, fetchArticles } =
-  //   useListQiitaArticles();
 
   return (
     <div className="max-w-5xl my-0 mx-auto px-12">
       <SearchForm fetchArticles={fetchListArticles} />
       <ArticleList
         articles={searchArticles?.qiitaItems || []}
-        searchWord={searchText}
-        errorMessage={errorText}
+        searchWord={searchWord}
+        errorMessage={errorMessage}
         isLoading={loading}
       />
     </div>
