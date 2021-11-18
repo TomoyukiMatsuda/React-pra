@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import { ArticleList } from "../components/ArticleList";
 import { SearchForm } from "../components/SearchForm";
 import { useListQiitaItemsRedux } from "../hooks/useListQiitaItemsRedux";
 import { useSelector } from "react-redux";
 import { RootState } from "../store";
+import { SearchResult } from "../components/SearchResult";
 
 const Home: React.VFC = () => {
   const { fetchListArticles, searchWord, errorMessage, loading } =
@@ -19,11 +19,11 @@ const Home: React.VFC = () => {
   return (
     <div className="max-w-5xl my-0 mx-auto px-12">
       <SearchForm fetchArticles={fetchListArticles} />
-      <ArticleList
+      <SearchResult
         articles={searchArticles?.qiitaItems || []}
         searchWord={searchWord}
         errorMessage={errorMessage}
-        isLoading={loading}
+        loading={loading}
       />
     </div>
   );
