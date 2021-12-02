@@ -30,7 +30,7 @@ export const SearchResult: React.VFC<Props> = (props) => {
         <span className="font-bold border-b-2 border-black">
           {props.searchWord}
         </span>
-        に該当なーーーし！！
+        に該当なし！！
       </p>
     );
   }

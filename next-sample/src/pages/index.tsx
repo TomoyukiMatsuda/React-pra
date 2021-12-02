@@ -15,13 +15,15 @@ const Home: React.VFC = () => {
     () => articleState.find((state) => state.searchWord === searchWord),
     [articleState, searchWord]
   );
+  // なぜ戻るとリスト消えている？searchWordが消えているから
+  console.log(searchWord, searchArticles);
 
   return (
     <div className="max-w-5xl my-0 mx-auto px-12">
       <SearchForm fetchArticles={fetchListArticles} />
       <SearchResult
         articles={searchArticles?.qiitaItems || []}
-        searchWord={searchWord}
+        searchWord={searchArticles?.searchWord || ""}
         errorMessage={errorMessage}
         loading={loading}
       />
