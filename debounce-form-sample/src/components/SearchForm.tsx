@@ -1,4 +1,10 @@
-import React, { Dispatch, FormEvent, SetStateAction, useState } from "react";
+import React, {
+  Dispatch,
+  FormEvent,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 interface Props {
   // fetchArticles: (
@@ -6,6 +12,7 @@ interface Props {
   //   formText: string,
   //   setFormText: Dispatch<SetStateAction<string>>
   // ) => void;
+  setDebouncedValue: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
 }
 
@@ -16,6 +23,16 @@ export const SearchForm: React.VFC<Props> = (props) => {
     formText && !props.isLoading
       ? "bg-blue-500 hover:bg-blue-400"
       : "bg-gray-300";
+
+  useEffect(() => {
+    // 表示までのtimerをセット
+    const timer = setTimeout(() => {
+      props.setDebouncedValue(formText);
+    }, 1000);
+
+    // 次の Effect が実行される直前に timer をキャンセル
+    return () => clearTimeout(timer);
+  }, [formText]);
 
   return (
     <form
@@ -32,13 +49,6 @@ export const SearchForm: React.VFC<Props> = (props) => {
         disabled={props.isLoading}
         onChange={(e) => setFormText(e.target.value)}
       />
-      <button
-        className={`${buttonColor} text-white font-bold mr-3 py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
-        type="submit"
-        disabled={!formText || props.isLoading}
-      >
-        検索
-      </button>
     </form>
   );
 };
