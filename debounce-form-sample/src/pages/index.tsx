@@ -7,8 +7,9 @@ import { apiClient } from "../apiClient";
 const Home: NextPage = () => {
   const [debouncedValue, setDebouncedValue] = useState("");
   // TODO: 型定義
-  const [qiitaItems, setQiitaItems] = useState<any[] | null>([]);
+  const [qiitaItems, setQiitaItems] = useState<any[] | null>(null);
 
+  // TODO: カスタムhook
   const fetchQiitaItems = useCallback(async () => {
     try {
       const response = await apiClient.get("/items", {
@@ -34,16 +35,21 @@ const Home: NextPage = () => {
     }
   }, [debouncedValue]);
 
-  // TODO: debouncedValue でフェッチしたい
   useEffect(() => {
-    if (!debouncedValue) return;
-    fetchQiitaItems();
+    if (debouncedValue) {
+      //即時関数にしたい
+      fetchQiitaItems();
+    } else {
+      setQiitaItems(null);
+    }
   }, [debouncedValue]);
 
   return (
     <div className={styles.container}>
       <SearchForm setDebouncedValue={setDebouncedValue} isLoading={false} />
       <p>{debouncedValue}</p>
+
+      {/*TODO: ローディングのハンドリング*/}
       <div>
         {qiitaItems?.map((item) => {
           return (
