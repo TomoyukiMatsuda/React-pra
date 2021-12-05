@@ -37,7 +37,7 @@ const Home: NextPage = () => {
 
   return (
     <div className={styles.container}>
-      <SearchForm setDebouncedValue={setDebouncedValue} isLoading={false} />
+      <SearchForm setDebouncedValue={setDebouncedValue} />
       <p>{debouncedValue}</p>
 
       {/*TODO: ローディングのハンドリング*/}
