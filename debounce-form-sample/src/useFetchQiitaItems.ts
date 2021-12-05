@@ -2,10 +2,10 @@ import { useCallback, useEffect, useState } from "react";
 import { IQiitaItem } from "./IQiitaItem";
 import { apiClient } from "./apiClient";
 
+// QiitaItemをフェッチして、アイテムリストを返すカスタムフック
 export const useFetchQiitaItems = (searchText: string): IQiitaItem[] | null => {
   const [qiitaItems, setQiitaItems] = useState<IQiitaItem[] | null>(null);
 
-  // TODO: カスタムhook
   const fetchQiitaItems = useCallback(async () => {
     try {
       const response = await apiClient.get("/items", {
@@ -21,9 +21,10 @@ export const useFetchQiitaItems = (searchText: string): IQiitaItem[] | null => {
     }
   }, [searchText]);
 
+  // searchText が更新されると実行される Effect
   useEffect(() => {
     if (searchText) {
-      //即時関数にしたい
+      // Promiseを返す関数のため即時関数で実行する
       // (fetchQiitaItems)();
       fetchQiitaItems();
     } else {

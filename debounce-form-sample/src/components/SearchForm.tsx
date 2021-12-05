@@ -4,15 +4,15 @@ interface Props {
   setDebouncedValue: Dispatch<SetStateAction<string>>;
 }
 
-// Qiita記事検索フォームコンポーネント
+// 検索フォームコンポーネント（ここで debouncedValue を更新する）
 export const SearchForm: React.VFC<Props> = (props) => {
   const [formText, setFormText] = useState<string>("");
 
+  // formText の変更を検知して実行される Effect
   useEffect(() => {
-    // 表示までのtimerをセット
-    const timer = setTimeout(() => {
-      props.setDebouncedValue(formText);
-    }, 1000);
+    // 表示までのtimerをセット、１秒間フォームの入力動作が行われなければ
+    // フォームの値で debouncedValue を更新する
+    const timer = setTimeout(() => props.setDebouncedValue(formText), 1000);
 
     // 次の Effect が実行される直前に timer をキャンセル
     return () => clearTimeout(timer);
