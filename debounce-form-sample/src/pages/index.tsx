@@ -1,46 +1,21 @@
 import type { NextPage } from "next";
 import styles from "../../styles/Home.module.css";
 import { SearchForm } from "../components/SearchForm";
-import { useCallback, useEffect, useState } from "react";
-import { apiClient } from "../apiClient";
-import { IQiitaItem } from "../IQiitaItem";
+import { useState } from "react";
+import { useFetchQiitaItems } from "../useFetchQiitaItems";
 
 const Home: NextPage = () => {
   const [debouncedValue, setDebouncedValue] = useState("");
-  const [qiitaItems, setQiitaItems] = useState<IQiitaItem[] | null>(null);
-
-  // TODO: カスタムhook
-  const fetchQiitaItems = useCallback(async () => {
-    try {
-      const response = await apiClient.get("/items", {
-        params: {
-          query: debouncedValue,
-          per_page: 10,
-        },
-      });
-      setQiitaItems(response.data);
-    } catch (e) {
-      // エラーハンドリング
-      console.log(e);
-    }
-  }, [debouncedValue]);
-
-  useEffect(() => {
-    if (debouncedValue) {
-      //即時関数にしたい
-      // (fetchQiitaItems)();
-      fetchQiitaItems();
-    } else {
-      setQiitaItems(null);
-    }
-  }, [debouncedValue]);
+  const qiitaItems = useFetchQiitaItems(debouncedValue);
 
   return (
+    // todo tailwindにする
     <div className={styles.container}>
       <SearchForm setDebouncedValue={setDebouncedValue} />
-      <p>{debouncedValue}</p>
+      <p className="mb-5 text-gray-700 font-bold">
+        検索ワード：{debouncedValue}
+      </p>
 
-      {/*TODO: ローディングのハンドリング*/}
       <div>
         {qiitaItems?.map((item) => {
           return (
