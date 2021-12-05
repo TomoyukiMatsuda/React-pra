@@ -7,11 +7,6 @@ import React, {
 } from "react";
 
 interface Props {
-  // fetchArticles: (
-  //   e: FormEvent<HTMLFormElement>,
-  //   formText: string,
-  //   setFormText: Dispatch<SetStateAction<string>>
-  // ) => void;
   setDebouncedValue: Dispatch<SetStateAction<string>>;
   isLoading: boolean;
 }
@@ -35,10 +30,8 @@ export const SearchForm: React.VFC<Props> = (props) => {
   }, [formText]);
 
   return (
-    <form
-      className="mt-12 mb-2"
-      // onSubmit={(e) => props.fetchArticles(e, formText, setFormText)}
-    >
+    // formタグ不要そう
+    <form className="mt-12 mb-2">
       <label className="block text-gray-700 text-lg font-bold mb-2">
         Qiita 記事 検索キーワードを入力
       </label>

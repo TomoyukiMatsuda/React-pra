@@ -3,11 +3,11 @@ import styles from "../../styles/Home.module.css";
 import { SearchForm } from "../components/SearchForm";
 import { useCallback, useEffect, useState } from "react";
 import { apiClient } from "../apiClient";
+import { IQiitaItem } from "../IQiitaItem";
 
 const Home: NextPage = () => {
   const [debouncedValue, setDebouncedValue] = useState("");
-  // TODO: 型定義
-  const [qiitaItems, setQiitaItems] = useState<any[] | null>(null);
+  const [qiitaItems, setQiitaItems] = useState<IQiitaItem[] | null>(null);
 
   // TODO: カスタムhook
   const fetchQiitaItems = useCallback(async () => {
@@ -18,19 +18,9 @@ const Home: NextPage = () => {
           per_page: 10,
         },
       });
-      console.log(response);
-      // todo: 型定義
-      setQiitaItems(
-        response.data.map((item: any) => {
-          return {
-            id: item.id,
-            title: item.title,
-            likes_count: item.likes_count,
-            user: item.user,
-          };
-        })
-      );
+      setQiitaItems(response.data);
     } catch (e) {
+      // エラーハンドリング
       console.log(e);
     }
   }, [debouncedValue]);
@@ -38,6 +28,7 @@ const Home: NextPage = () => {
   useEffect(() => {
     if (debouncedValue) {
       //即時関数にしたい
+      // (fetchQiitaItems)();
       fetchQiitaItems();
     } else {
       setQiitaItems(null);
