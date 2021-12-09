@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
-import { IQiitaItem } from "./IQiitaItem";
-import { apiClient } from "./apiClient";
+import { IQiitaItem } from "../IQiitaItem";
+import { apiClient } from "../apiClient";
 
 // QiitaItemをフェッチして、アイテムリストを返すカスタムフック
-export const useFetchQiitaItems = (searchText: string): IQiitaItem[] | null => {
+export const useFetchQiitaItems = (
+  searchQuery: string
+): IQiitaItem[] | null => {
   const [qiitaItems, setQiitaItems] = useState<IQiitaItem[] | null>(null);
 
   const fetchQiitaItems = useCallback(async () => {
     try {
       const response = await apiClient.get("/items", {
         params: {
-          query: searchText,
+          query: searchQuery,
           per_page: 10,
         },
       });
@@ -19,19 +21,19 @@ export const useFetchQiitaItems = (searchText: string): IQiitaItem[] | null => {
       // エラーハンドリング
       console.log(e);
     }
-  }, [searchText]);
+  }, [searchQuery]);
 
-  // searchText が更新されると実行される Effect
+  // searchQuery が更新されると実行される Effect
   useEffect(() => {
-    if (searchText) {
+    if (searchQuery) {
       // Promiseを返す関数のため即時関数で実行する
       // (fetchQiitaItems)();
       fetchQiitaItems();
     } else {
-      // searchText が空のときはnullをセットして初期化
+      // searchQuery が空のときはnullをセットして初期化
       setQiitaItems(null);
     }
-  }, [searchText]);
+  }, [searchQuery]);
 
   return qiitaItems;
 };
