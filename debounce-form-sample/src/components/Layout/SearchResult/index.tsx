@@ -27,8 +27,6 @@ export const SearchResult: React.VFC<Props> = (props) => {
     }
   }, [isIntersecting]);
 
-  console.log("アイテム", props.qiitaItems);
-
   return (
     <>
       {props.qiitaItems?.map((item) => {

@@ -17,10 +17,10 @@ export const SearchForm: React.VFC<Props> = (props) => {
         Qiita 記事 検索キーワードを入力
       </label>
 
-      <div className="flex w-full py-3 px-3 mb-4 shadow rounded-full border">
+      <div className="flex w-full py-3 px-3 shadow rounded-full border">
         <input
           id="qiita"
-          className="w-11/12 text-lg appearance-none border-none text-gray-700 outline-none"
+          className="w-11/12 text-lg appearance-none border-none text-gray-700 outline-none focus:outline-none"
           placeholder="例：React"
           value={props.formText}
           onChange={(e) => props.setFormText(e.target.value)}

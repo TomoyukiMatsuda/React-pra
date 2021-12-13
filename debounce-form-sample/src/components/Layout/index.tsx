@@ -11,15 +11,20 @@ export const Layout: React.VFC = () => {
     useFetchQiitaItems(debouncedValue);
 
   return (
-    <>
-      <div className="mt-12 mb-8">
+    <div className="flex flex-col w-3/5 h-screen my-0 mx-auto">
+      <div className="pt-12 mb-2">
         <SearchForm
           formText={formText}
           setFormText={setFormText}
           isLoading={isLoading}
         />
       </div>
-      <SearchResult fetchQiitaItems={fetchQiitaItems} qiitaItems={qiitaItems} />
-    </>
+      <div className="flex-grow pt-4 overflow-y-scroll">
+        <SearchResult
+          fetchQiitaItems={fetchQiitaItems}
+          qiitaItems={qiitaItems}
+        />
+      </div>
+    </div>
   );
 };
