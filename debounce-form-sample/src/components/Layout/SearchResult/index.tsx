@@ -1,14 +1,36 @@
-import React from "react";
+import React, { MutableRefObject, useEffect, useRef } from "react";
 import { IQiitaItem } from "../../../IQiitaItem";
+import { useIntersection } from "../../../hooks/useIntersection";
 
 interface Props {
-  qiitaItems: IQiitaItem[] | null;
+  fetchQiitaItems: (
+    fetchedItemCount: number,
+    currQiitaItems?: IQiitaItem[]
+  ) => Promise<void>;
+  qiitaItems?: IQiitaItem[];
 }
 
 // 検索結果（フェッチしたアイテム）を表示するコンポーネント
 export const SearchResult: React.VFC<Props> = (props) => {
+  // TODO: 初期値でnullを避けたい
+  const bottomRef = useRef<HTMLDivElement>(null);
+  // TODO: できれば型アサーション避けたい
+  const isIntersecting = useIntersection(
+    bottomRef as MutableRefObject<HTMLDivElement>
+  );
+
+  useEffect(() => {
+    if (isIntersecting && props.qiitaItems?.length) {
+      // Promiseを返す関数のため即時関数で実行する
+      // (props.fetchQiitaItems)(10);
+      props.fetchQiitaItems(10, props.qiitaItems);
+    }
+  }, [isIntersecting]);
+
+  console.log("アイテム", props.qiitaItems);
+
   return (
-    <div>
+    <>
       {props.qiitaItems?.map((item) => {
         return (
           <div
@@ -23,6 +45,8 @@ export const SearchResult: React.VFC<Props> = (props) => {
           </div>
         );
       })}
-    </div>
+      {/*TODO: 表示するべきタイミングを考える*/}
+      <div ref={bottomRef} />
+    </>
   );
 };

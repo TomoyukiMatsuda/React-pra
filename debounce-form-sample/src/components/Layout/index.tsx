@@ -7,7 +7,8 @@ import { SearchForm } from "./SearchForm";
 export const Layout: React.VFC = () => {
   const [formText, setFormText] = useState<string>("");
   const debouncedValue = useDebounce(formText, 1000);
-  const { qiitaItems, isLoading } = useFetchQiitaItems(debouncedValue);
+  const { fetchQiitaItems, qiitaItems, isLoading } =
+    useFetchQiitaItems(debouncedValue);
 
   return (
     <>
@@ -18,7 +19,7 @@ export const Layout: React.VFC = () => {
           isLoading={isLoading}
         />
       </div>
-      <SearchResult qiitaItems={qiitaItems} />
+      <SearchResult fetchQiitaItems={fetchQiitaItems} qiitaItems={qiitaItems} />
     </>
   );
 };

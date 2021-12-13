@@ -1,16 +1,21 @@
 import { MutableRefObject, useEffect, useState } from "react";
 
-export const useIntersection = (ref: MutableRefObject<HTMLDivElement>) => {
+// TODO: null
+export const useIntersection = (
+  ref: MutableRefObject<HTMLDivElement> | undefined
+) => {
   const [isIntersecting, setIsIntersecting] = useState(false);
 
   useEffect(() => {
-    const obseraver = new IntersectionObserver(([entry]) => {
+    if (!ref) return;
+
+    const observer = new IntersectionObserver(([entry]) => {
       setIsIntersecting(entry.isIntersecting);
     });
-    obseraver.observe(ref.current);
+    observer.observe(ref.current);
 
-    return () => obseraver.unobserve(ref.current);
-  }, [ref.current]);
+    return () => observer.unobserve(ref.current);
+  }, [ref?.current]);
 
   return isIntersecting;
 };
