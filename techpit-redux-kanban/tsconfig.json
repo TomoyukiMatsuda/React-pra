@@ -10,6 +10,12 @@
     // Required for some packages.
     "moduleResolution": "Node",
 
+    // `import React` instead of `import * as React`
+    "allowSyntheticDefaultImports": true,
+
+    // <div /> => React.createElement("div")
+    "jsx": "react",
+
     // Only for type checks.
     "incremental": true,
     "outDir": "./.ts-cache/",
