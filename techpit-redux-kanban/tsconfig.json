@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    // Target latest browsers
+    "target": "ES2019",
+    "lib": ["ES2019", "DOM", "DOM.Iterable"],
+
+    // Required: Use module="ESNext" so that TS won't compile/disallow any ESM syntax.
+    "module": "ESNext",
+
+    // Required for some packages.
+    "moduleResolution": "Node",
+
+    // Only for type checks.
+    "incremental": true,
+    "outDir": "./.ts-cache/",
+
+    // Useful type checks.
+    "strictNullChecks": true
+  },
+
+  "include": ["./src/**/*"]
+}
