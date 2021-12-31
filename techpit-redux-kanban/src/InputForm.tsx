@@ -1,7 +1,33 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import * as color from './color'
 import { Button, ConfirmButton } from './Button'
+
+/**
+ * テキストエリアの高さを内容に合わせて自動調節する
+ * @param content テキストエリアの内容
+ * @return ref
+ */
+const useAutoFitToContentHeight = (content: string | undefined) => {
+  // ミュータブルな値を保持するオブジェクトrefを返す
+  // Stateと違ってrefの保持する値が変わってもコンポーネントは再レンダリングされない
+  // コンポーネントのHTML要素の実体を保持できる
+  const ref = useRef<HTMLTextAreaElement>(null)
+
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+
+    const { borderTopWidth, borderBottomWidth } = getComputedStyle(element)
+    element.style.height = 'auto' // 一度 auto を設定しないと高さが縮まなくなる
+    // height を計算してセット
+    element.style.height = `calc(${borderTopWidth} + ${element.scrollHeight}px + ${borderBottomWidth})`
+
+    // フォームの値に変更があるたびに計算して設定する
+  }, [content])
+
+  return ref
+}
 
 export const InputForm: React.VFC<{
   value?: string
@@ -10,6 +36,7 @@ export const InputForm: React.VFC<{
   onCancel?(): void
   className?: string
 }> = ({ value, onChange, onConfirm, onCancel, className }) => {
+  const ref = useAutoFitToContentHeight(value)
   const disabled = !value?.trim()
   const handleConfirm = () => {
     if (disabled) return
@@ -19,6 +46,7 @@ export const InputForm: React.VFC<{
   return (
     <Container className={className}>
       <Input
+        ref={ref}
         autoFocus
         placeholder="内容を入力"
         value={value}
