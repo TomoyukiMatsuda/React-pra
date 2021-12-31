@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import { PlusIcon } from './icon'
 import * as color from './color'
 import { Card } from './Card'
+import { InputForm } from './InputForm'
 
 export const Column: React.VFC<{
   title?: string
   cards: { id: string; text?: string }[]
 }> = ({ title, cards }) => {
   const totalCount = cards.length
+  // フォームのテキストをフォームの親コンポーネントで保持することで、Formの表示非表示に左右されずにstateを保持できる（フォームが非表示になってもフォームには記述が残る）
+  const [text, setText] = useState('')
+  const [isInputMode, setIsInputMode] = useState(false)
+  const toggleInput = () => setIsInputMode(v => !v)
+  const confirmInput = () => setText('')
+  const cancelInput = () => setIsInputMode(false)
 
   return (
     <Container>
@@ -16,8 +23,18 @@ export const Column: React.VFC<{
         <CountBadge>{totalCount}</CountBadge>
         <ColumnName>{title}</ColumnName>
 
-        <AddButton />
+        <AddButton onClick={toggleInput} />
       </Header>
+
+      {isInputMode && (
+        <Form
+          value={text}
+          onChange={setText}
+          onConfirm={confirmInput}
+          onCancel={cancelInput}
+        />
+      )}
+
       <VerticalScroll>
         {cards.map(({ id, text }) => (
           <Card key={id} text={text} />
@@ -74,6 +91,10 @@ const AddButton = styled.button.attrs({
   :hover {
     color: ${color.Blue};
   }
+`
+
+const Form = styled(InputForm)`
+  padding: 8px;
 `
 
 const VerticalScroll = styled.div`
