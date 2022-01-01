@@ -3,11 +3,15 @@ import styled from 'styled-components'
 import * as color from './color'
 import { CardFilter } from './CardFilter'
 
-export const Header: React.VFC<{ className?: string }> = ({ className }) => {
+export const Header: React.VFC<{
+  filterValue?: string
+  onFilterChange?(value: string): void
+  className?: string
+}> = ({ filterValue, onFilterChange, className }) => {
   return (
     <Container className={className}>
       <Logo>カンバン ボード</Logo>
-      <CardFilter />
+      <CardFilter value={filterValue} onChange={onFilterChange} />
     </Container>
   )
 }

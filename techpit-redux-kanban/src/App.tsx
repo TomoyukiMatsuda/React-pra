@@ -1,17 +1,20 @@
 import { Header as _Header } from './Header'
 import styled from 'styled-components'
-import React from 'react'
+import React, { useState } from 'react'
 import { Column } from './Column'
 
 export const App: React.VFC = () => {
+  const [filterValue, setFilterValue] = useState('')
+
   return (
     <Container>
-      <Header />
+      <Header filterValue={filterValue} onFilterChange={setFilterValue} />
 
       <MainArea>
         <HorizontalScroll>
           <Column
             title="TODO"
+            filterValue={filterValue}
             cards={[
               { id: 'a', text: 'コーディング' },
               { id: 'b', text: '泣ける日本史' },
@@ -20,13 +23,18 @@ export const App: React.VFC = () => {
           />
           <Column
             title="Doing"
+            filterValue={filterValue}
             cards={[
               { id: 'd', text: 'コメダにいく' },
               { id: 'e', text: 'パソコンを開く' },
             ]}
           />
-          <Column title="Waiting" cards={[]} />
-          <Column title="Done" cards={[{ id: 'f', text: 'コーヒーを飲む' }]} />
+          <Column title="Waiting" filterValue={filterValue} cards={[]} />
+          <Column
+            title="Done"
+            filterValue={filterValue}
+            cards={[{ id: 'f', text: 'コーヒーを飲む' }]}
+          />
         </HorizontalScroll>
       </MainArea>
     </Container>

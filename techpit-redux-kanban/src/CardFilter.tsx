@@ -3,11 +3,18 @@ import styled from 'styled-components'
 import * as color from './color'
 import { SearchIcon as _SearchIcon } from './icon'
 
-export const CardFilter: React.VFC = () => {
+export const CardFilter: React.VFC<{
+  value?: string
+  onChange?(value: string): void
+}> = ({ value, onChange }) => {
   return (
     <Container>
       <SearchIcon />
-      <Input placeholder="Filter cards" />
+      <Input
+        placeholder="Filter cards"
+        value={value}
+        onChange={e => onChange?.(e.currentTarget.value)}
+      />
     </Container>
   )
 }

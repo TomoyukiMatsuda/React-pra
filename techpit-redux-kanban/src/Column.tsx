@@ -12,7 +12,6 @@ export const Column: React.VFC<{
 }> = ({ title, filterValue: rawFilterValue, cards: rawCards }) => {
   const filterValue = rawFilterValue?.trim() // trim: 両端から空白を取り除く
   const keywords = filterValue?.toLocaleLowerCase().split(/\s+/g) ?? []
-  console.log('keywords', keywords)
   const cards = rawCards.filter(({ text }) =>
     // フォームテキスト(keywords)に合致するかどうかを確認する
     keywords?.every(word => text?.toLowerCase().includes(word)),
@@ -43,7 +42,8 @@ export const Column: React.VFC<{
         />
       )}
 
-      {filterValue && <ResultCount>{cards.length}</ResultCount>}
+      {/*フィルタリング文字列が存在すれば、検索結果件数を表示*/}
+      {filterValue && <ResultCount>{cards.length} Results</ResultCount>}
 
       <VerticalScroll>
         {cards.map(({ id, text }) => (
