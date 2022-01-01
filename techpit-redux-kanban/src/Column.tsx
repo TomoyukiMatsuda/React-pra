@@ -7,9 +7,17 @@ import { InputForm } from './InputForm'
 
 export const Column: React.VFC<{
   title?: string
+  filterValue?: string
   cards: { id: string; text?: string }[]
-}> = ({ title, cards }) => {
-  const totalCount = cards.length
+}> = ({ title, filterValue: rawFilterValue, cards: rawCards }) => {
+  const filterValue = rawFilterValue?.trim() // trim: 両端から空白を取り除く
+  const keywords = filterValue?.toLocaleLowerCase().split(/\s+/g) ?? []
+  console.log('keywords', keywords)
+  const cards = rawCards.filter(({ text }) =>
+    // フォームテキスト(keywords)に合致するかどうかを確認する
+    keywords?.every(word => text?.toLowerCase().includes(word)),
+  )
+  const totalCount = rawCards.length
   // フォームのテキストをフォームの親コンポーネントで保持することで、Formの表示非表示に左右されずにstateを保持できる（フォームが非表示になってもフォームには記述が残る）
   const [text, setText] = useState('')
   const [isInputMode, setIsInputMode] = useState(false)
@@ -34,6 +42,8 @@ export const Column: React.VFC<{
           onCancel={cancelInput}
         />
       )}
+
+      {filterValue && <ResultCount>{cards.length}</ResultCount>}
 
       <VerticalScroll>
         {cards.map(({ id, text }) => (
@@ -95,6 +105,12 @@ const AddButton = styled.button.attrs({
 
 const Form = styled(InputForm)`
   padding: 8px;
+`
+
+const ResultCount = styled.div`
+  color: ${color.Black};
+  font-size: 12px;
+  text-align: center;
 `
 
 const VerticalScroll = styled.div`
