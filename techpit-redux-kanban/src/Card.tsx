@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import * as color from './color'
 import { CheckIcon as _CheckIcon, TrashIcon } from './icon'
 
+// Card.DropArea = DropArea
+
 export const Card: React.VFC<{ text?: string }> = ({ text }) => {
   // ドラッグ中かどうかのフラグ
   const [drag, setDrag] = useState(false)
@@ -76,6 +78,47 @@ const Link = styled.a.attrs({
   line-height: 1.7;
   white-space: pre-wrap;
 `
+
+const DropArea: React.VFC<{
+  disabled?: boolean
+  onDrop?(): void
+  children?: React.ReactNode
+  className?: string
+  style?: React.CSSProperties
+}> = ({ disabled, onDrop, children, className, style }) => {
+  const [isTarget, setIsTarget] = useState(false)
+  const visible = !disabled && isTarget
+  const [dragOver, onDragOver] = useDragAutoLeave()
+
+  return (
+    <DropAreaContainer
+      style={style}
+      className={className}
+      onDragOver={e => {
+        if (disabled) return
+        e.preventDefault()
+        onDragOver(() => setIsTarget(false))
+      }}
+      onDragEnter={() => {
+        if (disabled || dragOver.current) return
+        setIsTarget(true)
+      }}
+      onDrop={() => {
+        if (disabled) return
+        setIsTarget(false)
+        onDrop?.()
+      }}
+    >
+      <DropAreaIndicator
+        style={{
+          height: !visible ? 0 : undefined,
+          borderWidth: !visible ? 0 : undefined,
+        }}
+      />
+      {children}
+    </DropAreaContainer>
+  )
+}
 
 /**
  * dragOver イベントが継続中かどうかのフラグをrefとして返す
