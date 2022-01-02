@@ -23,6 +23,10 @@ export const Column: React.VFC<{
   const toggleInput = () => setIsInputMode(v => !v)
   const confirmInput = () => setText('')
   const cancelInput = () => setIsInputMode(false)
+  // ドラッグ中のIDを保持
+  const [draggingCardID, setDraggingCardID] = useState<string | undefined>(
+    undefined,
+  )
 
   return (
     <Container>
@@ -46,12 +50,28 @@ export const Column: React.VFC<{
       {filterValue && <ResultCount>{cards.length} Results</ResultCount>}
 
       <VerticalScroll>
-        {cards.map(({ id, text }) => (
-          <DropArea key={id}>
-            <Card text={text} />
+        {cards.map(({ id, text }, index) => (
+          <DropArea
+            key={id}
+            disabled={
+              // ドラッグ要素の前後にはDropAreaを表示させない
+              id === draggingCardID || cards[index - 1]?.id === draggingCardID
+            }
+          >
+            <Card
+              text={text}
+              onDragStart={() => setDraggingCardID(id)}
+              onDragEnd={() => setDraggingCardID(undefined)}
+            />
           </DropArea>
         ))}
-        <DropArea style={{ height: '100%' }} />
+        <DropArea
+          style={{ height: '100%' }}
+          disabled={
+            draggingCardID !== undefined &&
+            cards[cards.length - 1]?.id === draggingCardID
+          }
+        />
       </VerticalScroll>
     </Container>
   )

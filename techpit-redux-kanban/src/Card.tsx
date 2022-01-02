@@ -3,12 +3,26 @@ import styled from 'styled-components'
 import * as color from './color'
 import { CheckIcon as _CheckIcon, TrashIcon } from './icon'
 
-export const Card: React.VFC<{ text?: string }> = ({ text }) => {
+export const Card: React.VFC<{
+  text?: string
+  onDragStart?(): void
+  onDragEnd?(): void
+}> = ({ text, onDragStart, onDragEnd }) => {
   // ドラッグ中かどうかのフラグ
   const [drag, setDrag] = useState(false)
 
   return (
-    <Container>
+    <Container
+      style={{ opacity: drag ? 0.5 : undefined }}
+      onDragStart={() => {
+        onDragStart?.()
+        setDrag(true)
+      }}
+      onDragEnd={() => {
+        onDragEnd?.()
+        setDrag(false)
+      }}
+    >
       <CheckIcon />
 
       {text?.split(/(https?:\/\/\S+)/g).map((fragment, index) =>
@@ -140,7 +154,7 @@ const useDragAutoLeave = (timeout: number = 100) => {
       timer.current = window.setTimeout(() => {
         dragOverRef.current = false
         onDragLeave?.()
-      }, timeout)
+      }, timeout) // timeoutでdebounce
     },
   ] as const // as const でタプルの型推論を補強している
 }
