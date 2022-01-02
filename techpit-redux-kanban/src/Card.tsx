@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import * as color from './color'
 import { CheckIcon as _CheckIcon, TrashIcon } from './icon'
 
 export const Card: React.VFC<{ text?: string }> = ({ text }) => {
+  // ドラッグ中かどうかのフラグ
+  const [drag, setDrag] = useState(false)
+
   return (
     <Container>
       <CheckIcon />
@@ -72,4 +75,44 @@ const Link = styled.a.attrs({
   font-size: 14px;
   line-height: 1.7;
   white-space: pre-wrap;
+`
+
+/**
+ * dragOver イベントが継続中かどうかのフラグをrefとして返す
+ * timeout 経過後に自動でフラグがfalseになる
+ * @param timeout 自動でフラグをfalseにするまでの時間(ms)
+ */
+const useDragAutoLeave = (timeout: number = 100) => {
+  const dragOverRef = useRef(false)
+  const timer = useRef(0)
+
+  return [
+    dragOverRef,
+    /**
+     * @param onDragLeave フラグがfalseになる時に呼ぶコールバック
+     */
+    (onDragLeave?: () => void) => {
+      clearTimeout(timer.current)
+
+      dragOverRef.current = true
+      // windowをつけないとtypeエラー
+      timer.current = window.setTimeout(() => {
+        dragOverRef.current = false
+        onDragLeave?.()
+      }, timeout)
+    },
+  ] as const // as const でタプルの型推論を補強している
+}
+
+const DropAreaContainer = styled.div`
+  > :not(:first-child) {
+    margin-top: 8px;
+  }
+`
+
+const DropAreaIndicator = styled.div`
+  height: 40px;
+  border: dashed 3px ${color.Gray};
+  border-radius: 6px;
+  transition: all 50ms ease-out;
 `
