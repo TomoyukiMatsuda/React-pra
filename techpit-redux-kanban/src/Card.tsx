@@ -3,8 +3,6 @@ import styled from 'styled-components'
 import * as color from './color'
 import { CheckIcon as _CheckIcon, TrashIcon } from './icon'
 
-// Card.DropArea = DropArea
-
 export const Card: React.VFC<{ text?: string }> = ({ text }) => {
   // ドラッグ中かどうかのフラグ
   const [drag, setDrag] = useState(false)
@@ -79,7 +77,7 @@ const Link = styled.a.attrs({
   white-space: pre-wrap;
 `
 
-const DropArea: React.VFC<{
+export const DropArea: React.VFC<{
   disabled?: boolean
   onDrop?(): void
   children?: React.ReactNode

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { PlusIcon } from './icon'
 import * as color from './color'
-import { Card } from './Card'
+import { Card, DropArea } from './Card'
 import { InputForm } from './InputForm'
 
 export const Column: React.VFC<{
@@ -47,8 +47,11 @@ export const Column: React.VFC<{
 
       <VerticalScroll>
         {cards.map(({ id, text }) => (
-          <Card key={id} text={text} />
+          <DropArea key={id}>
+            <Card text={text} />
+          </DropArea>
         ))}
+        <DropArea style={{ height: '100%' }} />
       </VerticalScroll>
     </Container>
   )
