@@ -5,6 +5,90 @@ import { Column } from './Column'
 
 export const App: React.VFC = () => {
   const [filterValue, setFilterValue] = useState('')
+  const [columns, setColumns] = useState([
+    {
+      id: 'A',
+      title: 'TODO',
+      cards: [
+        { id: 'a', text: '朝食をとる🍞' },
+        { id: 'b', text: 'SNSをチェックする🐦' },
+        { id: 'c', text: '布団に入る (:3[___]' },
+      ],
+    },
+    {
+      id: 'B',
+      title: 'Doing',
+      cards: [
+        { id: 'd', text: '顔を洗う👐' },
+        { id: 'e', text: '歯を磨く🦷' },
+      ],
+    },
+    {
+      id: 'C',
+      title: 'Waiting',
+      cards: [],
+    },
+    {
+      id: 'D',
+      title: 'Done',
+      cards: [{ id: 'f', text: '布団から出る (:3っ)っ -=三[＿＿]' }],
+    },
+  ])
+  // App で保持するドラッグ中のID
+  const [draggingCardID, setDraggingCardID] = useState<string | undefined>(
+    undefined,
+  )
+  // ドロップ処理関数
+  const dropCardTo = (toID: string) => {
+    // ドロップ中のID
+    const fromID = draggingCardID
+    if (!fromID) return
+    setDraggingCardID(undefined) // ドラッグ中IDリセット
+
+    if (fromID === toID) return // IDが一緒ならばリターン
+
+    setColumns(prevColumns => {
+      // ドラッグ中のcard
+      const card = columns.flatMap(col => col.cards).find(c => c.id === fromID)
+      if (!card) {
+        console.log('prevセット')
+        return prevColumns
+      } // fromIDと同じcardが存在しなければ、既存のstateをセット
+
+      return prevColumns.map(column => {
+        let newColumn = column
+
+        if (newColumn.cards.some(col => col.id !== fromID)) {
+          // columnにfromIDと同じidのcardが存在すれば
+          console.log('フィルタリングセット')
+          newColumn = {
+            ...newColumn,
+            cards: newColumn.cards.filter(c => c.id !== fromID), // cardsの値をフィルタリングしてセット
+          }
+        }
+
+        if (newColumn.id === toID) {
+          // 列の末尾に移動の場合 最後にセット
+          console.log('最後にセット')
+          newColumn = {
+            ...newColumn,
+            cards: [...newColumn.cards, card],
+          }
+        } else if (newColumn.cards.some(c => c.id === toID)) {
+          // 列の末尾以外に移動の場合、手前の位置にセット
+          console.log('手前にセット')
+          newColumn = {
+            ...newColumn,
+            cards: newColumn.cards.flatMap(c =>
+              c.id === toID ? [card, c] : [c],
+            ),
+          }
+        }
+
+        return newColumn
+      })
+    })
+  }
 
   return (
     <Container>
@@ -12,29 +96,16 @@ export const App: React.VFC = () => {
 
       <MainArea>
         <HorizontalScroll>
-          <Column
-            title="TODO"
-            filterValue={filterValue}
-            cards={[
-              { id: 'a', text: 'コーディング' },
-              { id: 'b', text: '泣ける日本史' },
-              { id: 'c', text: 'メモ書き' },
-            ]}
-          />
-          <Column
-            title="Doing"
-            filterValue={filterValue}
-            cards={[
-              { id: 'd', text: 'コメダにいく' },
-              { id: 'e', text: 'パソコンを開く' },
-            ]}
-          />
-          <Column title="Waiting" filterValue={filterValue} cards={[]} />
-          <Column
-            title="Done"
-            filterValue={filterValue}
-            cards={[{ id: 'f', text: 'コーヒーを飲む' }]}
-          />
+          {columns.map(({ id: columnID, title, cards }) => (
+            <Column
+              key={columnID}
+              title={title}
+              filterValue={filterValue}
+              cards={cards}
+              onCardDragStart={cardID => setDraggingCardID(cardID)}
+              onCardDrop={entered => dropCardTo(entered ?? columnID)}
+            />
+          ))}
         </HorizontalScroll>
       </MainArea>
     </Container>

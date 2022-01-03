@@ -9,7 +9,16 @@ export const Column: React.VFC<{
   title?: string
   filterValue?: string
   cards: { id: string; text?: string }[]
-}> = ({ title, filterValue: rawFilterValue, cards: rawCards }) => {
+  onCardDragStart?(id: string): void
+  onCardDrop?(entered: string | null): void
+}> = ({
+  title,
+  filterValue: rawFilterValue,
+  cards: rawCards,
+  onCardDragStart,
+  onCardDrop,
+}) => {
+  console.log(title, rawCards)
   const filterValue = rawFilterValue?.trim() // trim: 両端から空白を取り除く
   const keywords = filterValue?.toLocaleLowerCase().split(/\s+/g) ?? []
   const cards = rawCards.filter(({ text }) =>
@@ -27,6 +36,10 @@ export const Column: React.VFC<{
   const [draggingCardID, setDraggingCardID] = useState<string | undefined>(
     undefined,
   )
+  const handleCardDragStart = (id: string) => {
+    setDraggingCardID(id)
+    onCardDragStart?.(id)
+  }
 
   return (
     <Container>
@@ -57,10 +70,11 @@ export const Column: React.VFC<{
               // ドラッグ要素の前後にはDropAreaを表示させない
               id === draggingCardID || cards[index - 1]?.id === draggingCardID
             }
+            onDrop={() => onCardDrop?.(id)}
           >
             <Card
               text={text}
-              onDragStart={() => setDraggingCardID(id)}
+              onDragStart={() => handleCardDragStart(id)}
               onDragEnd={() => setDraggingCardID(undefined)}
             />
           </DropArea>
@@ -71,6 +85,7 @@ export const Column: React.VFC<{
             draggingCardID !== undefined &&
             cards[cards.length - 1]?.id === draggingCardID
           }
+          onDrop={() => onCardDrop?.(null)}
         />
       </VerticalScroll>
     </Container>
