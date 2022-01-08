@@ -51,16 +51,15 @@ export const App: React.VFC = () => {
       // ドラッグ中のcard
       const card = columns.flatMap(col => col.cards).find(c => c.id === fromID)
       if (!card) {
-        console.log('prevセット')
+        // fromIDと同じcardが存在しなければ、既存のstateをセット
         return prevColumns
-      } // fromIDと同じcardが存在しなければ、既存のstateをセット
+      }
 
       return prevColumns.map(column => {
         let newColumn = column
 
-        if (newColumn.cards.some(col => col.id !== fromID)) {
+        if (newColumn.cards.some(col => col.id === fromID)) {
           // columnにfromIDと同じidのcardが存在すれば
-          console.log('フィルタリングセット')
           newColumn = {
             ...newColumn,
             cards: newColumn.cards.filter(c => c.id !== fromID), // cardsの値をフィルタリングしてセット
@@ -69,14 +68,12 @@ export const App: React.VFC = () => {
 
         if (newColumn.id === toID) {
           // 列の末尾に移動の場合 最後にセット
-          console.log('最後にセット')
           newColumn = {
             ...newColumn,
             cards: [...newColumn.cards, card],
           }
         } else if (newColumn.cards.some(c => c.id === toID)) {
           // 列の末尾以外に移動の場合、手前の位置にセット
-          console.log('手前にセット')
           newColumn = {
             ...newColumn,
             cards: newColumn.cards.flatMap(c =>
