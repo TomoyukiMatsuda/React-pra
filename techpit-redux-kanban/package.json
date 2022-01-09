@@ -1,6 +1,7 @@
 {
  "scripts": {
   "start": "parcel ./src/index.html",
+  "start-api": "json-server --watch ./api/db.json --middlewares ./api/middlewares",
   "build": "parcel build ./src/index.html",
   "tsc": "tsc",
   "format": "prettier --write \"./src/**/*.{ts,tsx}\""
@@ -15,6 +16,7 @@
   "@types/react": "^17.0.38",
   "@types/react-dom": "^17.0.11",
   "@types/styled-components": "^5.1.19",
+  "json-server": "^0.17.0",
   "parcel-bundler": "1.12.3",
   "prettier": "^2.5.1",
   "typescript": "^4.5.4"
