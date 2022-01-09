@@ -11,14 +11,15 @@ export const Column: React.VFC<{
   cards: { id: string; text?: string }[]
   onCardDragStart?(id: string): void
   onCardDrop?(entered: string | null): void
+  onCardDeleteClick?(id: string): void
 }> = ({
   title,
   filterValue: rawFilterValue,
   cards: rawCards,
   onCardDragStart,
   onCardDrop,
+  onCardDeleteClick,
 }) => {
-  console.log(title, rawCards)
   const filterValue = rawFilterValue?.trim() // trim: 両端から空白を取り除く
   const keywords = filterValue?.toLocaleLowerCase().split(/\s+/g) ?? []
   const cards = rawCards.filter(({ text }) =>
@@ -76,6 +77,7 @@ export const Column: React.VFC<{
               text={text}
               onDragStart={() => handleCardDragStart(id)}
               onDragEnd={() => setDraggingCardID(undefined)}
+              onDeleteClick={() => onCardDeleteClick?.(id)}
             />
           </DropArea>
         ))}

@@ -45,6 +45,10 @@ export const App: React.VFC = () => {
   const [draggingCardID, setDraggingCardID] = useState<string | undefined>(
     undefined,
   )
+  const [deletingCardID, setDeletingCardID] = useState<string | undefined>(
+    undefined,
+  )
+
   // ドロップ処理関数、 引数toIDはドロップ先の Card の id
   const dropCardTo = (toID: string) => {
     // ドロップ中のID
@@ -101,14 +105,20 @@ export const App: React.VFC = () => {
               cards={cards}
               onCardDragStart={cardID => setDraggingCardID(cardID)}
               onCardDrop={entered => dropCardTo(entered ?? columnID)} // todo: columnのidが渡る可能性もあるの？
+              onCardDeleteClick={cardID => setDeletingCardID(cardID)}
             />
           ))}
         </HorizontalScroll>
       </MainArea>
 
-      <Overlay>
-        <DeleteDialog />
-      </Overlay>
+      {deletingCardID && (
+        <Overlay onClick={() => setDeletingCardID(undefined)}>
+          <DeleteDialog
+            onConfirm={() => setDeletingCardID(undefined)}
+            onCancel={() => setDeletingCardID(undefined)}
+          />
+        </Overlay>
+      )}
     </Container>
   )
 }

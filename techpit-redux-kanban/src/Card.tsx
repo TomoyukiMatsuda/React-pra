@@ -7,7 +7,8 @@ export const Card: React.VFC<{
   text?: string
   onDragStart?(): void
   onDragEnd?(): void
-}> = ({ text, onDragStart, onDragEnd }) => {
+  onDeleteClick?(): void
+}> = ({ text, onDragStart, onDragEnd, onDeleteClick }) => {
   // ドラッグ中かどうかのフラグ
   const [drag, setDrag] = useState(false)
 
@@ -35,7 +36,7 @@ export const Card: React.VFC<{
         ),
       )}
 
-      <DeleteButton />
+      <DeleteButton onClick={() => onDeleteClick?.()} />
     </Container>
   )
 }
