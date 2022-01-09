@@ -12,6 +12,10 @@ export const Column: React.VFC<{
   onCardDragStart?(id: string): void
   onCardDrop?(entered: string | null): void
   onCardDeleteClick?(id: string): void
+  text?: string
+  onTextChange?(value: string): void
+  onTextConfirm?(): void
+  onTextCancel?(): void
 }> = ({
   title,
   filterValue: rawFilterValue,
@@ -19,6 +23,10 @@ export const Column: React.VFC<{
   onCardDragStart,
   onCardDrop,
   onCardDeleteClick,
+  text,
+  onTextChange,
+  onTextConfirm,
+  onTextCancel,
 }) => {
   const filterValue = rawFilterValue?.trim() // trim: 両端から空白を取り除く
   const keywords = filterValue?.toLocaleLowerCase().split(/\s+/g) ?? []
@@ -27,12 +35,13 @@ export const Column: React.VFC<{
     keywords?.every(word => text?.toLowerCase().includes(word)),
   )
   const totalCount = rawCards.length
-  // フォームのテキストをフォームの親コンポーネントで保持することで、Formの表示非表示に左右されずにstateを保持できる（フォームが非表示になってもフォームには記述が残る）
-  const [text, setText] = useState('')
   const [isInputMode, setIsInputMode] = useState(false)
   const toggleInput = () => setIsInputMode(v => !v)
-  const confirmInput = () => setText('')
-  const cancelInput = () => setIsInputMode(false)
+  const confirmInput = () => onTextConfirm?.()
+  const cancelInput = () => {
+    setIsInputMode(false)
+    onTextCancel?.()
+  }
   // ドラッグ中のIDを保持
   const [draggingCardID, setDraggingCardID] = useState<string | undefined>(
     undefined,
@@ -54,7 +63,7 @@ export const Column: React.VFC<{
       {isInputMode && (
         <Form
           value={text}
-          onChange={setText}
+          onChange={onTextChange}
           onConfirm={confirmInput}
           onCancel={cancelInput}
         />
