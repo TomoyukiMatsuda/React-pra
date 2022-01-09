@@ -13,12 +13,14 @@ export type ReqAndRes = {
 
 export const Endpoint = 'http://localhost:3000/api'
 
-export const api = async <K extends keyof ReqAndRes>(
+export async function api<K extends keyof ReqAndRes>(
   key: K,
   payload: ReqAndRes[K]['req'],
-): Promise<ReqAndRes[K]['res']> => {
-  const [method, path] = key.split('')
-  if (!method || !path) throw new Error(`Unrecognized api: ${key}`)
+): Promise<ReqAndRes[K]['res']> {
+  const [method, path] = key.split(' ')
+  if (!method || !path) {
+    throw new Error(`Unrecognized api: ${key}`)
+  }
 
   let pathWithID = ''
   const option: RequestInit = { method }
@@ -29,10 +31,12 @@ export const api = async <K extends keyof ReqAndRes>(
         pathWithID = `${path}/${payload.id}`
       }
       break
+
     case 'POST':
       option.headers = { 'Content-Type': 'application/json' }
       option.body = JSON.stringify(payload)
       break
+
     case 'PATCH':
       if (payload && 'id' in payload) {
         pathWithID = `${path}/${payload.id}`
