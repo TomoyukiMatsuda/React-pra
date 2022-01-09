@@ -6,6 +6,8 @@ import { Column } from './Column'
 import { DeleteDialog } from './DeleteDialog'
 import { Overlay as _Overlay } from './Overlay'
 import { createRandomID } from './util'
+import { api } from './api'
+//import {api} from './api'
 
 export const App: React.VFC = () => {
   const [filterValue, setFilterValue] = useState('')
@@ -111,10 +113,15 @@ export const App: React.VFC = () => {
   }
 
   const addCard = (columnID: string) => {
+    /**
+     * API 通信はネットワークやバックエンドサーバーの影響を受け結果が予想できないため、
+     * setColumns の外で呼び出します。randomID() の呼び出しが外側にあるのも同じ理由です。
+     */
     const cardID = createRandomID()
-
+    // ローカルのstateを更新
     type Columns = typeof columns
     setColumns(
+      // 冪等な関数にしたい
       produce((prevColumns: Columns) => {
         const column = prevColumns.find(col => col.id === columnID)
         if (!column) return
@@ -126,6 +133,15 @@ export const App: React.VFC = () => {
         column.text = ''
       }),
     )
+
+    // api POST 用の column と text
+    const column = columns.find(col => col.id === columnID)
+    if (!column) return
+    const text = column.text
+    api('POST /v1/cards', {
+      id: cardID,
+      text: text,
+    })
   }
 
   const deleteCard = () => {
