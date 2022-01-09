@@ -1,8 +1,10 @@
+import React, { useState } from 'react'
+import produce from 'immer'
 import { Header as _Header } from './Header'
 import styled from 'styled-components'
-import React, { useState } from 'react'
 import { Column } from './Column'
-import produce from 'immer'
+import { DeleteDialog } from './DeleteDialog'
+import { Overlay as _Overlay } from './Overlay'
 
 export const App: React.VFC = () => {
   const [filterValue, setFilterValue] = useState('')
@@ -103,6 +105,10 @@ export const App: React.VFC = () => {
           ))}
         </HorizontalScroll>
       </MainArea>
+
+      <Overlay>
+        <DeleteDialog />
+      </Overlay>
     </Container>
   )
 }
@@ -139,4 +145,10 @@ const HorizontalScroll = styled.div`
     flex: 0 0 16px;
     content: '';
   }
+`
+
+const Overlay = styled(_Overlay)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
