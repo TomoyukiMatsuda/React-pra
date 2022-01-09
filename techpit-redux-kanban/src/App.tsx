@@ -90,6 +90,31 @@ export const App: React.VFC = () => {
       }),
     )
   }
+  const deleteCard = () => {
+    const cardID = deletingCardID
+    if (!cardID) return
+    setDeletingCardID(undefined)
+
+    // delete対象card
+    const targetCard = columns
+      .flatMap(col => col.cards)
+      .find(card => card.id === cardID)
+    if (!targetCard) return
+
+    type Columns = typeof columns
+    setColumns(
+      produce((prevColumns: Columns) => {
+        // 削除対象のcolumnを取得
+        const column = prevColumns.find(prevColumn =>
+          prevColumn.cards.some(card => card.id === cardID),
+        )
+
+        if (!column) return
+        // 削除対象を除いてセット
+        column.cards = column?.cards.filter(card => card.id !== cardID)
+      }),
+    )
+  }
 
   return (
     <Container>
@@ -114,7 +139,7 @@ export const App: React.VFC = () => {
       {deletingCardID && (
         <Overlay onClick={() => setDeletingCardID(undefined)}>
           <DeleteDialog
-            onConfirm={() => setDeletingCardID(undefined)}
+            onConfirm={deleteCard}
             onCancel={() => setDeletingCardID(undefined)}
           />
         </Overlay>
