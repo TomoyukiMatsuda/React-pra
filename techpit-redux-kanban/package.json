@@ -6,6 +6,7 @@
   "format": "prettier --write \"./src/**/*.{ts,tsx}\""
  },
  "dependencies": {
+  "immer": "^9.0.7",
   "react": "^17.0.2",
   "react-dom": "^17.0.2",
   "styled-components": "^5.3.3"
