@@ -5,12 +5,15 @@ import styled from 'styled-components'
 import { Column } from './Column'
 import { DeleteDialog } from './DeleteDialog'
 import { Overlay as _Overlay } from './Overlay'
+import { createRandomID } from './util'
 
 export const App: React.VFC = () => {
   const [filterValue, setFilterValue] = useState('')
   /**
    * 表示位置を調整する「ある id の Card を別の id の Card の手前に挿入する」と具体化すると、
    *  2 つの id を state columns の持ち主である App が管理する
+   *
+   *  text: Add フォームの入力テキスト
    */
   const [columns, setColumns] = useState([
     {
@@ -107,6 +110,24 @@ export const App: React.VFC = () => {
     )
   }
 
+  const addCard = (columnID: string) => {
+    const cardID = createRandomID()
+
+    type Columns = typeof columns
+    setColumns(
+      produce((prevColumns: Columns) => {
+        const column = prevColumns.find(col => col.id === columnID)
+        if (!column) return
+
+        column.cards.unshift({
+          id: cardID,
+          text: column.text,
+        })
+        column.text = ''
+      }),
+    )
+  }
+
   const deleteCard = () => {
     const cardID = deletingCardID
     if (!cardID) return
@@ -150,6 +171,7 @@ export const App: React.VFC = () => {
               onCardDeleteClick={cardID => setDeletingCardID(cardID)}
               text={text}
               onTextChange={value => setText(columnID, value)}
+              onTextConfirm={() => addCard(columnID)}
             />
           ))}
         </HorizontalScroll>
