@@ -11,7 +11,7 @@ export type ReqAndRes = {
   }
 }
 
-export const Endpoint = 'http://localhost:3000/api'
+export const Endpoint = process.env.API_ENDPOINT || 'http://localhost:3000/api'
 
 export async function api<K extends keyof ReqAndRes>(
   key: K,
