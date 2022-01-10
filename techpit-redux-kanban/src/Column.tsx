@@ -8,7 +8,7 @@ import { InputForm } from './InputForm'
 export const Column: React.VFC<{
   title?: string
   filterValue?: string
-  cards: { id: string; text?: string }[]
+  cards?: { id: string; text?: string }[]
   onCardDragStart?(id: string): void
   onCardDrop?(entered: string | null): void
   onCardDeleteClick?(id: string): void
@@ -30,11 +30,11 @@ export const Column: React.VFC<{
 }) => {
   const filterValue = rawFilterValue?.trim() // trim: 両端から空白を取り除く
   const keywords = filterValue?.toLocaleLowerCase().split(/\s+/g) ?? []
-  const cards = rawCards.filter(({ text }) =>
+  const cards = rawCards?.filter(({ text }) =>
     // フォームテキスト(keywords)に合致するかどうかを確認する
     keywords?.every(word => text?.toLowerCase().includes(word)),
   )
-  const totalCount = rawCards.length
+  const totalCount = rawCards?.length ?? -1
   const [isInputMode, setIsInputMode] = useState(false)
   const toggleInput = () => setIsInputMode(v => !v)
   const confirmInput = () => onTextConfirm?.()
@@ -54,7 +54,7 @@ export const Column: React.VFC<{
   return (
     <Container>
       <Header>
-        <CountBadge>{totalCount}</CountBadge>
+        {totalCount >= 0 && <CountBadge>{totalCount}</CountBadge>}
         <ColumnName>{title}</ColumnName>
 
         <AddButton onClick={toggleInput} />
@@ -69,36 +69,43 @@ export const Column: React.VFC<{
         />
       )}
 
-      {/*フィルタリング文字列が存在すれば、検索結果件数を表示*/}
-      {filterValue && <ResultCount>{cards.length} Results</ResultCount>}
+      {!cards ? (
+        <Loading />
+      ) : (
+        <>
+          {/*フィルタリング文字列が存在すれば、検索結果件数を表示*/}
+          {filterValue && <ResultCount>{cards.length} Results</ResultCount>}
 
-      <VerticalScroll>
-        {cards.map(({ id, text }, index) => (
-          <DropArea
-            key={id}
-            disabled={
-              // ドラッグ要素の前後にはDropAreaを表示させない
-              id === draggingCardID || cards[index - 1]?.id === draggingCardID
-            }
-            onDrop={() => onCardDrop?.(id)}
-          >
-            <Card
-              text={text}
-              onDragStart={() => handleCardDragStart(id)}
-              onDragEnd={() => setDraggingCardID(undefined)}
-              onDeleteClick={() => onCardDeleteClick?.(id)}
+          <VerticalScroll>
+            {cards.map(({ id, text }, index) => (
+              <DropArea
+                key={id}
+                disabled={
+                  // ドラッグ要素の前後にはDropAreaを表示させない
+                  id === draggingCardID ||
+                  cards[index - 1]?.id === draggingCardID
+                }
+                onDrop={() => onCardDrop?.(id)}
+              >
+                <Card
+                  text={text}
+                  onDragStart={() => handleCardDragStart(id)}
+                  onDragEnd={() => setDraggingCardID(undefined)}
+                  onDeleteClick={() => onCardDeleteClick?.(id)}
+                />
+              </DropArea>
+            ))}
+            <DropArea
+              style={{ height: '100%' }}
+              disabled={
+                draggingCardID !== undefined &&
+                cards[cards.length - 1]?.id === draggingCardID
+              }
+              onDrop={() => onCardDrop?.(null)}
             />
-          </DropArea>
-        ))}
-        <DropArea
-          style={{ height: '100%' }}
-          disabled={
-            draggingCardID !== undefined &&
-            cards[cards.length - 1]?.id === draggingCardID
-          }
-          onDrop={() => onCardDrop?.(null)}
-        />
-      </VerticalScroll>
+          </VerticalScroll>
+        </>
+      )}
     </Container>
   )
 }
@@ -154,6 +161,13 @@ const AddButton = styled.button.attrs({
 
 const Form = styled(InputForm)`
   padding: 8px;
+`
+
+const Loading = styled.div.attrs({
+  children: 'Loading...',
+})`
+  padding: 8px;
+  font-size: 14px;
 `
 
 const ResultCount = styled.div`

@@ -1,3 +1,7 @@
-var _a;
-const message = (_a = document.querySelector("h1")) === null || _a === void 0 ? void 0 : _a.textContent;
-console.log(message);
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { GlobalStyle } from './GlobalStyle';
+import { App } from './App';
+ReactDOM.render(React.createElement(React.Fragment, null,
+    React.createElement(GlobalStyle, null),
+    React.createElement(App, null)), document.getElementById('app'));

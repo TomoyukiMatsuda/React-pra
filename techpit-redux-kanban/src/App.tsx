@@ -7,7 +7,16 @@ import { DeleteDialog } from './DeleteDialog'
 import { Overlay as _Overlay } from './Overlay'
 import { createRandomID } from './util'
 import { api } from './api'
-//import {api} from './api'
+
+type Columns = {
+  id: string
+  title?: string
+  text?: string
+  cards?: {
+    id: string
+    text?: string
+  }[]
+}[]
 
 export const App: React.VFC = () => {
   const [filterValue, setFilterValue] = useState('')
@@ -17,39 +26,7 @@ export const App: React.VFC = () => {
    *
    *  text: Add フォームの入力テキスト
    */
-  const [columns, setColumns] = useState([
-    {
-      id: 'A',
-      title: 'TODO',
-      text: '',
-      cards: [
-        { id: 'a', text: '朝食をとる🍞' },
-        { id: 'b', text: 'SNSをチェックする🐦' },
-        { id: 'c', text: '布団に入る (:3[___]' },
-      ],
-    },
-    {
-      id: 'B',
-      title: 'Doing',
-      text: '',
-      cards: [
-        { id: 'd', text: '顔を洗う👐' },
-        { id: 'e', text: '歯を磨く🦷' },
-      ],
-    },
-    {
-      id: 'C',
-      title: 'Waiting',
-      text: '',
-      cards: [],
-    },
-    {
-      id: 'D',
-      title: 'Done',
-      text: '',
-      cards: [{ id: 'f', text: '布団から出る (:3っ)っ -=三[＿＿]' }],
-    },
-  ])
+  const [columns, setColumns] = useState<Columns>([])
   // ドラッグ中の Card の id を state として保持
   const [draggingCardID, setDraggingCardID] = useState<string | undefined>(
     undefined,
@@ -66,29 +43,28 @@ export const App: React.VFC = () => {
     setDraggingCardID(undefined) // ドラッグ中IDリセット
     if (fromID === toID) return // IDが一緒ならばリターン
 
-    type Columns = typeof columns
     setColumns(
       produce((columns: Columns) => {
         // ドラッグ中のcardを取得
         const card = columns
-          .flatMap(col => col.cards)
+          .flatMap(col => col.cards ?? [])
           .find(c => c.id === fromID)
         if (!card) return
 
         // 移動元のcolumn
         const fromColumn = columns.find(col =>
-          col.cards.some(c => c.id === fromID),
+          col.cards?.some(c => c.id === fromID),
         )
-        if (!fromColumn) return
+        if (!fromColumn?.cards) return
         // 移動元のcolumnから移動するcard以外をセット
         fromColumn.cards = fromColumn.cards.filter(c => c.id !== fromID)
 
         // 移動先のcolumn
-        const toColumn = columns.find(
+        const toColumn = columns?.find(
           // todo: toIDは 移動先columnのid or 移動先columnにあるcardのid てこと??
-          col => col.id === toID || col.cards.some(card => card.id === toID),
+          col => col.id === toID || col.cards?.some(card => card.id === toID),
         )
-        if (!toColumn) return
+        if (!toColumn?.cards) return
 
         let index = toColumn.cards.findIndex(card => card.id === toID)
         if (index < 0) {
@@ -101,7 +77,6 @@ export const App: React.VFC = () => {
   }
 
   const setText = (columnID: string, value: string) => {
-    type Columns = typeof columns
     setColumns(
       produce((prevColumns: Columns) => {
         const column = prevColumns.find(col => col.id === columnID)
@@ -119,14 +94,13 @@ export const App: React.VFC = () => {
      */
     const cardID = createRandomID()
     // ローカルのstateを更新
-    type Columns = typeof columns
     setColumns(
       // 冪等な関数にしたい
       produce((prevColumns: Columns) => {
         const column = prevColumns.find(col => col.id === columnID)
         if (!column) return
 
-        column.cards.unshift({
+        column.cards?.unshift({
           id: cardID,
           text: column.text,
         })
@@ -152,20 +126,19 @@ export const App: React.VFC = () => {
     // delete対象card
     const targetCard = columns
       .flatMap(col => col.cards)
-      .find(card => card.id === cardID)
+      .find(card => card?.id === cardID)
     if (!targetCard) return
 
-    type Columns = typeof columns
     setColumns(
       produce((prevColumns: Columns) => {
         // 削除対象のcolumnを取得
         const column = prevColumns.find(prevColumn =>
-          prevColumn.cards.some(card => card.id === cardID),
+          prevColumn.cards?.some(card => card.id === cardID),
         )
 
         if (!column) return
         // 削除対象を除いてセット
-        column.cards = column?.cards.filter(card => card.id !== cardID)
+        column.cards = column.cards?.filter(card => card.id !== cardID)
       }),
     )
   }
