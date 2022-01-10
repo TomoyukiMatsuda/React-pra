@@ -1,22 +1,26 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import produce from 'immer'
 import { Header as _Header } from './Header'
 import styled from 'styled-components'
 import { Column } from './Column'
 import { DeleteDialog } from './DeleteDialog'
 import { Overlay as _Overlay } from './Overlay'
-import { createRandomID } from './util'
+import { createRandomID, sortBy } from './util'
 import { api } from './api'
 
-type Columns = {
-  id: string
-  title?: string
-  text?: string
-  cards?: {
+// text: Add フォームの入力テキスト
+type State = {
+  columns?: {
     id: string
+    title?: string
     text?: string
+    cards?: {
+      id: string
+      text?: string
+    }[]
   }[]
-}[]
+  cardsOrder: Record<string, string> // Column ごとの順序情報である cardsOrder
+}
 
 export const App: React.VFC = () => {
   const [filterValue, setFilterValue] = useState('')
@@ -24,9 +28,8 @@ export const App: React.VFC = () => {
    * 表示位置を調整する「ある id の Card を別の id の Card の手前に挿入する」と具体化すると、
    *  2 つの id を state columns の持ち主である App が管理する
    *
-   *  text: Add フォームの入力テキスト
-   */
-  const [columns, setColumns] = useState<Columns>([])
+   * */
+  const [{ columns }, setData] = useState<State>({ cardsOrder: {} })
   // ドラッグ中の Card の id を state として保持
   const [draggingCardID, setDraggingCardID] = useState<string | undefined>(
     undefined,
@@ -34,6 +37,31 @@ export const App: React.VFC = () => {
   const [deletingCardID, setDeletingCardID] = useState<string | undefined>(
     undefined,
   )
+
+  useEffect(() => {
+    ;(async () => {
+      const columns = await api('GET /v1/columns', null)
+      setData(
+        produce((draft: State) => {
+          draft.columns = columns
+        }),
+      ) // cards が存在しないcolumnsをセット
+
+      const [unorderedCards, cardsOrder] = await Promise.all([
+        api('GET /v1/cards', null),
+        api('GET /v1/cardsOrder', null),
+      ])
+      setData(
+        produce((draft: State) => {
+          draft.cardsOrder = cardsOrder
+          // cardsをセット（更新）
+          draft.columns?.forEach(prevColumn => {
+            prevColumn.cards = sortBy(unorderedCards, cardsOrder, prevColumn.id)
+          })
+        }),
+      )
+    })()
+  }, [])
 
   // ドロップ処理関数、 引数toIDはドロップ先の Card の id
   const dropCardTo = (toID: string) => {
@@ -43,16 +71,16 @@ export const App: React.VFC = () => {
     setDraggingCardID(undefined) // ドラッグ中IDリセット
     if (fromID === toID) return // IDが一緒ならばリターン
 
-    setColumns(
-      produce((columns: Columns) => {
+    setData(
+      produce((draft: State) => {
         // ドラッグ中のcardを取得
-        const card = columns
-          .flatMap(col => col.cards ?? [])
+        const card = draft.columns
+          ?.flatMap(col => col.cards ?? [])
           .find(c => c.id === fromID)
         if (!card) return
 
         // 移動元のcolumn
-        const fromColumn = columns.find(col =>
+        const fromColumn = columns?.find(col =>
           col.cards?.some(c => c.id === fromID),
         )
         if (!fromColumn?.cards) return
@@ -77,9 +105,9 @@ export const App: React.VFC = () => {
   }
 
   const setText = (columnID: string, value: string) => {
-    setColumns(
-      produce((prevColumns: Columns) => {
-        const column = prevColumns.find(col => col.id === columnID)
+    setData(
+      produce((draft: State) => {
+        const column = draft.columns?.find(col => col.id === columnID)
         if (!column) return
 
         column.text = value
@@ -94,10 +122,10 @@ export const App: React.VFC = () => {
      */
     const cardID = createRandomID()
     // ローカルのstateを更新
-    setColumns(
+    setData(
       // 冪等な関数にしたい
-      produce((prevColumns: Columns) => {
-        const column = prevColumns.find(col => col.id === columnID)
+      produce((draft: State) => {
+        const column = draft.columns?.find(col => col.id === columnID)
         if (!column) return
 
         column.cards?.unshift({
@@ -109,7 +137,7 @@ export const App: React.VFC = () => {
     )
 
     // api POST 用の column と text
-    const column = columns.find(col => col.id === columnID)
+    const column = columns?.find(col => col.id === columnID)
     if (!column) return
     const text = column.text
     api('POST /v1/cards', {
@@ -123,16 +151,10 @@ export const App: React.VFC = () => {
     if (!cardID) return
     setDeletingCardID(undefined)
 
-    // delete対象card
-    const targetCard = columns
-      .flatMap(col => col.cards)
-      .find(card => card?.id === cardID)
-    if (!targetCard) return
-
-    setColumns(
-      produce((prevColumns: Columns) => {
+    setData(
+      produce((draft: State) => {
         // 削除対象のcolumnを取得
-        const column = prevColumns.find(prevColumn =>
+        const column = draft.columns?.find(prevColumn =>
           prevColumn.cards?.some(card => card.id === cardID),
         )
 
@@ -149,20 +171,24 @@ export const App: React.VFC = () => {
 
       <MainArea>
         <HorizontalScroll>
-          {columns.map(({ id: columnID, title, cards, text }) => (
-            <Column
-              key={columnID}
-              title={title}
-              filterValue={filterValue}
-              cards={cards}
-              onCardDragStart={cardID => setDraggingCardID(cardID)}
-              onCardDrop={entered => dropCardTo(entered ?? columnID)} // todo: columnのidが渡る可能性もあるの？
-              onCardDeleteClick={cardID => setDeletingCardID(cardID)}
-              text={text}
-              onTextChange={value => setText(columnID, value)}
-              onTextConfirm={() => addCard(columnID)}
-            />
-          ))}
+          {!columns ? (
+            <Loading />
+          ) : (
+            columns.map(({ id: columnID, title, cards, text }) => (
+              <Column
+                key={columnID}
+                title={title}
+                filterValue={filterValue}
+                cards={cards}
+                onCardDragStart={cardID => setDraggingCardID(cardID)}
+                onCardDrop={entered => dropCardTo(entered ?? columnID)} // todo: columnのidが渡る可能性もあるの？
+                onCardDeleteClick={cardID => setDeletingCardID(cardID)}
+                text={text}
+                onTextChange={value => setText(columnID, value)}
+                onTextConfirm={() => addCard(columnID)}
+              />
+            ))
+          )}
         </HorizontalScroll>
       </MainArea>
 
@@ -210,6 +236,12 @@ const HorizontalScroll = styled.div`
     flex: 0 0 16px;
     content: '';
   }
+`
+
+const Loading = styled.div.attrs({
+  children: 'Loading...',
+})`
+  font-size: 14px;
 `
 
 const Overlay = styled(_Overlay)`
