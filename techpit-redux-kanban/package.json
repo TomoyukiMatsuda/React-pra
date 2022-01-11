@@ -4,7 +4,8 @@
   "start-api": "json-server --watch ./api/db.json --middlewares ./api/middlewares",
   "build": "parcel build ./src/index.html",
   "tsc": "tsc",
-  "format": "prettier --write \"./src/**/*.{ts,tsx}\""
+  "format": "prettier --write \"./src/**/*.{ts,tsx}\"",
+  "lint": "eslint \"./src/**/*.{ts,tsx}\""
  },
  "dependencies": {
   "immer": "^9.0.7",

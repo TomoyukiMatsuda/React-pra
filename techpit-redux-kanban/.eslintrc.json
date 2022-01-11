@@ -1,0 +1,47 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+
+  "plugins": [
+    "@typescript-eslint/eslint-plugin",
+    "eslint-plugin-react",
+    "eslint-plugin-react-hooks"
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended"
+  ],
+
+  "env": {
+    "browser": true,
+    "node": false
+  },
+
+  "ignorePatterns": ["*.js"],
+
+  "rules": {
+    // https://github.com/typescript-eslint/typescript-eslint/blob/cc70e4fbadd0b15fd6af913a2e1e2ddd346fa558/packages/eslint-plugin/docs/rules/no-unused-vars.md
+    // note you must disable the base rule as it can report incorrect errors
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "varsIgnorePattern": "_$" }
+    ],
+
+    // Prettier とバッティングするので off
+    "no-extra-semi": "off",
+
+    // { onClick?(): void } のような props type をうまく判定できないので off
+    // 同じことが TS で検知できるためそもそも不要でもある
+    "react/prop-types": "off"
+  }
+}
