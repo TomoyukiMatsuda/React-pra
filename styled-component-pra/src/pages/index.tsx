@@ -10,6 +10,7 @@ import React, {
   useState,
 } from "react";
 
+// コンテキストは state・更新関数 で分けて作る
 const CountContext = createContext<number>(0);
 const SetCountContext = createContext<Dispatch<SetStateAction<number>>>(
   () => undefined
@@ -19,6 +20,7 @@ type Props = {
   children: ReactNode;
 };
 
+// Provider は props で子コンポーネントをうけるようにする
 const CountProvider: React.VFC<Props> = ({ children }) => {
   const [count, setCount] = useState(0);
 
@@ -73,7 +75,7 @@ const Home: NextPage = () => {
   );
 };
 
-const Title = styled.div`
+const TitleText = styled.div`
   margin-top: 16px;
   text-align: center;
   font-size: 32px;
