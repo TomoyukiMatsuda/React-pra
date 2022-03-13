@@ -39,6 +39,7 @@ const Home: NextPage = () => {
           <code className={styles.code}>pages/index.tsx</code>
         </p>
 
+        {/*値を取得したい要素にRefをセットする*/}
         <div className={styles.grid} ref={targetRef}>
           <a href="https://nextjs.org/docs" className={styles.card}>
             <h2>Documentation &rarr;</h2>
