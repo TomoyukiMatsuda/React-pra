@@ -10,7 +10,6 @@ import {
 import { apiClient } from "@/src/lib/apiClient";
 import { useCallback, useState } from "react";
 import { Spacer } from "@/src/ui/components/spacer";
-import { getBindingIdentifiers } from "@babel/types";
 
 type QiitaItem = {
   id: string;
