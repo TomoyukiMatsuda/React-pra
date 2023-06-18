@@ -11,15 +11,17 @@ export default function Page() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
+        paddingTop: 32,
         height: "100vh",
         width: "100vw",
       }}
     >
       <MainContainer>
-        <DivElement onClick={() => handleClick("div")}>div</DivElement>
+        <DivElement tabIndex={1} onClick={() => handleClick("div")}>
+          div
+        </DivElement>
         <ButtonElement onClick={() => handleClick("button")}>
-          Button
+          button
         </ButtonElement>
 
         {/*<TabIndexContainer handleClick={() => handleClick("div")} />*/}
@@ -58,6 +60,8 @@ const MainContainer = styled.main`
   display: flex;
   flex-direction: column;
   row-gap: 16px;
+  border: 1px solid black;
+  padding: 96px;
 `;
 const DivElement = styled.div`
   display: flex;
