@@ -18,10 +18,11 @@ export default function Page() {
     >
       <MainContainer>
         <DivElement onClick={() => handleClick("div")}>div</DivElement>
-        <ButtonElement tabIndex={5} onClick={() => handleClick("button")}>
+        <ButtonElement onClick={() => handleClick("button")}>
           Button
         </ButtonElement>
-        <TabIndexContainer handleClick={() => handleClick("div")} />
+
+        {/*<TabIndexContainer handleClick={() => handleClick("div")} />*/}
       </MainContainer>
     </div>
   );
