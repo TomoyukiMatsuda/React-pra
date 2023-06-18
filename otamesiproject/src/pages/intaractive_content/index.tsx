@@ -35,7 +35,8 @@ const TabIndexContainer = ({ handleClick }: { handleClick: () => void }) => {
         role="button"
         onClick={handleClick}
         onKeyDown={(e) => {
-          if (e.key === "Enter") {
+          if (e.key === "Enter" || e.key === " ") {
+            // Enter or Space で実行
             handleClick();
           }
         }}
@@ -79,22 +80,6 @@ const ButtonElement = styled.button`
   width: 240px;
   height: 48px;
   border: 1px solid black;
-  border-radius: 8px;
-  cursor: pointer;
-
-  :focus {
-    border: 2px solid blue;
-  }
-`;
-
-const VideoElement = styled.video`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 120px;
-  height: 24px;
-  border: 1px solid black;
-  background: white;
   border-radius: 8px;
   cursor: pointer;
 
