@@ -1,4 +1,4 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
 
@@ -20,12 +20,16 @@ function PageComponent({ list }: { list: { id: number }[] }) {
     [key in number]: HTMLLIElement;
   }>({});
 
+  const [hideItemIds, setHideItemIds] = useState<number[]>([]);
+
   const refCallback = useCallback((id: number, node: HTMLLIElement | null) => {
     if (node !== null && listItemRefs.current[id] === undefined) {
+      console.log("node 追加！", id, node);
       // node が null でなく、かつ、ref が未登録の場合
       listItemRefs.current[id] = node;
     } else {
-      // node が null の場合は、不要な ref となるため削除
+      // node が null の場合は、対象の node を管理する必要がなくなるため削除
+      console.log("node 削除！", id, node);
       delete listItemRefs.current[id];
     }
   }, []);
