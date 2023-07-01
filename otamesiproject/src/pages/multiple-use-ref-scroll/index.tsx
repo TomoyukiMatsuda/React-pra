@@ -20,19 +20,17 @@ function PageComponent({ list }: { list: { id: number }[] }) {
     [key in number]: HTMLLIElement;
   }>({});
 
-  const [hideItemIds, setHideItemIds] = useState<number[]>([]);
-
   const refCallback = useCallback((id: number, node: HTMLLIElement | null) => {
     if (node !== null && listItemRefs.current[id] === undefined) {
-      console.log("node 追加！", id, node);
       // node が null でなく、かつ、ref が未登録の場合
       listItemRefs.current[id] = node;
     } else {
       // node が null の場合は、対象の node を管理する必要がなくなるため削除
-      console.log("node 削除！", id, node);
       delete listItemRefs.current[id];
     }
   }, []);
+
+  console.log("listItemRefs", listItemRefs.current);
 
   const handleClickItem = useCallback((id: number) => {
     // id から 対象の ref を取得
@@ -44,8 +42,15 @@ function PageComponent({ list }: { list: { id: number }[] }) {
     itemRef?.focus();
   }, []);
 
+  const [hideItemIds, setHideItemIds] = useState<number[]>([]);
+
+  const refCallbackFn = useCallback(
+    (node: HTMLDivElement | null) => console.log("div ref callback node", node),
+    []
+  );
   return (
-    <Div>
+    <Div ref={refCallbackFn}>
+      {/*<Div ref={(node) => console.log("div ref callback node", node)}>*/}
       {/* ヘッダー */}
       <Header>
         {list?.map((v) => (
@@ -57,15 +62,18 @@ function PageComponent({ list }: { list: { id: number }[] }) {
 
       {/* リスト */}
       <Ul>
-        {list?.map((v) => (
-          <Li
-            key={v.id}
-            ref={(node: HTMLLIElement | null) => refCallback(v.id, node)}
-            tabIndex={0}
-          >
-            {v.id}
-          </Li>
-        ))}
+        {list?.map((v) =>
+          hideItemIds.includes(v.id) ? null : (
+            <Li
+              key={v.id}
+              ref={(node: HTMLLIElement | null) => refCallback(v.id, node)}
+              tabIndex={0}
+              onClick={() => setHideItemIds((prev) => [...prev, v.id])}
+            >
+              {v.id}
+            </Li>
+          )
+        )}
       </Ul>
     </Div>
   );
