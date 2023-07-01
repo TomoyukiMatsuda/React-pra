@@ -15,6 +15,7 @@ export default function Index() {
 }
 
 function PageComponent({ list }: { list: { id: number }[] }) {
+  // Mapped Types で型定義した RefObject を作成
   const listItemRefs = useRef<{
     [key in number]: HTMLLIElement;
   }>({});
@@ -53,8 +54,12 @@ function PageComponent({ list }: { list: { id: number }[] }) {
       {/* リスト */}
       <Ul>
         {list?.map((v) => (
-          <Li key={v.id} ref={(node) => refCallback(v.id, node)} tabIndex={0}>
-            <p>{v.id}</p>
+          <Li
+            key={v.id}
+            ref={(node: HTMLLIElement | null) => refCallback(v.id, node)}
+            tabIndex={0}
+          >
+            {v.id}
           </Li>
         ))}
       </Ul>
