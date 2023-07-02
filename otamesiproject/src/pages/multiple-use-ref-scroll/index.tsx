@@ -20,6 +20,7 @@ function PageComponent({ list }: { list: { id: number }[] }) {
     [key in number]: HTMLLIElement;
   }>({});
 
+  /** createReff アンチパターン */
   const convertedList = list.map((item) => ({
     id: item.id,
     ref: createRef<HTMLLIElement>(),
@@ -37,35 +38,34 @@ function PageComponent({ list }: { list: { id: number }[] }) {
 
   console.log("listItemRefs", listItemRefs.current);
 
-  const ulRef = useRef<HTMLUListElement>(null);
+  // const ulRef = useRef<HTMLUListElement>(null);
   const handleClickHeaderItem = useCallback((id: number) => {
-    const itemRef: HTMLLIElement | null | undefined =
-      ulRef.current?.querySelector("#id" + id.toString());
-    itemRef?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-    itemRef?.focus();
-
-    // id から 対象の ref を取得
-    // const itemRef = listItemRefs.current[id];
+    /** 子要素参照アンチパターン */
+    // const itemRef: HTMLLIElement | null | undefined =
+    //   ulRef.current?.querySelector("#id" + id.toString());
     // itemRef?.scrollIntoView({
     //   behavior: "smooth",
     //   block: "center",
     // });
     // itemRef?.focus();
+
+    // id から 対象の ref を取得
+    const itemRef = listItemRefs.current[id];
+    itemRef?.scrollIntoView({
+      behavior: "smooth",
+      block: "center",
+    });
+    itemRef?.focus();
   }, []);
 
-  const [hideItemIds, setHideItemIds] = useState<number[]>([]);
-
-  const refCallbackFn = useCallback(
-    (node: HTMLDivElement | null) => console.log("div ref callback node", node),
-    []
-  );
+  // const refCallbackFn = useCallback(
+  //   (node: HTMLDivElement | null) => console.log("div ref callback node", node),
+  //   []
+  // );
 
   return (
-    <Div ref={refCallbackFn}>
-      {/*<Div ref={(node) => console.log("div ref callback node", node)}>*/}
+    // <Div ref={refCallbackFn}>
+    <Div ref={(node) => console.log("div ref callback node", node)}>
       {/* ヘッダー */}
       <Header>
         {list?.map((v) => (
@@ -76,20 +76,17 @@ function PageComponent({ list }: { list: { id: number }[] }) {
       </Header>
 
       {/* リスト */}
-      <Ul ref={ulRef}>
-        {list?.map((v) =>
-          hideItemIds.includes(v.id) ? null : (
-            <Li
-              key={v.id}
-              id={"id" + v.id.toString()}
-              ref={(node: HTMLLIElement | null) => refCallback(v.id, node)}
-              tabIndex={0}
-              onClick={() => setHideItemIds((prev) => [...prev, v.id])}
-            >
-              {v.id}
-            </Li>
-          )
-        )}
+      <Ul>
+        {list?.map((v) => (
+          <Li
+            key={v.id}
+            id={"id" + v.id.toString()}
+            ref={(node: HTMLLIElement | null) => refCallback(v.id, node)}
+            tabIndex={0}
+          >
+            {v.id}
+          </Li>
+        ))}
       </Ul>
     </Div>
   );
