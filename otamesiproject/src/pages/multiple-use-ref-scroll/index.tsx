@@ -1,4 +1,4 @@
-import { createRef, useCallback, useRef, useState } from "react";
+import { createRef, useCallback, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
 
@@ -11,32 +11,42 @@ export default function Index() {
     }
   );
 
-  return <PageComponent list={list ?? []} />;
+  return <Component list={list ?? []} />;
 }
 
-function PageComponent({ list }: { list: { id: number }[] }) {
+function Component({ list }: { list: { id: number }[] }) {
   // Mapped Types で型定義した RefObject を作成
   const listItemRefs = useRef<{
     [key in number]: HTMLLIElement;
   }>({});
-
   /** createReff アンチパターン */
-  const convertedList = list.map((item) => ({
-    id: item.id,
-    ref: createRef<HTMLLIElement>(),
-  }));
-
-  const refCallback = useCallback((id: number, node: HTMLLIElement | null) => {
-    if (node !== null && listItemRefs.current[id] === undefined) {
-      // node が null でなく、かつ、ref が未登録の場合
-      listItemRefs.current[id] = node;
-    } else {
-      // node が null の場合は、対象の node を管理する必要がなくなるため削除
-      delete listItemRefs.current[id];
-    }
-  }, []);
-
+  // const convertedList = list.map((item) => ({
+  //   id: item.id,
+  //   ref: createRef<HTMLLIElement>(),
+  // }));
   console.log("listItemRefs", listItemRefs.current);
+
+  /**
+   * refCallbackFunction を持つ形に配列を整形
+   * useMemo でメモ化しつつ、refCallbackFunction を配列要素の値として持たせることで
+   * 関数の参照先が意図せず変更されることを防いでいる
+   */
+  const convertedList = useMemo(
+    () =>
+      list.map((v) => ({
+        id: v.id,
+        refCallbackFunction: (node: HTMLLIElement | null) => {
+          if (node !== null && listItemRefs.current[v.id] === undefined) {
+            // node が null でなく、かつ、ref が未登録の場合
+            listItemRefs.current[v.id] = node;
+          } else {
+            // node が null の場合は、対象の node を管理する必要がなくなるため削除
+            delete listItemRefs.current[v.id];
+          }
+        },
+      })),
+    [list]
+  );
 
   // const ulRef = useRef<HTMLUListElement>(null);
   const handleClickHeaderItem = useCallback((id: number) => {
@@ -58,11 +68,6 @@ function PageComponent({ list }: { list: { id: number }[] }) {
     itemRef?.focus();
   }, []);
 
-  // const refCallbackFn = useCallback(
-  //   (node: HTMLDivElement | null) => console.log("div ref callback node", node),
-  //   []
-  // );
-
   return (
     // <Div ref={refCallbackFn}>
     <Div ref={(node) => console.log("div ref callback node", node)}>
@@ -77,11 +82,11 @@ function PageComponent({ list }: { list: { id: number }[] }) {
 
       {/* リスト */}
       <Ul>
-        {list?.map((v) => (
+        {convertedList?.map((v) => (
           <Li
             key={v.id}
             id={"id" + v.id.toString()}
-            ref={(node: HTMLLIElement | null) => refCallback(v.id, node)}
+            ref={v.refCallbackFunction}
             tabIndex={0}
           >
             {v.id}
