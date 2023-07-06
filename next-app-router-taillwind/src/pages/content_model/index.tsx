@@ -7,6 +7,10 @@ export default function ContentModel() {
 }
 
 function Table() {
+  const handleClickP = () => {
+    window.alert("Pタグクリック");
+  };
+
   return (
     <table>
       <tbody>
@@ -15,7 +19,7 @@ function Table() {
           <td>データのセル</td>
         </tr>
       </tbody>
-      <p>Pテキストだよ</p>
+      <p onClick={handleClickP}>Pテキストだよ</p>
     </table>
   );
 }
