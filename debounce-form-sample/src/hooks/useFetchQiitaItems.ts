@@ -3,12 +3,12 @@ import { IQiitaItem } from "../IQiitaItem";
 import { apiClient } from "../apiClient";
 
 // QiitaItemをフェッチして、アイテムリストを返すカスタムフック
-export const useFetchQiitaItems = (
-  searchQuery: string
-): IQiitaItem[] | null => {
+export const useFetchQiitaItems = (searchQuery: string) => {
   const [qiitaItems, setQiitaItems] = useState<IQiitaItem[] | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fetchQiitaItems = useCallback(async () => {
+    setIsLoading(true);
     try {
       const response = await apiClient.get("/items", {
         params: {
@@ -21,6 +21,7 @@ export const useFetchQiitaItems = (
       // エラーハンドリング
       console.log(e);
     }
+    setIsLoading(false);
   }, [searchQuery]);
 
   // searchQuery が更新されると実行される Effect
@@ -35,5 +36,5 @@ export const useFetchQiitaItems = (
     }
   }, [searchQuery]);
 
-  return qiitaItems;
+  return { qiitaItems, isLoading };
 };

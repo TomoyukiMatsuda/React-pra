@@ -1,5 +1,5 @@
 import React from "react";
-import { IQiitaItem } from "../IQiitaItem";
+import { IQiitaItem } from "../../../IQiitaItem";
 
 interface Props {
   qiitaItems: IQiitaItem[] | null;
